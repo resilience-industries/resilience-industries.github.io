@@ -1,8 +1,9 @@
 /**
  * Resilience Industries Limited (RIL)
  * Master External JavaScript Engine: script.js
- * In-Place Auth, Permanent User Deletion on Sign-Out, Multilingual Gemini AI & ARIA Feedback
- * 100% International Standard English | Strict WCAG 2.2 AAA
+ * Verified Live Google Search Grounded Gemini AI, Auto-Redirect to Sign In on Verification,
+ * Permanent Resend Destruction, and Accessible In-Place Auth Workflow.
+ * 100% International Standard English & Multilingual AI | Strict WCAG 2.2 AAA
  */
 
 // --- 1. Firebase Modular SDK Imports ---
@@ -12,14 +13,14 @@ import {
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
-  signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-  fetchSignInMethodsForEmail,
-  GoogleAuthProvider,
+  signInWithPopup, 
+  signInWithRedirect, 
+  getRedirectResult, 
+  fetchSignInMethodsForEmail, 
+  GoogleAuthProvider, 
   sendPasswordResetEmail, 
   sendEmailVerification, 
-  deleteUser,
+  deleteUser, 
   signOut 
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-analytics.js";
@@ -50,11 +51,16 @@ const _g_part1 = "AQ.Ab8RN6IFCiGe18VyBs0";
 const _g_part2 = "IUCOdooX9Plvsyh0Sdwc3tb5OEVHCdw";
 const GEMINI_RUNTIME_KEY = `${_g_part1}${_g_part2}`;
 
-// Verification Tracker & State
+// Verification Tracker & Polling State
 let lastCreatedUser = null;
+let pendingUserEmail = "";
 let resendInterval = null;
+let verificationCheckInterval = null;
 let liveClockInterval = null;
 let isSpeaking = false;
+
+// Conversational Multi-Turn Chat History for Real Gemini
+const chatHistory = [];
 
 // Catch Mobile Google Redirect Results on Load
 getRedirectResult(auth).then((result) => {
@@ -70,7 +76,6 @@ function updateLiveBannerMetrics() {
   const now = new Date();
   const hours = now.getHours();
 
-  // Dynamic Time-of-Day Greeting
   let greeting = "Welcome";
   if (hours >= 4 && hours < 12) greeting = "Good Morning";
   else if (hours >= 12 && hours < 17) greeting = "Good Afternoon";
@@ -82,14 +87,12 @@ function updateLiveBannerMetrics() {
     greetingEl.textContent = `${greeting} | Welcome to Resilience Industries Limited`;
   }
 
-  // Exact Clock: HH:MM:SS
   const timeStr = now.toLocaleTimeString("en-US", { hour12: false });
   const clockEl = document.getElementById("live-clock");
   if (clockEl) {
     clockEl.textContent = `Time: ${timeStr}`;
   }
 
-  // Exact Calendar
   const calendarOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
   const calendarStr = now.toLocaleDateString("en-US", calendarOptions);
   const calendarEl = document.getElementById("live-calendar");
@@ -143,6 +146,8 @@ onAuthStateChanged(auth, (user) => {
       btnAuthAction.textContent = "Sign Out";
       btnAuthAction.style.color = "#c0392b";
     }
+    stopVerificationPolling();
+    destroyResendContainer();
     updateLiveAnalytics("session_active");
   } else {
     if (userGreetingBanner) userGreetingBanner.textContent = "";
@@ -163,12 +168,10 @@ window.handleAuthButtonClick = async function() {
     if (confirmLogout) {
       const email = currentUser.email;
       try {
-        // Completely delete user record from Firebase Authentication
         await deleteUser(currentUser);
         dispatchWeb3Notification("User Purged", `User ${email} signed out and permanently purged from database.`);
         alert("Your account and session have been completely purged from the database. You can register fresh anytime.");
       } catch (err) {
-        // Fallback: If token expired, standard sign-out
         await signOut(auth);
         alert("You have been signed out successfully.");
       }
@@ -270,11 +273,16 @@ window.handleUserEmailLogin = async function(event) {
     const userCredential = await signInWithEmailAndPassword(auth, email, pass);
     
     if (!userCredential.user.emailVerified) {
-      await signOut(auth);
-      statusElem.textContent = "Access Denied: Your email address is not verified yet. Please check your inbox and click the verification link before signing in.";
+      lastCreatedUser = userCredential.user;
+      pendingUserEmail = email;
+      statusElem.textContent = "Access Pending: Verification link sent. Please verify your Gmail. This portal will switch to Sign In automatically once verified.";
+      startResendTimer();
+      startVerificationPolling(userCredential.user);
       return;
     }
 
+    stopVerificationPolling();
+    destroyResendContainer();
     statusElem.textContent = "Authentication successful. Access granted.";
     dispatchWeb3Notification("User Sign-In", `User ${email} signed in via email.`);
     setTimeout(closeAuthModal, 1000);
@@ -292,7 +300,7 @@ window.handleUserEmailLogin = async function(event) {
   }
 };
 
-// --- 6. In-Place Registration Handler ---
+// --- 6. Registration with Instant Resend Destruction & Auto-Redirect to Sign In ---
 window.handleUserSignUp = async function(event) {
   event.preventDefault();
   const name = document.getElementById("auth-signup-name").value.trim();
@@ -317,23 +325,89 @@ window.handleUserSignUp = async function(event) {
     statusElem.textContent = "Creating official account and dispatching verification link...";
     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
     lastCreatedUser = userCredential.user;
+    pendingUserEmail = email;
     
     await sendEmailVerification(userCredential.user);
-
     dispatchWeb3Notification("New User Provisioned", `User Dossier:\nName: ${name}\nCountry: ${country}\nEmail: ${email}\nAgreed to Policies: Yes`);
 
-    await signOut(auth);
-
+    // Switch view to Sign In immediately so email is prefilled
     showAuthView("login");
     const loginEmailField = document.getElementById("auth-login-email");
     if (loginEmailField) loginEmailField.value = email;
 
-    statusElem.textContent = `Account created! Verification link sent to ${email}. Please check your email, click the link to verify, and sign in.`;
+    statusElem.textContent = `Account created! Verification link sent to ${email}. Please check your Gmail and click the link to verify.`;
+    
+    // Start Resend timer and start auto-check engine
     startResendTimer();
+    startVerificationPolling(userCredential.user);
   } catch (error) {
     statusElem.textContent = `Registration Error: ${error.message}`;
   }
 };
+
+// Verification Poller: Detects link click in Gmail and redirects to Sign In
+function startVerificationPolling(user) {
+  stopVerificationPolling();
+  
+  verificationCheckInterval = setInterval(async () => {
+    try {
+      if (!user) return;
+      await user.reload();
+      if (user.emailVerified) {
+        // 1. Instantly Stop & Destroy Resend Button Container
+        stopVerificationPolling();
+        destroyResendContainer();
+
+        // 2. Display Success Status
+        const statusElem = document.getElementById("auth-status-message");
+        if (statusElem) {
+          statusElem.style.color = "#27ae60";
+          statusElem.textContent = "Email Verified Successfully! Redirecting to Sign In...";
+        }
+
+        // 3. Ensure Sign-In view is active and prefilled with email
+        setTimeout(() => {
+          showAuthView("login");
+          const loginEmailField = document.getElementById("auth-login-email");
+          const loginPassField = document.getElementById("auth-login-pass");
+          if (loginEmailField && pendingUserEmail) {
+            loginEmailField.value = pendingUserEmail;
+          }
+          if (loginPassField) {
+            loginPassField.focus();
+          }
+          if (statusElem) {
+            statusElem.textContent = "Email verified! Enter your password and click Sign In to continue.";
+          }
+        }, 1200);
+      }
+    } catch (err) {
+      console.warn("Polling note:", err.message);
+    }
+  }, 2500);
+}
+
+function stopVerificationPolling() {
+  if (verificationCheckInterval) {
+    clearInterval(verificationCheckInterval);
+    verificationCheckInterval = null;
+  }
+}
+
+function destroyResendContainer() {
+  if (resendInterval) {
+    clearInterval(resendInterval);
+    resendInterval = null;
+  }
+  const container = document.getElementById("resend-verification-container");
+  if (container) {
+    container.style.display = "none";
+  }
+  const resendBtn = document.getElementById("btn-resend-link");
+  if (resendBtn) {
+    resendBtn.style.display = "none";
+  }
+}
 
 function startResendTimer() {
   const container = document.getElementById("resend-verification-container");
@@ -481,7 +555,7 @@ window.handleUniversalSearch = function(event) {
   alert(`Search index queried for: "${query}". Conforming to Section 508 & WCAG standards.`);
 };
 
-// --- 10. Multilingual Gemini AI Copilot with Screen Reader Announcements ---
+// --- 10. Live Google Search Grounded Multilingual Gemini AI (1-on-1 Multi-Turn Chat) ---
 window.toggleAskAICopilot = function() {
   const container = document.getElementById("banner-ai-chat-container");
   const btn = document.getElementById("ask-ai-toggle-btn");
@@ -508,33 +582,46 @@ window.handleGeminiAssistantQuery = async function(event) {
   const query = input.value.trim();
   if (!query) return;
 
-  // 1. Announce to screen reader: Prompt is processing
+  // 1. ARIA Live Announcement for Screen Readers
   if (liveStatus) {
     liveStatus.textContent = "Your prompt has been received. Gemini AI is formulating response...";
   }
 
+  // Render User Message
   const userBubble = document.createElement("div");
+  userBubble.style.marginBottom = "0.5rem";
   userBubble.innerHTML = `<strong>You:</strong> ${escapeHTML(query)}`;
   log.appendChild(userBubble);
   input.value = "";
   log.scrollTop = log.scrollHeight;
 
+  // Render Assistant Placeholder
   const assistantBubble = document.createElement("div");
+  assistantBubble.style.marginBottom = "0.5rem";
   assistantBubble.innerHTML = "<strong>Assistant:</strong> Thinking...";
   log.appendChild(assistantBubble);
   log.scrollTop = log.scrollHeight;
 
-  // Multilingual System Context
-  const systemContext = "You are the official 24/7 AI Accessibility Copilot of Resilience Industries Limited (RIL), founded by Nitesh Kumar. You provide expert, accurate answers about W3C WCAG 2.2 AAA conformance, VPAT authoring, assistive technologies (TalkBack, NVDA, JAWS), training courses, and audit pricing. You must answer naturally in whatever language the user asks (Hindi, Hinglish, English, etc.). Be professional, concise, and helpful.";
+  // Append User message to memory
+  chatHistory.push({
+    role: "user",
+    parts: [{ text: query }]
+  });
+
+  const systemInstructionText = "You are the official 24/7 AI Accessibility Copilot of Resilience Industries Limited (RIL), founded by Nitesh Kumar. You provide verified, real-time, expert answers about W3C WCAG 2.2 AAA conformance, VPAT authoring, assistive technologies (TalkBack, NVDA, JAWS), training courses, audit pricing, and general internet queries. You must answer naturally and fluently in whatever language the user speaks (Hindi, Hinglish, English, etc.). Be professional, conversational, concise, and helpful.";
 
   try {
-    // Official Generative Language API call with standard Gemini 1.5 Flash
+    // Official Generative Language API call with Google Search Grounding Tool
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
+    
     const payload = {
-      contents: [
+      system_instruction: {
+        parts: [{ text: systemInstructionText }]
+      },
+      contents: chatHistory,
+      tools: [
         {
-          role: "user",
-          parts: [{ text: `${systemContext}\n\nUser Question: ${query}` }]
+          google_search: {} // Real Google Search Grounding for verified, live web answers
         }
       ]
     };
@@ -551,22 +638,59 @@ window.handleGeminiAssistantQuery = async function(event) {
       throw new Error(data.error.message);
     }
 
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to retrieve response at this moment. Please email our desk.";
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to retrieve response at this moment. Please ask again or contact our technical desk.";
+    
+    // Save model reply in history for 1-on-1 dialogue continuity
+    chatHistory.push({
+      role: "model",
+      parts: [{ text: answer }]
+    });
+
     assistantBubble.innerHTML = `<strong>Assistant:</strong> ${escapeHTML(answer)}`;
 
-    // 2. Announce to screen reader: Response received
+    // 2. Announce reply received to screen reader
     if (liveStatus) {
       liveStatus.textContent = "Replied. Response received from Gemini AI.";
     }
   } catch (error) {
     console.error("Gemini Copilot Error:", error);
-    assistantBubble.innerHTML = `<strong>Assistant:</strong> Resilience Industries Copilot recommends reviewing our WCAG 2.2 audit section or emailing niteshkumar91845@gmail.com directly.`;
-    if (liveStatus) {
-      liveStatus.textContent = "Replied with fallback. Please check desk email.";
-    }
+    // Robust fallback caller if tool parameter is restricted on key
+    tryFallbackGeminiCall(query, assistantBubble, liveStatus);
   }
   log.scrollTop = log.scrollHeight;
 };
+
+// Robust Fallback Caller
+async function tryFallbackGeminiCall(userQuery, assistantBubble, liveStatus) {
+  try {
+    const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
+    const payload = {
+      contents: [{
+        parts: [{
+          text: `You are the official AI Copilot of Resilience Industries Limited (founded by Nitesh Kumar). Respond helpfully in the user's language.\nUser Question: ${userQuery}`
+        }]
+      }]
+    };
+
+    const res = await fetch(fallbackUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const resData = await res.json();
+    const answer = resData.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (answer) {
+      assistantBubble.innerHTML = `<strong>Assistant:</strong> ${escapeHTML(answer)}`;
+      if (liveStatus) liveStatus.textContent = "Replied. Response received from Gemini AI.";
+      return;
+    }
+    throw new Error("No candidates");
+  } catch (err) {
+    assistantBubble.innerHTML = `<strong>Assistant:</strong> Resilience Industries Copilot recommends reviewing our WCAG 2.2 audit section or emailing niteshkumar91845@gmail.com directly.`;
+    if (liveStatus) liveStatus.textContent = "Replied with fallback. Please check desk email.";
+  }
+}
 
 function escapeHTML(str) {
   return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
