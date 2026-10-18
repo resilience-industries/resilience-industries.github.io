@@ -1,7 +1,7 @@
 /**
  * Resilience Industries Limited (RIL)
  * Master External JavaScript Engine: script.js
- * Universal Accessibility, Real-Time Live Clock, Google One-Tap, and Gemini AI Copilot
+ * In-Place Auth Swapping, Strict User-Not-Found, Gemini 2.5 Flash & Web Speech TTS
  * 100% International Standard English | Strict WCAG 2.2 AAA
  */
 
@@ -13,6 +13,9 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  fetchSignInMethodsForEmail,
   GoogleAuthProvider,
   sendPasswordResetEmail, 
   sendEmailVerification, 
@@ -50,6 +53,16 @@ const GEMINI_RUNTIME_KEY = `${_g_part1}${_g_part2}`;
 let lastCreatedUser = null;
 let resendInterval = null;
 let liveClockInterval = null;
+let isSpeaking = false;
+
+// Catch Mobile Google Redirect Results on Load
+getRedirectResult(auth).then((result) => {
+  if (result && result.user) {
+    dispatchWeb3Notification("Google Sign-In", `User ${result.user.email} authenticated via Mobile Google Redirect.`);
+  }
+}).catch((error) => {
+  console.warn("Redirect Result Note:", error.message);
+});
 
 // --- 2. Real-Time Millisecond Precision Live Engine (Zero Refresh) ---
 function updateLiveBannerMetrics() {
@@ -68,7 +81,7 @@ function updateLiveBannerMetrics() {
     greetingEl.textContent = `${greeting} | Welcome to Resilience Industries Limited`;
   }
 
-  // Exact Clock: HH:MM:SS (International 24h format)
+  // Exact Clock: HH:MM:SS
   const timeStr = now.toLocaleTimeString("en-US", { hour12: false });
   const clockEl = document.getElementById("live-clock");
   if (clockEl) {
@@ -84,11 +97,10 @@ function updateLiveBannerMetrics() {
   }
 }
 
-// Start continuous high-precision loop
 liveClockInterval = setInterval(updateLiveBannerMetrics, 1000);
 updateLiveBannerMetrics();
 
-// Live Weather Feed (English)
+// Live Weather Feed
 function fetchLiveWeather() {
   const weatherEl = document.getElementById("live-weather");
   if (!weatherEl) return;
@@ -158,8 +170,7 @@ window.openAuthModal = function() {
   if (modal) {
     modal.style.display = "flex";
     modal.removeAttribute("aria-hidden");
-    const firstInput = document.getElementById("auth-login-email");
-    if (firstInput) firstInput.focus();
+    showAuthView("login");
   }
 };
 
@@ -173,42 +184,68 @@ window.closeAuthModal = function() {
   }
 };
 
-window.switchAuthTab = function(tabName) {
-  const tabs = ["login", "signup", "reset"];
-  tabs.forEach(t => {
-    const form = document.getElementById(`form-${t}-tab`);
-    const btn = document.getElementById(`tab-btn-${t}`);
-    if (form) form.style.display = (t === tabName) ? "block" : "none";
-    if (btn) btn.setAttribute("aria-selected", (t === tabName).toString());
+// In-Place Dynamic View Swapper (0 Tabs)
+window.showAuthView = function(viewName) {
+  const views = ["login", "signup", "reset"];
+  views.forEach(v => {
+    const el = document.getElementById(`auth-view-${v}`);
+    if (el) el.style.display = (v === viewName) ? "block" : "none";
   });
+  
   const statusElem = document.getElementById("auth-status-message");
   if (statusElem) statusElem.textContent = "";
+
+  const titleEl = document.getElementById("auth-modal-title");
+  if (titleEl) {
+    if (viewName === "login") titleEl.textContent = "Enterprise Portal Sign In";
+    if (viewName === "signup") titleEl.textContent = "Create Client Account";
+    if (viewName === "reset") titleEl.textContent = "Reset Password";
+  }
+
+  setTimeout(() => {
+    if (viewName === "login") {
+      const el = document.getElementById("auth-login-email");
+      if (el) el.focus();
+    } else if (viewName === "signup") {
+      const el = document.getElementById("auth-signup-name");
+      if (el) el.focus();
+    } else if (viewName === "reset") {
+      const el = document.getElementById("auth-reset-email");
+      if (el) el.focus();
+    }
+  }, 100);
 };
 
-// --- 4. Google One-Tap & Email Authentication ---
+// --- 4. Google Sign-In (Bulletproof Popup with Mobile Fallback) ---
 window.handleGoogleSignIn = async function() {
   const statusElem = document.getElementById("auth-status-message");
   try {
     statusElem.textContent = "Connecting to Google Accounts...";
-    const result = await signInWithPopup(auth, googleProvider);
-    const user = result.user;
-
-    const allowAccess = window.confirm(`Authorize Access:\n\nDo you authorize Resilience Industries Limited to establish a secure session with Google Account: ${user.email}?\n\nBy clicking OK, you agree to our Terms of Use and Privacy Policy.`);
     
-    if (!allowAccess) {
-      await signOut(auth);
-      statusElem.textContent = "Sign-in cancelled. Access authorization was not granted.";
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      statusElem.textContent = "Redirecting to Google Secure Login...";
+      await signInWithRedirect(auth, googleProvider);
       return;
     }
+
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
 
     statusElem.textContent = "Google Sign-In authorized! Unlocking session...";
     dispatchWeb3Notification("Google Sign-In", `User ${user.email} authenticated via Google One-Tap.`);
     setTimeout(closeAuthModal, 1000);
   } catch (error) {
-    statusElem.textContent = `Google Sign-In Error: ${error.message}`;
+    if (error.code === "auth/popup-closed-by-user" || error.code === "auth/cancelled-popup-request") {
+      statusElem.textContent = "Sign-In cancelled. Google popup window was closed before completing.";
+    } else {
+      statusElem.textContent = `Google Sign-In Error: ${error.message}`;
+    }
   }
 };
 
+// --- 5. Email Login Handler ---
 window.handleUserEmailLogin = async function(event) {
   event.preventDefault();
   const email = document.getElementById("auth-login-email").value.trim();
@@ -230,9 +267,9 @@ window.handleUserEmailLogin = async function(event) {
     setTimeout(closeAuthModal, 1000);
   } catch (error) {
     if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
-      statusElem.textContent = "Error: Account not found. You have not registered yet. Please create an account. Redirecting to Sign Up...";
+      statusElem.textContent = "Error: Account not found. You have not registered yet. Please create an account first. Redirecting to Registration...";
       setTimeout(() => {
-        window.switchAuthTab("signup");
+        showAuthView("signup");
         const signupEmail = document.getElementById("auth-signup-email");
         if (signupEmail) signupEmail.value = email;
       }, 2000);
@@ -242,6 +279,7 @@ window.handleUserEmailLogin = async function(event) {
   }
 };
 
+// --- 6. In-Place Registration Handler ---
 window.handleUserSignUp = async function(event) {
   event.preventDefault();
   const name = document.getElementById("auth-signup-name").value.trim();
@@ -273,11 +311,11 @@ window.handleUserSignUp = async function(event) {
 
     await signOut(auth);
 
-    window.switchAuthTab("login");
+    showAuthView("login");
     const loginEmailField = document.getElementById("auth-login-email");
     if (loginEmailField) loginEmailField.value = email;
 
-    statusElem.textContent = `Account created! Verification link sent to ${email}. Please verify your email, then sign in.`;
+    statusElem.textContent = `Account created! Verification link sent to ${email}. Please check your email, click the link to verify, and sign in.`;
     startResendTimer();
   } catch (error) {
     statusElem.textContent = `Registration Error: ${error.message}`;
@@ -310,7 +348,7 @@ function startResendTimer() {
 window.handleResendVerificationLink = async function() {
   const statusElem = document.getElementById("auth-status-message");
   if (!lastCreatedUser) {
-    statusElem.textContent = "Please sign in with your password to re-trigger verification.";
+    statusElem.textContent = "Please enter credentials to re-trigger verification.";
     return;
   }
 
@@ -324,6 +362,7 @@ window.handleResendVerificationLink = async function() {
   }
 };
 
+// --- 7. Strict Password Reset Handler (With Directory Verification) ---
 window.handlePasswordReset = async function(event) {
   event.preventDefault();
   const email = document.getElementById("auth-reset-email").value.trim();
@@ -335,10 +374,24 @@ window.handlePasswordReset = async function(event) {
   }
 
   try {
-    statusElem.textContent = "Verifying email registration in directory...";
+    statusElem.textContent = "Checking official user directory...";
+    
+    // Explicit Pre-Check to bypass Firebase Enumeration Shield
+    const methods = await fetchSignInMethodsForEmail(auth, email);
+    if (!methods || methods.length === 0) {
+      statusElem.textContent = "Error: User not found. You are not registered with Resilience Industries. Please create an account first. Redirecting to Registration...";
+      setTimeout(() => {
+        showAuthView("signup");
+        const signupEmail = document.getElementById("auth-signup-email");
+        if (signupEmail) signupEmail.value = email;
+      }, 2000);
+      return;
+    }
+
+    statusElem.textContent = "Account verified. Dispatching password reset instructions...";
     await sendPasswordResetEmail(auth, email);
     
-    window.switchAuthTab("login");
+    showAuthView("login");
     const loginEmailField = document.getElementById("auth-login-email");
     if (loginEmailField) loginEmailField.value = email;
 
@@ -346,9 +399,9 @@ window.handlePasswordReset = async function(event) {
     dispatchWeb3Notification("Password Reset Request", `Password reset requested for: ${email}`);
   } catch (error) {
     if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
-      statusElem.textContent = "Error: Account not found. You are not registered with Resilience Industries. Please create an account first. Redirecting to Sign Up...";
+      statusElem.textContent = "Error: User not found. You are not registered with Resilience Industries. Please create an account first. Redirecting to Registration...";
       setTimeout(() => {
-        window.switchAuthTab("signup");
+        showAuthView("signup");
         const signupEmail = document.getElementById("auth-signup-email");
         if (signupEmail) signupEmail.value = email;
       }, 2000);
@@ -358,7 +411,7 @@ window.handlePasswordReset = async function(event) {
   }
 };
 
-// --- 5. Navigation Menu Controller with Dedicated Close ---
+// --- 8. Navigation Menu Controller with Dedicated Close ---
 window.toggleNavigationMenu = function() {
   const menuList = document.getElementById("portal-nav-list");
   const toggleBtn = document.getElementById("menu-toggle-btn");
@@ -390,7 +443,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// --- 6. Expandable Banner Search & AI Copilot ---
+// --- 9. Expandable & Collapsible Search Bar ---
 window.toggleBannerSearch = function() {
   const container = document.getElementById("banner-search-container");
   const btn = document.getElementById("search-toggle-btn");
@@ -400,27 +453,11 @@ window.toggleBannerSearch = function() {
   if (isExpanded) {
     container.style.display = "none";
     btn.setAttribute("aria-expanded", "false");
+    btn.focus();
   } else {
     container.style.display = "block";
     btn.setAttribute("aria-expanded", "true");
     const input = document.getElementById("global-search-input");
-    if (input) input.focus();
-  }
-};
-
-window.toggleAskAICopilot = function() {
-  const container = document.getElementById("banner-ai-chat-container");
-  const btn = document.getElementById("ask-ai-toggle-btn");
-  if (!container || !btn) return;
-
-  const isExpanded = btn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    container.style.display = "none";
-    btn.setAttribute("aria-expanded", "false");
-  } else {
-    container.style.display = "block";
-    btn.setAttribute("aria-expanded", "true");
-    const input = document.getElementById("gemini-input");
     if (input) input.focus();
   }
 };
@@ -432,7 +469,119 @@ window.handleUniversalSearch = function(event) {
   alert(`Search index queried for: "${query}". Conforming to Section 508 & WCAG standards.`);
 };
 
-// --- 7. Complete Accessibility Controls Toolkit ---
+// --- 10. Expandable & Collapsible Ask AI Copilot (Gemini API) ---
+window.toggleAskAICopilot = function() {
+  const container = document.getElementById("banner-ai-chat-container");
+  const btn = document.getElementById("ask-ai-toggle-btn");
+  if (!container || !btn) return;
+
+  const isExpanded = btn.getAttribute("aria-expanded") === "true";
+  if (isExpanded) {
+    container.style.display = "none";
+    btn.setAttribute("aria-expanded", "false");
+    btn.focus();
+  } else {
+    container.style.display = "block";
+    btn.setAttribute("aria-expanded", "true");
+    const input = document.getElementById("gemini-input");
+    if (input) input.focus();
+  }
+};
+
+window.handleGeminiAssistantQuery = async function(event) {
+  event.preventDefault();
+  const input = document.getElementById("gemini-input");
+  const log = document.getElementById("gemini-chat-log");
+  const query = input.value.trim();
+  if (!query) return;
+
+  const userBubble = document.createElement("div");
+  userBubble.innerHTML = `<strong>You:</strong> ${escapeHTML(query)}`;
+  log.appendChild(userBubble);
+  input.value = "";
+  log.scrollTop = log.scrollHeight;
+
+  const assistantBubble = document.createElement("div");
+  assistantBubble.innerHTML = "<strong>Assistant:</strong> Analyzing with Gemini AI...";
+  log.appendChild(assistantBubble);
+  log.scrollTop = log.scrollHeight;
+
+  const systemContext = "You are the official AI Accessibility Copilot of Resilience Industries Limited (RIL), founded by Nitesh Kumar. You provide concise, expert recommendations on W3C WCAG 2.2 AAA conformance, VPAT authoring, assistive technology (TalkBack, NVDA, JAWS), and audit bookings. Answer in standard English.";
+
+  try {
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
+    const payload = {
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: `${systemContext}\n\nClient Question: ${query}` }]
+        }
+      ]
+    };
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "I am currently analyzing accessibility standards. Please submit a direct inquiry for bespoke remediation.";
+    assistantBubble.innerHTML = `<strong>Assistant:</strong> ${escapeHTML(answer)}`;
+  } catch (error) {
+    console.error("Gemini Copilot Error:", error);
+    assistantBubble.innerHTML = `<strong>Assistant:</strong> Resilience Industries Copilot recommends reviewing our WCAG 2.2 audit section or emailing niteshkumar91845@gmail.com directly.`;
+  }
+  log.scrollTop = log.scrollHeight;
+};
+
+function escapeHTML(str) {
+  return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+}
+
+// --- 11. Built-in Web Speech Text-To-Speech (Read Aloud Engine) ---
+window.toggleReadPageAloud = function() {
+  const btn = document.getElementById("btn-tts-toolbar");
+  if (!("speechSynthesis" in window)) {
+    alert("Sorry, your browser does not support Web Speech Text-to-Speech.");
+    return;
+  }
+
+  if (isSpeaking) {
+    window.speechSynthesis.cancel();
+    isSpeaking = false;
+    if (btn) {
+      btn.setAttribute("aria-pressed", "false");
+      btn.textContent = "🔊 Speak Page";
+    }
+  } else {
+    const mainText = document.getElementById("main-content")?.innerText || document.body.innerText;
+    const utterance = new SpeechSynthesisUtterance(mainText);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.lang = "en-US";
+
+    utterance.onend = () => {
+      isSpeaking = false;
+      if (btn) {
+        btn.setAttribute("aria-pressed", "false");
+        btn.textContent = "🔊 Speak Page";
+      }
+    };
+
+    window.speechSynthesis.speak(utterance);
+    isSpeaking = true;
+    if (btn) {
+      btn.setAttribute("aria-pressed", "true");
+      btn.textContent = "⏹️ Stop Speech";
+    }
+  }
+};
+
+// --- 12. Complete Accessibility Controls Toolkit ---
 window.toggleDarkMode = function() {
   const root = document.documentElement;
   const isDark = root.getAttribute("data-theme") === "dark";
@@ -500,7 +649,7 @@ window.togglePauseMotion = function() {
   }
 };
 
-// --- 8. Universal Email Dispatch (Web3Forms) ---
+// --- 13. Universal Email Dispatch (Web3Forms) ---
 async function dispatchWeb3Notification(subject, messageContent, extraData = {}) {
   const payload = {
     access_key: WEB3FORMS_ACCESS_KEY,
@@ -522,7 +671,7 @@ async function dispatchWeb3Notification(subject, messageContent, extraData = {})
   }
 }
 
-// --- 9. Razorpay Payment Gateway Integration ---
+// --- 14. Razorpay Payment Gateway Integration ---
 window.initiatePaidRequest = function(event, serviceName, amountINR) {
   event.preventDefault();
   const form = event.target;
@@ -568,58 +717,7 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
   }
 };
 
-// --- 10. Live Gemini AI Copilot Integration ---
-window.handleGeminiAssistantQuery = async function(event) {
-  event.preventDefault();
-  const input = document.getElementById("gemini-input");
-  const log = document.getElementById("gemini-chat-log");
-  const query = input.value.trim();
-  if (!query) return;
-
-  const userBubble = document.createElement("div");
-  userBubble.innerHTML = `<strong>You:</strong> ${escapeHTML(query)}`;
-  log.appendChild(userBubble);
-  input.value = "";
-  log.scrollTop = log.scrollHeight;
-
-  const assistantBubble = document.createElement("div");
-  assistantBubble.innerHTML = "<strong>Assistant:</strong> Analyzing with Gemini AI...";
-  log.appendChild(assistantBubble);
-  log.scrollTop = log.scrollHeight;
-
-  const systemContext = "You are the official AI Accessibility Copilot of Resilience Industries Limited (RIL), founded by Nitesh Kumar. You provide 24/7 expert recommendations on W3C WCAG 2.2 AAA conformance, VPAT authoring, assistive technology (TalkBack, NVDA, JAWS), accessibility courses, and baseline audit bookings. Answer concisely, professionally, and in standard English.";
-
-  try {
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
-    const payload = {
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: `${systemContext}\n\nUser Question: ${query}` }]
-        }
-      ]
-    };
-
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await response.json();
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "I am currently assessing that request. Please contact our technical desk for tailored remediation.";
-    assistantBubble.innerHTML = `<strong>Assistant:</strong> ${escapeHTML(answer)}`;
-  } catch (error) {
-    assistantBubble.innerHTML = `<strong>Assistant:</strong> Resilience Industries Copilot recommends reviewing our WCAG 2.2 audit section or submitting a direct technical inquiry.`;
-  }
-  log.scrollTop = log.scrollHeight;
-};
-
-function escapeHTML(str) {
-  return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
-}
-
-// --- 11. Public Live Analytics Engine ---
+// --- 15. Public Live Analytics Engine ---
 function updateLiveAnalytics(eventType) {
   let views = parseInt(localStorage.getItem("ril_total_pageviews") || "1420");
   let sessions = parseInt(localStorage.getItem("ril_total_sessions") || "310");
