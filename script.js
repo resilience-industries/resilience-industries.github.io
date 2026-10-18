@@ -1,9 +1,9 @@
 /**
  * Resilience Industries Limited (RIL)
  * Master External JavaScript Engine: script.js
- * Strict 3-Attempts/24h Rate Limiter, Self-Healing Gemini AI, Auto-Redirect on Verification,
- * Account Purge Engine, Web3Forms & Razorpay.
- * 100% International Standard English & Multilingual AI | Strict WCAG 2.2 AAA
+ * Expandable Baseline Audit Drawer, In-App Password Reset Execution,
+ * Permanent Resend Destruction, Strict 24h / 3-Attempts Rate Limiter & 60s Countdown Timer.
+ * 100% International Standard English | Strict WCAG 2.2 AAA
  */
 
 // --- 1. Firebase Modular SDK Imports ---
@@ -19,6 +19,8 @@ import {
   fetchSignInMethodsForEmail, 
   EmailAuthProvider,
   reauthenticateWithCredential,
+  confirmPasswordReset,
+  verifyPasswordResetCode,
   GoogleAuthProvider, 
   sendPasswordResetEmail, 
   sendEmailVerification, 
@@ -48,21 +50,14 @@ const WEB3FORMS_ACCESS_KEY = "d2c05cee-06e6-4d04-9343-5d6643886a0a";
 const RAZORPAY_KEY_ID = "rzp_test_TozWNx1OzB1cBY";
 const ADMIN_EMAIL = "niteshkumar91845@gmail.com";
 
-// Secure Assembly for Gemini API Key
-const _g_part1 = "AQ.Ab8RN6IFCiGe18VyBs0";
-const _g_part2 = "IUCOdooX9Plvsyh0Sdwc3tb5OEVHCdw";
-const GEMINI_RUNTIME_KEY = `${_g_part1}${_g_part2}`;
-
-// Verification Tracker & State
+// Verification Tracker & State Variables
 let lastCreatedUser = null;
 let pendingUserEmail = "";
 let resendInterval = null;
 let verificationCheckInterval = null;
 let liveClockInterval = null;
 let isSpeaking = false;
-
-// Conversational Multi-Turn Memory
-const chatHistory = [];
+let currentResetCode = null;
 
 // Catch Mobile Google Redirect Results on Load
 getRedirectResult(auth).then((result) => {
@@ -71,6 +66,39 @@ getRedirectResult(auth).then((result) => {
   }
 }).catch((error) => {
   console.warn("Redirect Result Note:", error.message);
+});
+
+// Check if User Arrived via Firebase Email Link (Password Reset Mode)
+window.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const mode = urlParams.get("mode");
+  const oobCode = urlParams.get("oobCode");
+
+  if (mode === "resetPassword" && oobCode) {
+    currentResetCode = oobCode;
+    openAuthModal();
+    showAuthView("newpassword");
+    
+    // Invalidate URL params to prevent re-triggering on manual refresh
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    try {
+      const accountEmail = await verifyPasswordResetCode(auth, oobCode);
+      pendingUserEmail = accountEmail;
+      const statusElem = document.getElementById("auth-status-message");
+      if (statusElem) {
+        statusElem.textContent = `Resetting password for: ${accountEmail}. Please enter your new password below.`;
+      }
+    } catch (err) {
+      const statusElem = document.getElementById("auth-status-message");
+      if (statusElem) {
+        statusElem.textContent = "Error: This password reset link has expired or has already been used. Please request a fresh reset link.";
+      }
+      setTimeout(() => {
+        showAuthView("reset");
+      }, 3000);
+    }
+  }
 });
 
 // --- 2. Real-Time Millisecond Precision Live Engine (Zero Refresh) ---
@@ -239,7 +267,7 @@ window.closeAuthModal = function() {
 
 // In-Place Dynamic View Swapper (0 Tabs)
 window.showAuthView = function(viewName) {
-  const views = ["login", "signup", "reset"];
+  const views = ["login", "signup", "reset", "newpassword"];
   views.forEach(v => {
     const el = document.getElementById(`auth-view-${v}`);
     if (el) el.style.display = (v === viewName) ? "block" : "none";
@@ -253,6 +281,7 @@ window.showAuthView = function(viewName) {
     if (viewName === "login") titleEl.textContent = "Enterprise Portal Sign In";
     if (viewName === "signup") titleEl.textContent = "Create Client Account";
     if (viewName === "reset") titleEl.textContent = "Reset Password";
+    if (viewName === "newpassword") titleEl.textContent = "Set New Password";
   }
 
   setTimeout(() => {
@@ -264,6 +293,9 @@ window.showAuthView = function(viewName) {
       if (el) el.focus();
     } else if (viewName === "reset") {
       const el = document.getElementById("auth-reset-email");
+      if (el) el.focus();
+    } else if (viewName === "newpassword") {
+      const el = document.getElementById("auth-new-pass");
       if (el) el.focus();
     }
   }, 100);
@@ -312,7 +344,7 @@ window.handleUserEmailLogin = async function(event) {
     if (!userCredential.user.emailVerified) {
       lastCreatedUser = userCredential.user;
       pendingUserEmail = email;
-      statusElem.textContent = "Access Pending: Verification link sent (valid for 60 mins). Please verify your Gmail. This portal will unlock automatically once verified.";
+      statusElem.textContent = "Access Pending: Verification link sent. Please verify your Gmail. This portal will unlock automatically once verified.";
       startResendTimer("verification");
       startVerificationPolling(userCredential.user);
       return;
@@ -373,7 +405,7 @@ window.handleUserSignUp = async function(event) {
     const loginEmailField = document.getElementById("auth-login-email");
     if (loginEmailField) loginEmailField.value = email;
 
-    statusElem.textContent = `Account created! Verification link sent to ${email} (valid for 60 mins). Please check your Gmail.`;
+    statusElem.textContent = `Account created! Verification link sent to ${email}. Please check your Gmail.`;
     
     startResendTimer("verification");
     startVerificationPolling(userCredential.user);
@@ -409,7 +441,6 @@ window.smartTriggerPasswordReset = async function(email) {
 
   const statusElem = document.getElementById("auth-status-message");
 
-  // Check 24-hour Rate Limit (3 attempts max)
   if (!checkResendEligibility("password_reset", email)) {
     if (statusElem) {
       statusElem.textContent = "Security Notice: Maximum password reset limit reached (3 requests per 24 hours). Please check your existing email or retry after 24 hours.";
@@ -423,7 +454,7 @@ window.smartTriggerPasswordReset = async function(email) {
     recordResendAttempt("password_reset", email);
 
     if (statusElem) {
-      statusElem.textContent = `Password reset link sent to ${email} (valid for 60 mins). Check your inbox or spam folder.`;
+      statusElem.textContent = `Password reset link sent to ${email}. Check your inbox or spam folder.`;
     }
     startResendTimer("password_reset");
   } catch (err) {
@@ -442,7 +473,6 @@ function checkResendEligibility(type, email) {
   const now = Date.now();
   const dayInMillis = 24 * 60 * 60 * 1000;
 
-  // Reset window if 24 hours have passed
   if (now - data.startTime > dayInMillis) {
     return true;
   }
@@ -465,7 +495,7 @@ function recordResendAttempt(type, email) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Verification Poller: Detects link click in Gmail and redirects to Sign In
+// Verification Poller: Detects link click in Gmail and Auto-Redirects
 function startVerificationPolling(user) {
   stopVerificationPolling();
   
@@ -526,7 +556,7 @@ function destroyResendContainer() {
   }
 }
 
-// Resend Timer with 24h/3-Attempts Enforcer
+// 60-Second Countdown Timer with 24h / 3-Attempts Enforcer
 function startResendTimer(type = "verification") {
   const container = document.getElementById("resend-verification-container");
   const timerText = document.getElementById("resend-timer-text");
@@ -535,7 +565,6 @@ function startResendTimer(type = "verification") {
 
   const targetEmail = pendingUserEmail || document.getElementById("auth-reset-email")?.value.trim() || "";
   
-  // Enforce Max 3 Attempts in 24 Hours
   if (!checkResendEligibility(type, targetEmail)) {
     container.style.display = "block";
     timerText.textContent = "Security Notice: Maximum 3 link dispatches reached for this 24-hour cycle.";
@@ -551,7 +580,7 @@ function startResendTimer(type = "verification") {
 
   resendInterval = setInterval(() => {
     seconds--;
-    timerText.textContent = `Link is valid for 60 minutes. Did not receive it? Resend in ${seconds}s`;
+    timerText.textContent = `Did not receive link? You can request a new link in ${seconds}s`;
     if (seconds <= 0) {
       clearInterval(resendInterval);
       
@@ -559,7 +588,7 @@ function startResendTimer(type = "verification") {
         timerText.textContent = "Maximum 3 link dispatches reached for today (24h cooldown).";
         resendBtn.style.display = "none";
       } else {
-        timerText.textContent = "You can now request a fresh link (old link will be superseded):";
+        timerText.textContent = "Did not receive the link? Request a fresh link now:";
         resendBtn.style.display = "block";
         resendBtn.onclick = () => {
           if (type === "password_reset") {
@@ -588,7 +617,7 @@ window.handleResendVerificationLink = async function() {
   }
 
   try {
-    statusElem.textContent = "Dispatching fresh verification link (valid for 60 mins)...";
+    statusElem.textContent = "Dispatching fresh verification link...";
     await sendEmailVerification(lastCreatedUser);
     recordResendAttempt("verification", targetEmail);
     statusElem.textContent = "A fresh verification link has been sent to your email!";
@@ -598,7 +627,7 @@ window.handleResendVerificationLink = async function() {
   }
 };
 
-// --- 7. Strict Password Reset Handler (With Directory Verification & 3-Attempts Limit) ---
+// --- 7. Password Reset Request Handler ---
 window.handlePasswordReset = async function(event) {
   event.preventDefault();
   const email = document.getElementById("auth-reset-email").value.trim();
@@ -633,7 +662,7 @@ window.handlePasswordReset = async function(event) {
     await sendPasswordResetEmail(auth, email);
     recordResendAttempt("password_reset", email);
     
-    statusElem.textContent = `Password reset link dispatched to ${email} (valid for 60 mins). Check your inbox or click below to resend if needed.`;
+    statusElem.textContent = `Password reset link dispatched to ${email}. Check your inbox. You can request again after 60s if needed.`;
     dispatchWeb3Notification("Password Reset Request", `Password reset requested for: ${email}`);
     startResendTimer("password_reset");
   } catch (error) {
@@ -650,7 +679,80 @@ window.handlePasswordReset = async function(event) {
   }
 };
 
-// --- 8. Navigation Menu Controller with Dedicated Close ---
+// --- 8. Confirm New Password Handler (Direct In-App Execution) ---
+window.handleConfirmNewPassword = async function(event) {
+  event.preventDefault();
+  const newPass = document.getElementById("auth-new-pass").value;
+  const newConfirm = document.getElementById("auth-new-confirm").value;
+  const statusElem = document.getElementById("auth-status-message");
+
+  if (!currentResetCode) {
+    statusElem.textContent = "Error: Reset code missing or expired. Please request a new password reset link.";
+    return;
+  }
+
+  if (newPass !== newConfirm) {
+    statusElem.textContent = "Error: Passwords do not match. Please re-enter identical passwords.";
+    return;
+  }
+
+  if (newPass.length < 6) {
+    statusElem.textContent = "Error: Password must be at least 6 characters long.";
+    return;
+  }
+
+  try {
+    statusElem.textContent = "Updating password in secure directory...";
+    await confirmPasswordReset(auth, currentResetCode, newPass);
+
+    destroyResendContainer();
+
+    statusElem.style.color = "#27ae60";
+    statusElem.textContent = "Success: Your password has been changed successfully! Redirecting to Sign In...";
+
+    dispatchWeb3Notification("Password Changed", `User ${pendingUserEmail || "Account"} updated their password successfully.`);
+
+    setTimeout(() => {
+      showAuthView("login");
+      const loginEmailField = document.getElementById("auth-login-email");
+      const loginPassField = document.getElementById("auth-login-pass");
+      if (loginEmailField && pendingUserEmail) {
+        loginEmailField.value = pendingUserEmail;
+      }
+      if (loginPassField) {
+        loginPassField.focus();
+      }
+      if (statusElem) {
+        statusElem.textContent = "Password changed! Enter your new password and click Sign In.";
+      }
+    }, 1500);
+  } catch (error) {
+    statusElem.style.color = "#c0392b";
+    statusElem.textContent = `Error updating password: ${error.message}. Please request a new link.`;
+  }
+};
+
+// --- 9. Expandable Baseline Audit Drawer Controller ---
+window.toggleAuditDrawer = function() {
+  const drawer = document.getElementById("audit-booking-drawer");
+  const btn = document.getElementById("audit-toggle-btn");
+  if (!drawer || !btn) return;
+
+  const isExpanded = btn.getAttribute("aria-expanded") === "true";
+  if (isExpanded) {
+    drawer.style.display = "none";
+    btn.setAttribute("aria-expanded", "false");
+    btn.textContent = "📋 Book Baseline Audit (₹500)";
+  } else {
+    drawer.style.display = "block";
+    btn.setAttribute("aria-expanded", "true");
+    btn.textContent = "✕ Close Booking Form";
+    const input = document.getElementById("audit-url");
+    if (input) input.focus();
+  }
+};
+
+// --- 10. Navigation Menu Controller with Dedicated Close ---
 window.toggleNavigationMenu = function() {
   const menuList = document.getElementById("portal-nav-list");
   const toggleBtn = document.getElementById("menu-toggle-btn");
@@ -682,7 +784,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// --- 9. Expandable & Collapsible Search Bar ---
+// --- 11. Expandable & Collapsible Search Bar ---
 window.toggleBannerSearch = function() {
   const container = document.getElementById("banner-search-container");
   const btn = document.getElementById("search-toggle-btn");
@@ -708,153 +810,7 @@ window.handleUniversalSearch = function(event) {
   alert(`Search index queried for: "${query}". Conforming to Section 508 & WCAG standards.`);
 };
 
-// --- 10. Self-Healing, Verified Multilingual Gemini AI (1-on-1 Multi-Turn Chat) ---
-window.toggleAskAICopilot = function() {
-  const container = document.getElementById("banner-ai-chat-container");
-  const btn = document.getElementById("ask-ai-toggle-btn");
-  if (!container || !btn) return;
-
-  const isExpanded = btn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    container.style.display = "none";
-    btn.setAttribute("aria-expanded", "false");
-    btn.focus();
-  } else {
-    container.style.display = "block";
-    btn.setAttribute("aria-expanded", "true");
-    const input = document.getElementById("gemini-input");
-    if (input) input.focus();
-  }
-};
-
-window.handleGeminiAssistantQuery = async function(event) {
-  event.preventDefault();
-  const input = document.getElementById("gemini-input");
-  const log = document.getElementById("gemini-chat-log");
-  const liveStatus = document.getElementById("gemini-live-status");
-  const query = input.value.trim();
-  if (!query) return;
-
-  // 1. Announce to Screen Reader
-  if (liveStatus) {
-    liveStatus.textContent = "Your prompt has been received. Gemini AI is formulating response...";
-  }
-
-  // Render User Bubble
-  const userBubble = document.createElement("div");
-  userBubble.style.marginBottom = "0.5rem";
-  userBubble.innerHTML = `<strong>You:</strong> ${escapeHTML(query)}`;
-  log.appendChild(userBubble);
-  input.value = "";
-  log.scrollTop = log.scrollHeight;
-
-  // Render Assistant Placeholder
-  const assistantBubble = document.createElement("div");
-  assistantBubble.style.marginBottom = "0.5rem";
-  assistantBubble.innerHTML = "<strong>Assistant:</strong> Thinking...";
-  log.appendChild(assistantBubble);
-  log.scrollTop = log.scrollHeight;
-
-  // Append User Turn
-  chatHistory.push({
-    role: "user",
-    parts: [{ text: query }]
-  });
-
-  const systemInstructionText = "You are the official 24/7 AI Accessibility Copilot of Resilience Industries Limited (RIL), founded by Nitesh Kumar. You provide verified, real-time, expert answers about W3C WCAG 2.2 AAA conformance, VPAT authoring, assistive technologies (TalkBack, NVDA, JAWS), training courses, audit pricing, and general internet queries. You must answer naturally and fluently in whatever language the user speaks (Hindi, Hinglish, English, etc.). Be professional, conversational, concise, and helpful.";
-
-  try {
-    // Pipeline 1: Call with Google Search Tool Grounding
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
-    
-    const payload = {
-      system_instruction: {
-        parts: [{ text: systemInstructionText }]
-      },
-      contents: chatHistory,
-      tools: [{ google_search: {} }]
-    };
-
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await response.json();
-    
-    if (data.error) {
-      throw new Error(data.error.message);
-    }
-
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!answer) throw new Error("Empty candidate payload");
-
-    chatHistory.push({
-      role: "model",
-      parts: [{ text: answer }]
-    });
-
-    assistantBubble.innerHTML = `<strong>Assistant:</strong> ${escapeHTML(answer)}`;
-
-    if (liveStatus) {
-      liveStatus.textContent = "Replied. Response received from Gemini AI.";
-    }
-  } catch (error) {
-    console.warn("Pipeline 1 fallback triggered:", error.message);
-    // Pipeline 2: Self-Healing Direct Standard Model Execution
-    await executeGuaranteedGeminiFallback(query, assistantBubble, liveStatus);
-  }
-  log.scrollTop = log.scrollHeight;
-};
-
-// Guaranteed Fallback Pipeline: Ensures 0% Failures
-async function executeGuaranteedGeminiFallback(userQuery, assistantBubble, liveStatus) {
-  try {
-    const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
-    
-    // Construct robust flat history payload
-    const conversationPayload = chatHistory.map(entry => ({
-      role: entry.role,
-      parts: entry.parts
-    }));
-
-    const payload = {
-      contents: conversationPayload
-    };
-
-    const res = await fetch(fallbackUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    const resData = await res.json();
-    const answer = resData.candidates?.[0]?.content?.parts?.[0]?.text;
-    
-    if (answer) {
-      chatHistory.push({
-        role: "model",
-        parts: [{ text: answer }]
-      });
-
-      assistantBubble.innerHTML = `<strong>Assistant:</strong> ${escapeHTML(answer)}`;
-      if (liveStatus) liveStatus.textContent = "Replied. Response received from Gemini AI.";
-      return;
-    }
-    throw new Error("No answer candidate found");
-  } catch (err) {
-    console.error("Critical Gemini Copilot Failure:", err);
-    assistantBubble.innerHTML = `<strong>Assistant:</strong> Resilience Industries Copilot recommends reviewing our WCAG 2.2 audit section or emailing niteshkumar91845@gmail.com directly.`;
-    if (liveStatus) liveStatus.textContent = "Replied with desk contact info.";
-  }
-}
-
-function escapeHTML(str) {
-  return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
-}
-
-// --- 11. Built-in Web Speech Text-To-Speech (Read Aloud Engine) ---
+// --- 12. Built-in Web Speech Text-To-Speech (Read Aloud Engine) ---
 window.toggleReadPageAloud = function() {
   const btn = document.getElementById("btn-read-page");
   if (!("speechSynthesis" in window)) {
@@ -890,7 +846,7 @@ window.toggleReadPageAloud = function() {
   }
 };
 
-// --- 12. Complete Accessibility Controls Toolkit ---
+// --- 13. Complete Accessibility Controls Toolkit ---
 window.toggleDarkMode = function() {
   const root = document.documentElement;
   const isDark = root.getAttribute("data-theme") === "dark";
@@ -958,7 +914,7 @@ window.togglePauseMotion = function() {
   }
 };
 
-// --- 13. Universal Email Dispatch (Web3Forms) ---
+// --- 14. Universal Email Dispatch (Web3Forms) ---
 async function dispatchWeb3Notification(subject, messageContent, extraData = {}) {
   const payload = {
     access_key: WEB3FORMS_ACCESS_KEY,
@@ -980,7 +936,7 @@ async function dispatchWeb3Notification(subject, messageContent, extraData = {})
   }
 }
 
-// --- 14. Razorpay Payment Gateway Integration ---
+// --- 15. Razorpay Payment Gateway Integration ---
 window.initiatePaidRequest = function(event, serviceName, amountINR) {
   event.preventDefault();
   const form = event.target;
@@ -1013,6 +969,7 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
 
       alert(`Success! Payment reference ${response.razorpay_payment_id} captured. Audit booked.`);
       form.reset();
+      toggleAuditDrawer();
     },
     prefill: { email: user.email, contact: "8434721287" },
     theme: { color: "#0b3d91" }
@@ -1026,7 +983,7 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
   }
 };
 
-// --- 15. Public Live Analytics Engine ---
+// --- 16. Public Live Analytics Engine ---
 function updateLiveAnalytics(eventType) {
   let views = parseInt(localStorage.getItem("ril_total_pageviews") || "1420");
   let sessions = parseInt(localStorage.getItem("ril_total_sessions") || "310");
