@@ -1,7 +1,7 @@
 /**
  * Resilience Industries Limited (RIL)
  * Master External JavaScript Engine: script.js
- * In-Place Auth Swapping, Strict User-Not-Found, Gemini 2.5 Flash & Web Speech TTS
+ * In-Place Auth, Permanent User Deletion on Sign-Out, Multilingual Gemini AI & ARIA Feedback
  * 100% International Standard English | Strict WCAG 2.2 AAA
  */
 
@@ -19,6 +19,7 @@ import {
   GoogleAuthProvider,
   sendPasswordResetEmail, 
   sendEmailVerification, 
+  deleteUser,
   signOut 
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-analytics.js";
@@ -49,7 +50,7 @@ const _g_part1 = "AQ.Ab8RN6IFCiGe18VyBs0";
 const _g_part2 = "IUCOdooX9Plvsyh0Sdwc3tb5OEVHCdw";
 const GEMINI_RUNTIME_KEY = `${_g_part1}${_g_part2}`;
 
-// Verification Tracker & Interval
+// Verification Tracker & State
 let lastCreatedUser = null;
 let resendInterval = null;
 let liveClockInterval = null;
@@ -129,7 +130,7 @@ function fetchLiveWeather() {
 }
 fetchLiveWeather();
 
-// --- 3. Authentication State Monitor & Session Manager ---
+// --- 3. Authentication State Monitor & Permanent Delete on Sign-Out ---
 const userGreetingBanner = document.getElementById("user-session-greeting");
 const btnAuthAction = document.getElementById("btn-auth-action");
 
@@ -152,13 +153,25 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-window.handleAuthButtonClick = function() {
-  if (auth.currentUser) {
-    const confirmLogout = window.confirm("Warning: Are you sure you want to sign out of your session?");
+// Sign Out with Complete Database Deletion Option
+window.handleAuthButtonClick = async function() {
+  const currentUser = auth.currentUser;
+
+  if (currentUser) {
+    const confirmLogout = window.confirm("Are you sure you want to sign out and completely delete your account from the database?\n\nClick OK (YES) to permanently delete your account & session data, or CANCEL (NO) to keep your account.");
+    
     if (confirmLogout) {
-      signOut(auth).then(() => {
+      const email = currentUser.email;
+      try {
+        // Completely delete user record from Firebase Authentication
+        await deleteUser(currentUser);
+        dispatchWeb3Notification("User Purged", `User ${email} signed out and permanently purged from database.`);
+        alert("Your account and session have been completely purged from the database. You can register fresh anytime.");
+      } catch (err) {
+        // Fallback: If token expired, standard sign-out
+        await signOut(auth);
         alert("You have been signed out successfully.");
-      });
+      }
     }
   } else {
     openAuthModal();
@@ -376,7 +389,6 @@ window.handlePasswordReset = async function(event) {
   try {
     statusElem.textContent = "Checking official user directory...";
     
-    // Explicit Pre-Check to bypass Firebase Enumeration Shield
     const methods = await fetchSignInMethodsForEmail(auth, email);
     if (!methods || methods.length === 0) {
       statusElem.textContent = "Error: User not found. You are not registered with Resilience Industries. Please create an account first. Redirecting to Registration...";
@@ -469,7 +481,7 @@ window.handleUniversalSearch = function(event) {
   alert(`Search index queried for: "${query}". Conforming to Section 508 & WCAG standards.`);
 };
 
-// --- 10. Expandable & Collapsible Ask AI Copilot (Gemini API) ---
+// --- 10. Multilingual Gemini AI Copilot with Screen Reader Announcements ---
 window.toggleAskAICopilot = function() {
   const container = document.getElementById("banner-ai-chat-container");
   const btn = document.getElementById("ask-ai-toggle-btn");
@@ -492,8 +504,14 @@ window.handleGeminiAssistantQuery = async function(event) {
   event.preventDefault();
   const input = document.getElementById("gemini-input");
   const log = document.getElementById("gemini-chat-log");
+  const liveStatus = document.getElementById("gemini-live-status");
   const query = input.value.trim();
   if (!query) return;
+
+  // 1. Announce to screen reader: Prompt is processing
+  if (liveStatus) {
+    liveStatus.textContent = "Your prompt has been received. Gemini AI is formulating response...";
+  }
 
   const userBubble = document.createElement("div");
   userBubble.innerHTML = `<strong>You:</strong> ${escapeHTML(query)}`;
@@ -502,19 +520,21 @@ window.handleGeminiAssistantQuery = async function(event) {
   log.scrollTop = log.scrollHeight;
 
   const assistantBubble = document.createElement("div");
-  assistantBubble.innerHTML = "<strong>Assistant:</strong> Analyzing with Gemini AI...";
+  assistantBubble.innerHTML = "<strong>Assistant:</strong> Thinking...";
   log.appendChild(assistantBubble);
   log.scrollTop = log.scrollHeight;
 
-  const systemContext = "You are the official AI Accessibility Copilot of Resilience Industries Limited (RIL), founded by Nitesh Kumar. You provide concise, expert recommendations on W3C WCAG 2.2 AAA conformance, VPAT authoring, assistive technology (TalkBack, NVDA, JAWS), and audit bookings. Answer in standard English.";
+  // Multilingual System Context
+  const systemContext = "You are the official 24/7 AI Accessibility Copilot of Resilience Industries Limited (RIL), founded by Nitesh Kumar. You provide expert, accurate answers about W3C WCAG 2.2 AAA conformance, VPAT authoring, assistive technologies (TalkBack, NVDA, JAWS), training courses, and audit pricing. You must answer naturally in whatever language the user asks (Hindi, Hinglish, English, etc.). Be professional, concise, and helpful.";
 
   try {
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
+    // Official Generative Language API call with standard Gemini 1.5 Flash
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_RUNTIME_KEY}`;
     const payload = {
       contents: [
         {
           role: "user",
-          parts: [{ text: `${systemContext}\n\nClient Question: ${query}` }]
+          parts: [{ text: `${systemContext}\n\nUser Question: ${query}` }]
         }
       ]
     };
@@ -526,14 +546,24 @@ window.handleGeminiAssistantQuery = async function(event) {
     });
 
     const data = await response.json();
+    
     if (data.error) {
       throw new Error(data.error.message);
     }
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "I am currently analyzing accessibility standards. Please submit a direct inquiry for bespoke remediation.";
+
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to retrieve response at this moment. Please email our desk.";
     assistantBubble.innerHTML = `<strong>Assistant:</strong> ${escapeHTML(answer)}`;
+
+    // 2. Announce to screen reader: Response received
+    if (liveStatus) {
+      liveStatus.textContent = "Replied. Response received from Gemini AI.";
+    }
   } catch (error) {
     console.error("Gemini Copilot Error:", error);
     assistantBubble.innerHTML = `<strong>Assistant:</strong> Resilience Industries Copilot recommends reviewing our WCAG 2.2 audit section or emailing niteshkumar91845@gmail.com directly.`;
+    if (liveStatus) {
+      liveStatus.textContent = "Replied with fallback. Please check desk email.";
+    }
   }
   log.scrollTop = log.scrollHeight;
 };
@@ -544,7 +574,7 @@ function escapeHTML(str) {
 
 // --- 11. Built-in Web Speech Text-To-Speech (Read Aloud Engine) ---
 window.toggleReadPageAloud = function() {
-  const btn = document.getElementById("btn-tts-toolbar");
+  const btn = document.getElementById("btn-read-page");
   if (!("speechSynthesis" in window)) {
     alert("Sorry, your browser does not support Web Speech Text-to-Speech.");
     return;
@@ -554,8 +584,7 @@ window.toggleReadPageAloud = function() {
     window.speechSynthesis.cancel();
     isSpeaking = false;
     if (btn) {
-      btn.setAttribute("aria-pressed", "false");
-      btn.textContent = "🔊 Speak Page";
+      btn.textContent = "🔊 Read Website Aloud";
     }
   } else {
     const mainText = document.getElementById("main-content")?.innerText || document.body.innerText;
@@ -567,16 +596,14 @@ window.toggleReadPageAloud = function() {
     utterance.onend = () => {
       isSpeaking = false;
       if (btn) {
-        btn.setAttribute("aria-pressed", "false");
-        btn.textContent = "🔊 Speak Page";
+        btn.textContent = "🔊 Read Website Aloud";
       }
     };
 
     window.speechSynthesis.speak(utterance);
     isSpeaking = true;
     if (btn) {
-      btn.setAttribute("aria-pressed", "true");
-      btn.textContent = "⏹️ Stop Speech";
+      btn.textContent = "⏹️ Stop Reading";
     }
   }
 };
