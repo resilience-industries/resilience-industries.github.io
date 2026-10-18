@@ -1,8 +1,8 @@
 /**
  * Resilience Industries Limited (RIL)
  * Master External JavaScript Engine: script.js
- * Expandable Baseline Audit Drawer, In-App Password Reset Execution,
- * Permanent Resend Destruction, Strict 24h / 3-Attempts Rate Limiter & 60s Countdown Timer.
+ * Multi-Tier Dynamic Razorpay Integration, In-App Password Reset Execution,
+ * Permanent Resend Destruction, Strict 24h / 3-Attempts Limiter & 60s Cooldown.
  * 100% International Standard English | Strict WCAG 2.2 AAA
  */
 
@@ -732,27 +732,7 @@ window.handleConfirmNewPassword = async function(event) {
   }
 };
 
-// --- 9. Expandable Baseline Audit Drawer Controller ---
-window.toggleAuditDrawer = function() {
-  const drawer = document.getElementById("audit-booking-drawer");
-  const btn = document.getElementById("audit-toggle-btn");
-  if (!drawer || !btn) return;
-
-  const isExpanded = btn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    drawer.style.display = "none";
-    btn.setAttribute("aria-expanded", "false");
-    btn.textContent = "📋 Book Baseline Audit (₹500)";
-  } else {
-    drawer.style.display = "block";
-    btn.setAttribute("aria-expanded", "true");
-    btn.textContent = "✕ Close Booking Form";
-    const input = document.getElementById("audit-url");
-    if (input) input.focus();
-  }
-};
-
-// --- 10. Navigation Menu Controller with Dedicated Close ---
+// --- 9. Navigation Menu Controller with Dedicated Close ---
 window.toggleNavigationMenu = function() {
   const menuList = document.getElementById("portal-nav-list");
   const toggleBtn = document.getElementById("menu-toggle-btn");
@@ -784,7 +764,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// --- 11. Expandable & Collapsible Search Bar ---
+// --- 10. Expandable & Collapsible Search Bar ---
 window.toggleBannerSearch = function() {
   const container = document.getElementById("banner-search-container");
   const btn = document.getElementById("search-toggle-btn");
@@ -810,7 +790,7 @@ window.handleUniversalSearch = function(event) {
   alert(`Search index queried for: "${query}". Conforming to Section 508 & WCAG standards.`);
 };
 
-// --- 12. Built-in Web Speech Text-To-Speech (Read Aloud Engine) ---
+// --- 11. Built-in Web Speech Text-To-Speech (Read Aloud Engine) ---
 window.toggleReadPageAloud = function() {
   const btn = document.getElementById("btn-read-page");
   if (!("speechSynthesis" in window)) {
@@ -846,7 +826,7 @@ window.toggleReadPageAloud = function() {
   }
 };
 
-// --- 13. Complete Accessibility Controls Toolkit ---
+// --- 12. Complete Accessibility Controls Toolkit ---
 window.toggleDarkMode = function() {
   const root = document.documentElement;
   const isDark = root.getAttribute("data-theme") === "dark";
@@ -914,7 +894,7 @@ window.togglePauseMotion = function() {
   }
 };
 
-// --- 14. Universal Email Dispatch (Web3Forms) ---
+// --- 13. Universal Email Dispatch (Web3Forms) ---
 async function dispatchWeb3Notification(subject, messageContent, extraData = {}) {
   const payload = {
     access_key: WEB3FORMS_ACCESS_KEY,
@@ -936,40 +916,42 @@ async function dispatchWeb3Notification(subject, messageContent, extraData = {})
   }
 }
 
-// --- 15. Razorpay Payment Gateway Integration ---
+// --- 14. Universal Razorpay Payment-First Gateway ---
 window.initiatePaidRequest = function(event, serviceName, amountINR) {
-  event.preventDefault();
-  const form = event.target;
-  const statusBox = form.querySelector(".payment-status-msg");
+  if (event && event.preventDefault) event.preventDefault();
+  const form = (event && event.target && event.target.tagName === "FORM") ? event.target : document.querySelector("#service-booking-drawer form");
+  const statusBox = form ? form.querySelector(".payment-status-msg") : document.querySelector(".payment-status-msg");
   const user = auth.currentUser;
 
   if (!user) {
     openAuthModal();
-    if (statusBox) statusBox.textContent = "Please sign in to proceed with booking.";
+    if (statusBox) statusBox.textContent = "Please sign in to proceed with payment and booking.";
     return;
   }
 
   const options = {
     key: RAZORPAY_KEY_ID,
-    amount: amountINR * 100,
+    amount: amountINR * 100, // Amount in paise
     currency: "INR",
     name: "Resilience Industries Limited",
     description: `Service: ${serviceName}`,
     handler: async function(response) {
-      if (statusBox) statusBox.textContent = "Payment authorized. Transmitting audit dossier...";
+      if (statusBox) statusBox.textContent = "Payment authorized. Transmitting audit dossier to headquarters...";
       
-      const formData = new FormData(form);
+      const formData = form ? new FormData(form) : new FormData();
       formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-      formData.append("service_or_course", serviceName);
+      formData.append("service_or_package", serviceName);
       formData.append("razorpay_payment_id", response.razorpay_payment_id);
       formData.append("amount_paid_inr", amountINR);
       formData.append("client_identity", user.email);
 
       await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
 
-      alert(`Success! Payment reference ${response.razorpay_payment_id} captured. Audit booked.`);
-      form.reset();
-      toggleAuditDrawer();
+      alert(`Success! Payment reference ${response.razorpay_payment_id} captured. Your booking for ${serviceName} is confirmed.`);
+      if (form) form.reset();
+      
+      const drawer = document.getElementById("service-booking-drawer") || document.getElementById("audit-booking-drawer");
+      if (drawer) drawer.style.display = "none";
     },
     prefill: { email: user.email, contact: "8434721287" },
     theme: { color: "#0b3d91" }
@@ -981,6 +963,65 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
   } else {
     alert("Payment gateway initializing. Please retry in 2 seconds.");
   }
+};
+
+// --- 15. Expandable Drawers & Dynamic Services Page Controller ---
+window.toggleAuditDrawer = function() {
+  const drawer = document.getElementById("audit-booking-drawer");
+  const btn = document.getElementById("audit-toggle-btn");
+  if (!drawer || !btn) return;
+
+  const isExpanded = btn.getAttribute("aria-expanded") === "true";
+  if (isExpanded) {
+    drawer.style.display = "none";
+    btn.setAttribute("aria-expanded", "false");
+    btn.textContent = "📋 Book Baseline Audit (₹500)";
+  } else {
+    drawer.style.display = "block";
+    btn.setAttribute("aria-expanded", "true");
+    btn.textContent = "✕ Close Booking Form";
+    const input = document.getElementById("audit-url");
+    if (input) input.focus();
+  }
+};
+
+window.toggleServiceDrawer = function() {
+  const drawer = document.getElementById("service-booking-drawer");
+  const btn = document.getElementById("service-toggle-btn");
+  if (!drawer || !btn) return;
+
+  const isExpanded = btn.getAttribute("aria-expanded") === "true";
+  if (isExpanded) {
+    drawer.style.display = "none";
+    btn.setAttribute("aria-expanded", "false");
+    btn.textContent = "📋 Open Service Booking Form";
+  } else {
+    drawer.style.display = "block";
+    btn.setAttribute("aria-expanded", "true");
+    btn.textContent = "✕ Close Booking Form";
+    const select = document.getElementById("service-package-select");
+    if (select) select.focus();
+  }
+};
+
+window.handleServiceTierChange = function() {
+  const select = document.getElementById("service-package-select");
+  const submitBtn = document.getElementById("btn-service-submit");
+  if (!select || !submitBtn) return;
+
+  const selectedOption = select.options[select.selectedIndex];
+  const price = selectedOption.getAttribute("data-price") || "500";
+  submitBtn.textContent = `Pay & Confirm Booking (₹${parseInt(price).toLocaleString('en-IN')})`;
+};
+
+window.handleServiceBookingSubmission = function(event) {
+  event.preventDefault();
+  const select = document.getElementById("service-package-select");
+  const selectedOption = select.options[select.selectedIndex];
+  const serviceName = selectedOption.value;
+  const price = parseInt(selectedOption.getAttribute("data-price") || "500");
+
+  initiatePaidRequest(event, serviceName, price);
 };
 
 // --- 16. Public Live Analytics Engine ---
