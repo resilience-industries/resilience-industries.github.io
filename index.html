@@ -83,7 +83,7 @@
 </head>
 <body id="top-of-page">
 
-  <!-- Accessible Skip Navigation Links & Built-in Text-To-Speech -->
+  <!-- Accessible Skip Navigation Links & Single Text-To-Speech Button -->
   <a href="#main-content" class="skip-link">Skip to Main Content</a>
   <a href="#main-navigation" class="skip-link">Skip to Navigation Menu</a>
   <a href="#bottom-of-page" class="skip-link">Skip to Footer</a>
@@ -116,13 +116,12 @@
           <div id="live-weather">Loading live weather...</div>
         </div>
 
-        <!-- Accessibility Control Toolbar -->
+        <!-- Clean Accessibility Control Toolbar (Duplicate Speaker Button Removed) -->
         <div class="a11y-controls-group" role="region" aria-label="Accessibility Settings">
           <button id="btn-dark-mode" class="btn-ctrl" aria-pressed="false" onclick="toggleDarkMode()">🌓 Dark Mode</button>
           <button id="btn-high-contrast" class="btn-ctrl" aria-pressed="false" onclick="toggleHighContrast()">👁️ High Contrast</button>
           <button id="btn-font-size" class="btn-ctrl" aria-pressed="false" onclick="toggleFontSize()">🔤 Larger Text</button>
           <button id="btn-pause-motion" class="btn-ctrl" aria-pressed="false" onclick="togglePauseMotion()">🛑 Pause Motion</button>
-          <button id="btn-tts-toolbar" class="btn-ctrl" aria-pressed="false" onclick="toggleReadPageAloud()">🔊 Speak Page</button>
           <button id="btn-auth-action" class="btn-ctrl" onclick="handleAuthButtonClick()">Sign In</button>
         </div>
 
@@ -188,16 +187,20 @@
       <!-- Banner AI Copilot Drawer -->
       <div id="banner-ai-chat-container" style="display: none; margin-top: 1rem; background: var(--surface-color); border: 2px solid var(--primary-color); border-radius: 6px; padding: 1rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-          <h3 style="font-size: 1.05rem;">Ask Resilience Industries | 24/7 AI Accessibility Desk</h3>
+          <h3 style="font-size: 1.05rem;">Ask Resilience Industries | 24/7 AI Multilingual Desk</h3>
           <button type="button" class="btn-ctrl" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;" onclick="toggleAskAICopilot()">✕ Close Copilot</button>
         </div>
-        <p style="font-size: 0.9rem; margin-bottom: 0.8rem;">Instant W3C WCAG 2.2 AAA guidelines and audit recommendations powered by Gemini:</p>
-        <div id="gemini-chat-log" role="log" aria-live="polite" style="height: 150px; overflow-y: auto; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.6rem; border-radius: 4px; font-size: 0.9rem; margin-bottom: 0.6rem;">
-          <div><strong>Assistant:</strong> Welcome to Resilience Industries. How can I assist you with WCAG compliance, VPAT authoring, or screen reader auditing today?</div>
+        <p style="font-size: 0.9rem; margin-bottom: 0.8rem;">Ask in Hindi, English, or any language about WCAG 2.2 AAA guidelines, audit pricing, or assistive tech labs:</p>
+        
+        <!-- Live ARIA Announcement Area for Screen Readers -->
+        <div id="gemini-live-status" class="sr-only" role="status" aria-live="polite"></div>
+
+        <div id="gemini-chat-log" role="log" aria-live="polite" style="height: 160px; overflow-y: auto; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.6rem; border-radius: 4px; font-size: 0.9rem; margin-bottom: 0.6rem;">
+          <div><strong>Assistant:</strong> Welcome to Resilience Industries! Ask any question in your preferred language regarding our services, audits, or VPAT compliance.</div>
         </div>
         <form onsubmit="handleGeminiAssistantQuery(event)" style="display: flex; gap: 0.4rem;">
-          <label for="gemini-input" class="sr-only">Ask Gemini AI</label>
-          <input type="text" id="gemini-input" class="form-control" placeholder="Ask your accessibility question..." required style="font-size: 0.9rem;">
+          <label for="gemini-input" class="sr-only">Type question for Gemini AI</label>
+          <input type="text" id="gemini-input" class="form-control" placeholder="Ask in Hindi or English (उदा. ऑडिट कैसे बुक करें?)..." required style="font-size: 0.9rem;">
           <button type="submit" class="btn-primary" style="white-space: nowrap;">Send</button>
         </form>
       </div>
