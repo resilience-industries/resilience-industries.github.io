@@ -83,7 +83,7 @@
 </head>
 <body id="top-of-page">
 
-  <!-- Accessible Skip Navigation Links & Single Text-To-Speech Button -->
+  <!-- Accessible Skip Navigation Links & Sighted Speaker TTS Button -->
   <a href="#main-content" class="skip-link">Skip to Main Content</a>
   <a href="#main-navigation" class="skip-link">Skip to Navigation Menu</a>
   <a href="#bottom-of-page" class="skip-link">Skip to Footer</a>
@@ -116,7 +116,7 @@
           <div id="live-weather">Loading live weather...</div>
         </div>
 
-        <!-- Clean Accessibility Control Toolbar (Duplicate Speaker Button Removed) -->
+        <!-- Clean Accessibility Control Toolbar -->
         <div class="a11y-controls-group" role="region" aria-label="Accessibility Settings">
           <button id="btn-dark-mode" class="btn-ctrl" aria-pressed="false" onclick="toggleDarkMode()">🌓 Dark Mode</button>
           <button id="btn-high-contrast" class="btn-ctrl" aria-pressed="false" onclick="toggleHighContrast()">👁️ High Contrast</button>
@@ -127,7 +127,7 @@
 
       </div>
 
-      <!-- Action Toolbar (Menu, Universal Search & AI Copilot) -->
+      <!-- Action Toolbar (Menu & Universal Search Only - Clean Layout) -->
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
         
         <!-- Expandable Navigation Menu with Dedicated Close Button -->
@@ -175,34 +175,6 @@
           </div>
         </section>
 
-        <!-- Expandable & Collapsible Ask Resilience Industries (AI Copilot) -->
-        <div role="region" aria-label="Customer AI Support">
-          <button id="ask-ai-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="banner-ai-chat-container" onclick="toggleAskAICopilot()" style="border-color: var(--primary-color);">
-            🤖 Ask Resilience Industries
-          </button>
-        </div>
-
-      </div>
-
-      <!-- Banner AI Copilot Drawer -->
-      <div id="banner-ai-chat-container" style="display: none; margin-top: 1rem; background: var(--surface-color); border: 2px solid var(--primary-color); border-radius: 6px; padding: 1rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-          <h3 style="font-size: 1.05rem;">Ask Resilience Industries | 24/7 AI Multilingual Desk</h3>
-          <button type="button" class="btn-ctrl" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;" onclick="toggleAskAICopilot()">✕ Close Copilot</button>
-        </div>
-        <p style="font-size: 0.9rem; margin-bottom: 0.8rem;">Ask in Hindi, English, or any language about WCAG 2.2 AAA guidelines, audit pricing, or assistive tech labs:</p>
-        
-        <!-- Live ARIA Announcement Area for Screen Readers -->
-        <div id="gemini-live-status" class="sr-only" role="status" aria-live="polite"></div>
-
-        <div id="gemini-chat-log" role="log" aria-live="polite" style="height: 160px; overflow-y: auto; background: var(--bg-color); border: 1px solid var(--border-color); padding: 0.6rem; border-radius: 4px; font-size: 0.9rem; margin-bottom: 0.6rem;">
-          <div><strong>Assistant:</strong> Welcome to Resilience Industries! Ask any question in your preferred language regarding our services, audits, or VPAT compliance.</div>
-        </div>
-        <form onsubmit="handleGeminiAssistantQuery(event)" style="display: flex; gap: 0.4rem;">
-          <label for="gemini-input" class="sr-only">Type question for Gemini AI</label>
-          <input type="text" id="gemini-input" class="form-control" placeholder="Ask in Hindi or English (उदा. ऑडिट कैसे बुक करें?)..." required style="font-size: 0.9rem;">
-          <button type="submit" class="btn-primary" style="white-space: nowrap;">Send</button>
-        </form>
       </div>
 
       <div id="user-session-greeting" style="margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700;"></div>
@@ -256,23 +228,36 @@
             </div>
           </section>
 
-          <!-- Baseline Audit Booking Gateway -->
-          <section class="card" aria-labelledby="book-audit-title">
-            <h2 id="book-audit-title">Book a Baseline Accessibility Audit</h2>
-            <p style="margin-bottom: 1.2rem;">Initiate an immediate exploratory assessment of your website. Secure payment authorization via Razorpay:</p>
-            
-            <form onsubmit="initiatePaidRequest(event, 'Baseline Accessibility Audit', 500)">
-              <div class="form-field">
-                <label for="audit-url">Platform URL:</label>
-                <input type="url" id="audit-url" name="client_url" class="form-control" required placeholder="https://example.com">
+          <!-- Expandable / Collapsible Baseline Audit Booking Gateway -->
+          <section class="card" aria-labelledby="book-audit-heading">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+              <div>
+                <h2 id="book-audit-heading" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0.2rem;">Baseline Accessibility Audit</h2>
+                <p style="font-size: 0.95rem; opacity: 0.9;">Initiate an exploratory assessment of your platform via Razorpay.</p>
               </div>
-              <div class="form-field">
-                <label for="audit-scope">Audit Requirements / Target Scope:</label>
-                <textarea id="audit-scope" name="client_scope" class="form-control" rows="3" placeholder="Specify pages, screen reader targets, or compliance milestones..."></textarea>
-              </div>
-              <button type="submit" class="btn-primary">Pay & Book Baseline Audit (₹500)</button>
-              <div class="payment-status-msg" role="status" aria-live="polite" style="margin-top: 0.8rem; font-weight: 700;"></div>
-            </form>
+              <button type="button" id="audit-toggle-btn" class="btn-primary" aria-expanded="false" aria-controls="audit-booking-drawer" onclick="toggleAuditDrawer()">
+                📋 Book Baseline Audit (₹500)
+              </button>
+            </div>
+
+            <!-- Collapsible Drawer Container -->
+            <div id="audit-booking-drawer" style="display: none; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+              <form onsubmit="initiatePaidRequest(event, 'Baseline Accessibility Audit', 500)">
+                <div class="form-field">
+                  <label for="audit-url">Platform URL:</label>
+                  <input type="url" id="audit-url" name="client_url" class="form-control" required placeholder="https://example.com">
+                </div>
+                <div class="form-field">
+                  <label for="audit-scope">Audit Requirements / Target Scope:</label>
+                  <textarea id="audit-scope" name="client_scope" class="form-control" rows="3" placeholder="Specify pages, screen reader targets, or compliance milestones..."></textarea>
+                </div>
+                <div style="display: flex; gap: 0.8rem; align-items: center;">
+                  <button type="submit" class="btn-primary">Pay & Confirm Audit (₹500)</button>
+                  <button type="button" class="btn-ctrl" onclick="toggleAuditDrawer()">✕ Cancel / Close</button>
+                </div>
+                <div class="payment-status-msg" role="status" aria-live="polite" style="margin-top: 0.8rem; font-weight: 700;"></div>
+              </form>
+            </div>
           </section>
 
         </div>
@@ -401,7 +386,7 @@
           <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
         </form>
 
-        <!-- Dynamic Action Links (Swap View Inside Same Container) -->
+        <!-- Dynamic Action Links -->
         <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
           <button type="button" style="background: none; border: none; color: var(--primary-color); text-align: left; cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('reset')">
             Forgot password? Click here to reset
@@ -482,10 +467,27 @@
         </div>
       </div>
 
-      <!-- Resend Verification Link Row -->
+      <!-- State 4: Set New Password In-Place Form (When clicking Reset Link from Email) -->
+      <div id="auth-view-newpassword" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Enter your new password below to update your account credentials:</p>
+        
+        <form onsubmit="handleConfirmNewPassword(event)">
+          <div class="form-field">
+            <label for="auth-new-pass">New Password:</label>
+            <input type="password" id="auth-new-pass" class="form-control" required autocomplete="new-password" placeholder="Minimum 6 characters">
+          </div>
+          <div class="form-field">
+            <label for="auth-new-confirm">Confirm New Password:</label>
+            <input type="password" id="auth-new-confirm" class="form-control" required autocomplete="new-password" placeholder="Re-enter new password">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Update Password</button>
+        </form>
+      </div>
+
+      <!-- Resend Link Container with Countdown Timer -->
       <div id="resend-verification-container" style="display: none; margin-top: 1rem; text-align: center; font-size: 0.9rem;">
         <span id="resend-timer-text">Resend link in 60s</span>
-        <button type="button" id="btn-resend-link" class="btn-ctrl" style="display: none; margin: 0.5rem auto 0; font-size: 0.85rem;" onclick="handleResendVerificationLink()">Resend Link Now</button>
+        <button type="button" id="btn-resend-link" class="btn-ctrl" style="display: none; margin: 0.5rem auto 0; font-size: 0.85rem;">Resend Link Now</button>
       </div>
 
       <!-- ARIA Live Status Alert -->
