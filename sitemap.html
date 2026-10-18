@@ -3,206 +3,482 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- =====================================================================
-       ENTERPRISE METADATA & ACCESSIBILITY DIRECTIVES
-       Entity: InclusioTech
-       Founder & CEO: Nitesh Kumar
-       Conformance: W3C WCAG 2.0 / 2.1 / 2.2 (Level AAA) & WAI-ARIA 1.2
-       ===================================================================== -->
-  <title>HTML Sitemap | InclusioTech - Accessible Directory of Pages</title>
-  <meta name="title" content="HTML Sitemap | InclusioTech - Accessible Directory of Pages">
-  <meta name="description" content="Official accessible HTML sitemap for InclusioTech, founded by Nitesh Kumar. Direct navigation directory to all accessibility audit resources, training materials, and services.">
-  <meta name="keywords" content="InclusioTech Sitemap, Nitesh Kumar, InclusioTech Navigation, Digital Accessibility Portal, NVDA, TalkBack, WCAG Auditing Directory">
+  <title>Sitemap | Resilience Industries Limited - Complete Portal Directory</title>
+  
+  <!-- Primary SEO Metadata -->
+  <meta name="description" content="Accessible HTML Sitemap for Resilience Industries Limited. Complete navigational hierarchy of all accessibility auditing portals, VPAT services, training courses, and legal policies.">
+  <meta name="keywords" content="Sitemap, Accessibility Portal Directory, Resilience Industries Navigation, WCAG 2.2 AAA Sitemap, Nitesh Kumar">
   <meta name="author" content="Nitesh Kumar">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://inclusiotech.github.io/sitemap.html">
+  <meta name="theme-color" content="#0b3d91">
+  <link rel="canonical" href="https://resilience-industries.github.io/sitemap.html">
 
-  <!-- Open Graph / Social Sharing -->
+  <!-- Social Open Graph & Twitter Cards -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://inclusiotech.github.io/sitemap.html">
-  <meta property="og:title" content="InclusioTech Sitemap | Accessible Web Architecture">
-  <meta property="og:description" content="Navigate all core practice areas, resources, and leadership profiles across InclusioTech.">
-  <meta property="og:site_name" content="InclusioTech">
+  <meta property="og:url" content="https://resilience-industries.github.io/sitemap.html">
+  <meta property="og:title" content="Sitemap | Resilience Industries Limited">
+  <meta property="og:description" content="Complete accessible directory of all pages and services across Resilience Industries Limited.">
+  <meta property="og:image" content="https://resilience-industries.github.io/assets/images/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sitemap | Resilience Industries Limited">
+  <meta name="twitter:description" content="Structured HTML sitemap and accessible navigation hierarchy.">
+  <meta name="twitter:image" content="https://resilience-industries.github.io/assets/images/logo.png">
 
-  <!-- Structured Schema: Breadcrumb & WebPage -->
+  <!-- Schema.org JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://inclusiotech.github.io/sitemap.html#webpage",
-        "url": "https://inclusiotech.github.io/sitemap.html",
-        "name": "InclusioTech Accessible Sitemap",
-        "description": "Complete navigation directory of InclusioTech digital ecosystem.",
+        "@id": "https://resilience-industries.github.io/sitemap.html#webpage",
+        "url": "https://resilience-industries.github.io/sitemap.html",
+        "name": "Accessible Sitemap | Resilience Industries Limited",
+        "description": "Complete navigation directory of all enterprise accessibility auditing portals, academy courses, and policies.",
         "isPartOf": {
-          "@type": "WebSite",
-          "@id": "https://inclusiotech.github.io/#website",
-          "name": "InclusioTech",
-          "url": "https://inclusiotech.github.io/"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Nitesh Kumar",
-          "url": "https://inclusiotech.github.io/"
+          "@id": "https://resilience-industries.github.io/#organization"
         }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://inclusiotech.github.io/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Sitemap",
-            "item": "https://inclusiotech.github.io/sitemap.html"
-          }
-        ]
       }
     ]
   }
   </script>
 
-  <!-- External Unified Stylesheet -->
+  <!-- External Master Stylesheet -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Verified Third-Party SDKs -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6Ldur_MtAAAAAGQlqUGYPk6103KttHViERKln2NF" async defer></script>
+
+  <!-- Master External JavaScript Engine -->
+  <script type="module" src="script.js" defer></script>
 </head>
-<body>
+<body id="top-of-page">
 
-  <!-- 1. ACCESSIBLE SKIP LINKS -->
-  <nav class="skip-links-region" aria-label="Skip links">
-    <a href="#main-content" class="skip-link">Skip to Main Content</a>
-    <a href="#sitemap-navigation" class="skip-link">Skip to Sitemap Directory</a>
-    <a href="#footer-landmark" class="skip-link">Skip to Footer</a>
-  </nav>
+  <!-- Accessible Skip Navigation Links & Sighted Speaker TTS Button -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+  <a href="#main-navigation" class="skip-link">Skip to Navigation Menu</a>
+  <a href="#bottom-of-page" class="skip-link">Skip to Footer</a>
+  <button type="button" id="btn-read-page" class="skip-link" style="left: auto; right: 1rem;" onclick="toggleReadPageAloud()">
+    🔊 Read Website Aloud
+  </button>
 
-  <!-- 2. TELEMETRY RIBBON -->
-  <div class="telemetry-ribbon" aria-label="Live Status Banner">
-    <div class="container ribbon-grid">
-      <div class="ribbon-block">
-        <span id="live-greeting" class="ribbon-highlight">InclusioTech Navigation Portal</span>
-        <span class="divider" aria-hidden="true">|</span>
-        <span id="live-location" tabindex="0">Patna, Bihar, India</span>
-      </div>
-      <div class="ribbon-block ribbon-quote-box" aria-hidden="true">
-        <span class="quote-title">Design Principle: </span>
-        <span id="dynamic-quote" class="quote-text">Transparent navigation enables equal access for all users.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3. ACCESSIBILITY CONTROLS -->
-  <div class="a11y-toolbar-region">
-    <div class="container a11y-toolbar-flex">
-      <span class="toolbar-title" id="toolbar-heading">Accessibility Aids:</span>
-      <div class="toolbar-buttons" role="group" aria-labelledby="toolbar-heading">
-        <button type="button" id="btn-contrast" class="tool-btn" aria-pressed="false">High Contrast</button>
-        <button type="button" id="btn-dyslexic" class="tool-btn" aria-pressed="false">Dyslexic Font</button>
-        <button type="button" id="btn-text-inc" class="tool-btn" aria-label="Increase text size">Font +</button>
-        <button type="button" id="btn-text-dec" class="tool-btn" aria-label="Decrease text size">Font -</button>
-        <button type="button" id="btn-reset-pref" class="tool-btn" aria-label="Reset display preferences">Reset</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. HEADER LANDMARK -->
-  <header role="banner" class="site-header">
-    <div class="container header-flex">
-      <div class="branding-group">
-        <p class="brand-title"><a href="index.html" style="text-decoration: none; color: inherit;">InclusioTech</a></p>
-        <p class="brand-tagline">Digital Accessibility, Screen Reader Enablement & Assistive Tech Directorate</p>
-      </div>
-
-      <div class="header-contact-pills" aria-label="Quick contact links">
-        <a href="tel:+918434721287" class="pill-link" aria-label="Call InclusioTech">+91 8434721287</a>
-        <a href="https://www.linkedin.com/in/Nitesh-Kumar-InclusioTech" target="_blank" rel="noopener noreferrer" class="pill-link" aria-label="LinkedIn Profile">LinkedIn Profile</a>
-      </div>
-    </div>
-
-    <!-- Primary Nav -->
-    <nav class="main-nav" aria-label="Primary Navigation">
-      <div class="container nav-container">
-        <ul class="nav-list">
-          <li><a href="index.html" class="nav-link">Home</a></li>
-          <li><a href="index.html#founder-section" class="nav-link">Founder Profile</a></li>
-          <li><a href="index.html#services-section" class="nav-link">Services</a></li>
-          <li><a href="sitemap.html" class="nav-link active" aria-current="page">Sitemap</a></li>
-          <li><a href="#footer-landmark" class="nav-link">Contact</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <!-- 5. MAIN SITEMAP DIRECTORY -->
-  <main id="main-content" role="main" class="main-content-region">
+  <!-- Banner Landmark -->
+  <header role="banner">
     <div class="container">
       
-      <header class="section-header">
-        <h1>Accessible Website Sitemap</h1>
-        <p>A comprehensive, screen reader optimized directory of all public pages, tools, and technical documentation published by InclusioTech.</p>
-      </header>
-
-      <div id="sitemap-navigation" class="sitemap-grid" style="display: grid; gap: 2rem; margin-top: 2rem;">
+      <div class="banner-grid">
         
-        <!-- Section 1: Core Portal Pages -->
-        <section class="section-card" aria-labelledby="core-pages-heading">
-          <h2 id="core-pages-heading">1. Core Platform Pages</h2>
-          <ul style="line-height: 2;">
-            <li><a href="index.html"><strong>Home Portal (index.html)</strong></a> - The primary gateway detailing InclusioTech's mission, leadership overview, and practice areas.</li>
-            <li><a href="about.html"><strong>About InclusioTech (about.html)</strong></a> - Detailed background of the founder Nitesh Kumar, vision, assistive technology background, and community engagement.</li>
-            <li><a href="services.html"><strong>Services & Practice Areas (services.html)</strong></a> - Overview of WCAG compliance auditing, PDF remediation, and enterprise consulting.</li>
-            <li><a href="contact.html"><strong>Contact & Engagement (contact.html)</strong></a> - Direct contact channels, consultation booking, and official social handles.</li>
-            <li><a href="sitemap.html" aria-current="page"><strong>Accessible HTML Sitemap (sitemap.html)</strong></a> - Current directory page.</li>
-          </ul>
+        <!-- Brand Identity -->
+        <div class="brand-section">
+          <img src="assets/images/logo.png" alt="Resilience Industries Limited Official Logo" class="company-logo" onerror="this.src='logo.png'; this.onerror=null;">
+          <div>
+            <span class="brand-title" style="display: block;">Resilience Industries Limited</span>
+            <p class="brand-tagline">Center for Digital Accessibility, WCAG 2.2 AAA Compliance & Assistive Tech Labs</p>
+          </div>
+        </div>
+
+        <!-- Real-Time Live Widget (Millisecond Precision, Zero Refresh) -->
+        <div class="dynamic-banner-info" role="region" aria-label="Real-time Metrics">
+          <div id="banner-greeting" class="banner-greeting-text">Welcome to Resilience Industries Limited</div>
+          <div class="live-metrics-row">
+            <div>⏰ <span id="live-clock">--:--:--</span></div>
+            <div>📅 <span id="live-calendar">Loading calendar...</span></div>
+          </div>
+          <div id="live-weather">Loading live weather...</div>
+        </div>
+
+        <!-- Clean Accessibility Control Toolbar -->
+        <div class="a11y-controls-group" role="region" aria-label="Accessibility Settings">
+          <button id="btn-dark-mode" class="btn-ctrl" aria-pressed="false" onclick="toggleDarkMode()">🌓 Dark Mode</button>
+          <button id="btn-high-contrast" class="btn-ctrl" aria-pressed="false" onclick="toggleHighContrast()">👁️ High Contrast</button>
+          <button id="btn-font-size" class="btn-ctrl" aria-pressed="false" onclick="toggleFontSize()">🔤 Larger Text</button>
+          <button id="btn-pause-motion" class="btn-ctrl" aria-pressed="false" onclick="togglePauseMotion()">🛑 Pause Motion</button>
+          <button id="btn-auth-action" class="btn-ctrl" onclick="handleAuthButtonClick()">Sign In</button>
+        </div>
+
+      </div>
+
+      <!-- Action Toolbar (Menu & Universal Search Only) -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        
+        <!-- Expandable Navigation Menu with Dedicated Close Button -->
+        <nav id="main-navigation" role="navigation" aria-label="Main Navigation">
+          <button id="menu-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="portal-nav-list" onclick="toggleNavigationMenu()">
+            ☰ Explore Pages Menu
+          </button>
+          
+          <div id="portal-nav-list" class="nav-links-list" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="font-weight: 700; font-size: 0.95rem;">Site Directory</span>
+              <button type="button" class="btn-ctrl" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;" onclick="closeNavigationMenu()">✕ Close Menu</button>
+            </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem;">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="services.html">Services & Pricing</a></li>
+              <li><a href="audits.html">Accessibility Audits</a></li>
+              <li><a href="vpat.html">VPAT / ACR</a></li>
+              <li><a href="courses.html">Courses & Training</a></li>
+              <li><a href="tools.html">Tools & Labs</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="sitemap.html" aria-current="page">Sitemap</a></li>
+              <li><a href="accessibility-statement.html">Accessibility Statement</a></li>
+              <li><a href="privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="terms.html">Terms of Use</a></li>
+              <li><a href="refund-policy.html">Refund Policy</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Expandable & Collapsible Universal Search Engine -->
+        <section role="search" aria-label="Portal Search">
+          <button id="search-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="banner-search-container" onclick="toggleBannerSearch()">
+            🔍 Search Portal
+          </button>
+          <div id="banner-search-container" style="display: none; margin-top: 0.5rem;">
+            <form onsubmit="handleUniversalSearch(event)" style="display: flex; gap: 0.4rem;">
+              <label for="global-search-input" class="sr-only">Search sitemap, directory, pages...</label>
+              <input type="search" id="global-search-input" class="form-control" placeholder="Search sitemap, directory, pages..." required style="min-width: 240px;">
+              <button type="submit" class="btn-primary">Go</button>
+              <button type="button" class="btn-ctrl" onclick="toggleBannerSearch()">✕</button>
+            </form>
+          </div>
         </section>
 
-        <!-- Section 2: Technical & Specialized Resource Pages -->
-        <section class="section-card" aria-labelledby="resources-heading">
-          <h2 id="resources-heading">2. Specialized Training & Accessibility Hubs</h2>
-          <ul style="line-height: 2;">
-            <li><a href="audits.html"><strong>Digital Accessibility Auditing (audits.html)</strong></a> - Methodology for manual screen reader evaluations (NVDA, TalkBack) and keyboard navigability.</li>
-            <li><a href="training.html"><strong>Assistive Technology Training (training.html)</strong></a> - Curriculum outlines for screen reader digital literacy, office productivity, and vocational training.</li>
-            <li><a href="wcag.html"><strong>WCAG 2.1 & 2.2 Standards Hub (wcag.html)</strong></a> - Checklists, success criteria breakdowns, and semantic implementation guides.</li>
-            <li><a href="tools.html"><strong>Accessibility Tools & Shortcuts (tools.html)</strong></a> - Curated repository of NVDA and TalkBack keyboard navigation maps.</li>
-          </ul>
-        </section>
+      </div>
 
-        <!-- Section 3: Professional Credentials & Governance -->
-        <section class="section-card" aria-labelledby="governance-heading">
-          <h2 id="governance-heading">3. Credentials, Governance & Community</h2>
-          <ul style="line-height: 2;">
-            <li><a href="credentials.html"><strong>Certifications & Qualifications (credentials.html)</strong></a> - Verification of DADCA (NAB Delhi / NIIT Foundation), Advanced Excel, and CPACC pathways.</li>
-            <li><a href="rotaract.html"><strong>Rotaract Leadership (rotaract.html)</strong></a> - Community impact initiatives and leadership with Rotaract Club of NAB Delhi.</li>
-            <li><a href="privacy.html"><strong>Accessibility & Privacy Statement (privacy.html)</strong></a> - Data protection principles and digital accessibility commitment.</li>
-          </ul>
-        </section>
+      <div id="user-session-greeting" style="margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700;"></div>
+    </div>
+  </header>
+
+  <!-- Main Content Landmark -->
+  <main id="main-content" role="main">
+    <div class="container">
+      
+      <div class="main-layout-grid">
+        
+        <div class="primary-column">
+          
+          <!-- Section 1: Overview -->
+          <article class="card" aria-labelledby="sitemap-heading">
+            <h1 id="sitemap-heading" style="font-size: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; margin-bottom: 0.8rem;">
+              Accessible Portal Sitemap & Directory
+            </h1>
+            <p style="font-size: 1.05rem; line-height: 1.6;">
+              This sitemap provides a comprehensive, accessible directory of all public pages, service gateways, compliance documentation, and educational masterclasses published by <strong>Resilience Industries Limited (RIL)</strong>.
+            </p>
+            <p style="margin-top: 0.8rem; line-height: 1.6;">
+              Screen reader users can navigate directly between primary categories using standard heading hotkeys (<code>H</code> or <code>2</code>) or jump between hyperlinks (<code>K</code>).
+            </p>
+          </article>
+
+          <!-- Section 2: Core Enterprise Pages -->
+          <section class="card" aria-labelledby="core-pages-title">
+            <h2 id="core-pages-title">1. Core Enterprise Portals</h2>
+            <ul style="list-style: none; margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="index.html" style="color: var(--primary-color);">Home Page (index.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Enterprise digital accessibility consulting overview, baseline audit reservation gateway, core competency pillars, and certified leadership profile.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="about.html" style="color: var(--primary-color);">About Us (about.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Corporate mission, verified credentials of founder Nitesh Kumar (AIIMS-certified, NIIT Foundation distinction), 3-tier auditing philosophy, and laboratory accreditations.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="services.html" style="color: var(--primary-color);">Services & Transparent Pricing (services.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Comprehensive breakdown of WCAG 2.2 AAA manual audits, federal VPAT authoring, direct code remediation, SLA guarantees, and dual currency pricing in INR and USD.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="contact.html" style="color: var(--primary-color);">Contact Us & Inquiries (contact.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Direct formal inquiry desk, bilateral NDA execution requests, vulnerability reports, headquarters coordinates, and 24 to 72 business hours SLA response guarantee.</p>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 3: Auditing & Technical Labs -->
+          <section class="card" aria-labelledby="auditing-labs-title">
+            <h2 id="auditing-labs-title">2. Auditing, Standards & Laboratory Suites</h2>
+            <ul style="list-style: none; margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="audits.html" style="color: var(--primary-color);">Accessibility Auditing Protocols (audits.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Detailed multi-disability testing matrix across blindness (TalkBack, NVDA, JAWS), low vision (7:1 contrast, 400% zoom), motor barriers, and concrete deliverable packages.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="vpat.html" style="color: var(--primary-color);">VPAT® & ACR Authoring (vpat.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Authoring official Voluntary Product Accessibility Templates for Section 508, WCAG, and European EN 301 549 government procurement bids.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="tools.html" style="color: var(--primary-color);">Assistive Technology Tools & Labs (tools.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Inside our hardware testing laboratory: mobile screen reader fleet, desktop screen readers, contrast analyzers, physical keyboards, and real-device testing standards.</p>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 4: Academy & Knowledge Base -->
+          <section class="card" aria-labelledby="academy-kb-title">
+            <h2 id="academy-kb-title">3. Academy & Knowledge Base</h2>
+            <ul style="list-style: none; margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="courses.html" style="color: var(--primary-color);">Courses & Training Masterclasses (courses.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Live masterclasses for developers and QA engineers: Screen Reader Auditing, WAI-ARIA 1.2 Engineering, and Section 508 VPAT Authoring bootcamps.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="faq.html" style="color: var(--primary-color);">Frequently Asked Questions (faq.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Answers to technical, procurement, and legal questions regarding WCAG 2.2 AAA conformance, turnarounds, Razorpay payments, and screen reader audits.</p>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Section 5: Legal, Procurement & Compliance Declarations -->
+          <section class="card" aria-labelledby="legal-policies-title">
+            <h2 id="legal-policies-title">4. Legal, Procurement & Policy Declarations</h2>
+            <ul style="list-style: none; margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="accessibility-statement.html" style="color: var(--primary-color);">Accessibility Statement (accessibility-statement.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Official declaration of WCAG 2.2 Level AAA full conformance, technical implementation measures, assessment methodology, and feedback escalation protocol.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="privacy-policy.html" style="color: var(--primary-color);">Privacy Policy (privacy-policy.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Enterprise confidentiality standards, handling of audit staging data, Firebase authentication security, and GDPR/IT Act data protection commitments.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="terms.html" style="color: var(--primary-color);">Terms of Use (terms.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Contractual rules governing consulting engagements, intellectual property ownership of remediation code, and bilateral non-disclosure agreements.</p>
+              </li>
+              <li style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <h3 style="font-size: 1.15rem; margin-bottom: 0.3rem;"><a href="refund-policy.html" style="color: var(--primary-color);">Refund & Cancellation Policy (refund-policy.html)</a></h3>
+                <p style="font-size: 0.95rem; line-height: 1.5;">Transparent statutory terms required for merchant audit authorization, payment processing timelines, and dispute resolution guidelines.</p>
+              </li>
+            </ul>
+          </section>
+
+        </div>
+
+        <!-- Complementary Landmark -->
+        <aside role="complementary" aria-label="Corporate Headquarters & Navigation Assistance">
+          
+          <div class="card">
+            <h3>Registered Headquarters</h3>
+            <p><strong>Resilience Industries Limited</strong></p>
+            <p style="margin-top: 0.4rem;">Director: <strong>Nitesh Kumar</strong></p>
+            <p style="margin-top: 0.6rem;">📍 Dinkar Nagar, Dahibhatta, Ward 1, Masaurhi, Patna, Bihar - 804452</p>
+            <p style="margin-top: 0.4rem;">📞 <a href="tel:+918434721287" style="color: var(--primary-color); text-decoration: none;">+91 8434721287</a></p>
+            <p>✉️ <a href="mailto:niteshkumar91845@gmail.com" style="color: var(--primary-color); word-break: break-all; text-decoration: none;">niteshkumar91845@gmail.com</a></p>
+          </div>
+
+          <div class="card">
+            <h3>Navigation Assistance</h3>
+            <p style="font-size: 0.95rem; line-height: 1.5;">
+              Looking for a specific audit package, code standard, or training schedule? You can also use our universal keyword search located in the action bar above.
+            </p>
+            <div style="margin-top: 1rem;">
+              <button type="button" class="btn-primary" style="width: 100%;" onclick="toggleBannerSearch()">
+                🔍 Open Search Portal
+              </button>
+            </div>
+          </div>
+
+        </aside>
 
       </div>
 
     </div>
   </main>
 
-  <!-- 6. FOOTER LANDMARK -->
-  <footer id="footer-landmark" role="contentinfo" class="site-footer">
-    <div class="container footer-content">
-      <div class="footer-info">
-        <h2>InclusioTech Directorate</h2>
-        <p><strong>Founder:</strong> Nitesh Kumar</p>
-        <p><strong>Phone:</strong> <a href="tel:+918434721287">+91 8434721287</a></p>
-        <p><strong>Location:</strong> Patna, Bihar, India</p>
-        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/Nitesh-Kumar-InclusioTech" target="_blank" rel="noopener noreferrer">linkedin.com/in/Nitesh-Kumar-InclusioTech</a></p>
-        <p><strong>GitHub:</strong> <a href="https://github.com/inclusiotech" target="_blank" rel="noopener noreferrer">github.com/inclusiotech</a></p>
+  <!-- Footer Landmark -->
+  <footer id="bottom-of-page" role="contentinfo">
+    <div class="container">
+      
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <a href="#top-of-page" class="btn-ctrl" style="text-decoration: none; font-size: 0.9rem;">⬆ Back to Top</a>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 InclusioTech. All Rights Reserved. Built with universal accessibility and semantic standards.</p>
+
+      <div class="footer-grid">
+        
+        <div class="analytics-widget" role="region" aria-label="Public Usage Analytics">
+          <h3>Public Usage Analytics</h3>
+          <p style="font-size: 0.9rem; margin-bottom: 0.6rem;">Real-time transparency statistics:</p>
+          <div class="analytics-stat-row">
+            <span>Total Pageviews:</span>
+            <span id="analytics-pageviews" class="analytics-stat-val">0</span>
+          </div>
+          <div class="analytics-stat-row">
+            <span>Active Sessions:</span>
+            <span id="analytics-sessions" class="analytics-stat-val">0</span>
+          </div>
+          <div class="analytics-stat-row">
+            <span>Deep Reads (80%+):</span>
+            <span id="analytics-reads" class="analytics-stat-val">0</span>
+          </div>
+        </div>
+
+        <div>
+          <h3>Policies & Compliance</h3>
+          <ul style="list-style: none; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li><a href="terms.html" style="color: var(--text-color);">Terms of Use</a></li>
+            <li><a href="privacy-policy.html" style="color: var(--text-color);">Privacy Policy</a></li>
+            <li><a href="refund-policy.html" style="color: var(--text-color);">Refund & Cancellation Policy</a></li>
+            <li><a href="accessibility-statement.html" style="color: var(--text-color);">Accessibility Statement</a></li>
+            <li><a href="sitemap.html" style="color: var(--text-color);">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Official Channels</h3>
+          <ul style="list-style: none; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li><a href="https://www.linkedin.com/company/resilience-industries-limited" target="_blank" rel="noopener noreferrer" style="color: var(--text-color);">LinkedIn Organization</a></li>
+            <li><a href="https://www.linkedin.com/in/nitesh-kumar-AT" target="_blank" rel="noopener noreferrer" style="color: var(--text-color);">LinkedIn Personal Profile</a></li>
+            <li><a href="https://github.com/resilience-industries/resilience-industries.github.io" target="_blank" rel="noopener noreferrer" style="color: var(--text-color);">GitHub Source Repository</a></li>
+          </ul>
+        </div>
+
       </div>
+
+      <div class="copyright-bar">
+        <p>&copy; 2026 Resilience Industries Limited. All Rights Reserved. Engineered strictly to WCAG 2.2 AAA & WAI-ARIA 1.2 Standards.</p>
+      </div>
+
     </div>
   </footer>
+
+  <!-- Unified Auth Modal -->
+  <div id="auth-gate-modal" class="auth-gate-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" style="display: none;">
+    <div class="auth-gate-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <h2 id="auth-modal-title" style="font-size: 1.25rem;">Enterprise Portal Sign In</h2>
+        <button type="button" class="btn-ctrl" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;" onclick="closeAuthModal()">✕ Close</button>
+      </div>
+
+      <div id="auth-view-login">
+        <p style="margin-bottom: 1.25rem; font-size: 0.95rem;">Please authenticate to access auditing reservations, lab tools, and client portals.</p>
+
+        <button type="button" class="btn-ctrl" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.8rem; font-size: 1rem; border-color: var(--primary-color);" onclick="handleGoogleSignIn()">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div style="display: flex; align-items: center; margin: 1.25rem 0;">
+          <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
+          <span style="padding: 0 0.8rem; font-size: 0.85rem; font-weight: bold;">OR WITH EMAIL</span>
+          <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
+        </div>
+
+        <form onsubmit="handleUserEmailLogin(event)">
+          <div class="form-field">
+            <label for="auth-login-email">Registered Email Address:</label>
+            <input type="email" id="auth-login-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <div class="form-field">
+            <label for="auth-login-pass">Password:</label>
+            <input type="password" id="auth-login-pass" class="form-control" required autocomplete="current-password" placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
+        </form>
+
+        <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); text-align: left; cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('reset')">
+            Forgot password? Click here to reset
+          </button>
+          <button type="button" style="background: none; border: none; color: var(--primary-color); text-align: left; cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('signup')">
+            New to Resilience Industries? Click here to register
+          </button>
+        </div>
+      </div>
+
+      <div id="auth-view-signup" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Create your client account for official audits, reports, and courses:</p>
+        <form onsubmit="handleUserSignUp(event)">
+          <div class="form-field">
+            <label for="auth-signup-name">Full Name:</label>
+            <input type="text" id="auth-signup-name" class="form-control" required placeholder="John Doe">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-country">Country of Residence:</label>
+            <select id="auth-signup-country" class="form-control" required>
+              <option value="India" selected>India</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+              <option value="United Arab Emirates">United Arab Emirates</option>
+              <option value="Germany">Germany</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-email">Official Email Address:</label>
+            <input type="email" id="auth-signup-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-pass">Create Password:</label>
+            <input type="password" id="auth-signup-pass" class="form-control" required autocomplete="new-password" placeholder="Minimum 6 characters">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-confirm">Confirm Password:</label>
+            <input type="password" id="auth-signup-confirm" class="form-control" required autocomplete="new-password" placeholder="Re-enter password">
+          </div>
+          <div class="form-field" style="margin: 1rem 0; background: var(--surface-color); padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+            <label style="display: flex; align-items: flex-start; gap: 0.6rem; font-weight: normal; font-size: 0.9rem; cursor: pointer;">
+              <input type="checkbox" id="auth-signup-declaration" required style="margin-top: 0.2rem;">
+              <span>I declare that I have read and agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>, <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>, and <a href="refund-policy.html" target="_blank" rel="noopener noreferrer">Refund Policy</a>.</span>
+            </label>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Create Account & Send Verification Link</button>
+        </form>
+        <div style="margin-top: 1rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('login')">
+            ← Already have an account? Sign In
+          </button>
+        </div>
+      </div>
+
+      <div id="auth-view-reset" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Enter your registered email to receive official password reset instructions:</p>
+        <form onsubmit="handlePasswordReset(event)">
+          <div class="form-field">
+            <label for="auth-reset-email">Registered Email Address:</label>
+            <input type="email" id="auth-reset-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Verify & Send Reset Link</button>
+        </form>
+        <div style="margin-top: 1rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('login')">
+            ← Remember your password? Back to Sign In
+          </button>
+        </div>
+      </div>
+
+      <div id="auth-view-newpassword" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Enter your new password below to update your account credentials:</p>
+        <form onsubmit="handleConfirmNewPassword(event)">
+          <div class="form-field">
+            <label for="auth-new-pass">New Password:</label>
+            <input type="password" id="auth-new-pass" class="form-control" required autocomplete="new-password" placeholder="Minimum 6 characters">
+          </div>
+          <div class="form-field">
+            <label for="auth-new-confirm">Confirm New Password:</label>
+            <input type="password" id="auth-new-confirm" class="form-control" required autocomplete="new-password" placeholder="Re-enter new password">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Update Password</button>
+        </form>
+      </div>
+
+      <div id="resend-verification-container" style="display: none; margin-top: 1rem; text-align: center; font-size: 0.9rem;">
+        <span id="resend-timer-text">Resend link in 60s</span>
+        <button type="button" id="btn-resend-link" class="btn-ctrl" style="display: none; margin: 0.5rem auto 0; font-size: 0.85rem;">Resend Link Now</button>
+      </div>
+
+      <div id="auth-status-message" class="auth-status-alert" role="status" aria-live="polite"></div>
+    </div>
+  </div>
 
 </body>
 </html>
