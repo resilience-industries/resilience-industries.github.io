@@ -1,435 +1,571 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <!-- =====================================================================
-       ENTERPRISE METADATA & ACCESSIBILITY DIRECTIVES
-       Entity: N-Labs (Nitesh Inclusion Labs)
-       Directorate: Nitesh Kumar (Founder, CEO & Director)
-       Compliance Standards: W3C WCAG 2.0/2.1/2.2 (Level AAA) & WAI-ARIA 1.2
-       Page Scope: Dedicated Enterprise Accessibility Services
-       Timestamp: Wednesday, October 7, 2026 - IST
-       ===================================================================== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Enterprise Services | N-Labs (Nitesh Inclusion Labs) - Audits & Remediation</title>
+  <title>Services & Pricing | Resilience Industries Limited - Digital Accessibility Labs</title>
   
-  <meta name="description" content="Explore the 5 core enterprise digital accessibility services provided by N-Labs under Nitesh Kumar: Comprehensive WCAG 2.2 Audits, PDF/UA Document Remediation, Developer Code Remediation, Corporate Training, and Assistive UAT.">
-  <meta name="keywords" content="Accessibility Services, Web Accessibility Audits, PDF Remediation, PDF/UA, VPAT Creation, Section 508 Compliance, WCAG 2.2 AAA Audits, N-Labs Services, Nitesh Kumar">
+  <!-- Primary SEO Metadata -->
+  <meta name="description" content="Certified WCAG 2.2 AAA accessibility audits, federal VPAT authoring, and assistive tech testing by Nitesh Kumar. Transparent market pricing in INR and USD.">
+  <meta name="keywords" content="Accessibility Services Pricing, WCAG 2.2 AAA Audit Cost, VPAT ACR Pricing, Section 508 Testing, TalkBack NVDA Audit, Nitesh Kumar">
   <meta name="author" content="Nitesh Kumar">
   <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0b3d91">
+  <link rel="canonical" href="https://resilience-industries.github.io/services.html">
 
-  <!-- External Unified Stylesheet -->
+  <!-- Social Open Graph & Twitter Cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://resilience-industries.github.io/services.html">
+  <meta property="og:title" content="Services & Pricing | Resilience Industries Limited">
+  <meta property="og:description" content="Certified WCAG 2.2 AAA audits, federal VPAT authoring, and manual screen reader testing conducted by specialist auditors.">
+  <meta property="og:image" content="https://resilience-industries.github.io/assets/images/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Services | Resilience Industries Limited">
+  <meta name="twitter:description" content="Enterprise digital accessibility audits and assistive technology validation.">
+  <meta name="twitter:image" content="https://resilience-industries.github.io/assets/images/logo.png">
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://resilience-industries.github.io/services.html#wcag-audit",
+        "name": "WCAG 2.2 AAA Accessibility Audit",
+        "provider": {
+          "@id": "https://resilience-industries.github.io/#organization"
+        },
+        "serviceType": "Digital Accessibility Testing",
+        "description": "Comprehensive manual assistive technology and automated structural testing conforming strictly to WCAG 2.2 AAA criteria."
+      },
+      {
+        "@type": "Service",
+        "@id": "https://resilience-industries.github.io/services.html#vpat-acr",
+        "name": "VPAT and ACR Production",
+        "provider": {
+          "@id": "https://resilience-industries.github.io/#organization"
+        },
+        "serviceType": "Regulatory Compliance Documentation",
+        "description": "Authoring official Voluntary Product Accessibility Templates for Section 508 and EN 301 549 procurement mandates."
+      }
+    ]
+  }
+  </script>
+
+  <!-- External Master Stylesheet -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Verified Third-Party SDKs -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6Ldur_MtAAAAAGQlqUGYPk6103KttHViERKln2NF" async defer></script>
+
+  <!-- Master External JavaScript Engine -->
+  <script type="module" src="script.js" defer></script>
 </head>
-<body>
+<body id="top-of-page">
 
-  <!-- =====================================================================
-       1. ACCESSIBLE SKIP LINKS (WCAG 2.4.1 BYPASS BLOCKS)
-       ===================================================================== -->
-  <nav class="skip-links-region" aria-label="Skip links">
-    <a href="#main-content" class="skip-link">Skip to Main Content</a>
-    <a href="#menu-toggle-btn" class="skip-link">Skip to Website Navigation</a>
-    <a href="#footer-landmark" class="skip-link">Skip to Footer</a>
-  </nav>
+  <!-- Accessible Skip Navigation Links & Sighted Speaker TTS Button -->
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+  <a href="#main-navigation" class="skip-link">Skip to Navigation Menu</a>
+  <a href="#bottom-of-page" class="skip-link">Skip to Footer</a>
+  <button type="button" id="btn-read-page" class="skip-link" style="left: auto; right: 1rem;" onclick="toggleReadPageAloud()">
+    🔊 Read Website Aloud
+  </button>
 
-  <!-- =====================================================================
-       2. TOP ENVIRONMENTAL TELEMETRY RIBBON
-       ===================================================================== -->
-  <div class="telemetry-ribbon" aria-label="Environmental live status">
-    <div class="container ribbon-grid">
-      <div class="ribbon-block">
-        <span id="live-greeting" class="ribbon-highlight">Good Afternoon | Welcome to N-Labs</span>
-        <span class="divider" aria-hidden="true">|</span>
-        <span id="live-clock" tabindex="0">05:02:58 PM</span>
-      </div>
-      <div class="ribbon-block">
-        <span id="live-date" tabindex="0">Wednesday, 07 October 2026</span>
-      </div>
-      <div class="ribbon-block">
-        <span id="live-location" tabindex="0">Patna, Bihar, India</span>
-        <span class="divider" aria-hidden="true">|</span>
-        <span id="live-weather" tabindex="0">29°C | Clear | AQI: 118</span>
-      </div>
-      <div class="ribbon-block ribbon-quote-box" aria-hidden="true">
-        <span class="quote-title">Thought: </span>
-        <span id="dynamic-quote" class="quote-text">Universal design makes independence an unconditional reality.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- =====================================================================
-       3. CROSS-DISABILITY ACCESSIBILITY DISPLAY CONTROLS
-       ===================================================================== -->
-  <div class="a11y-toolbar-region">
-    <div class="container a11y-toolbar-flex">
-      <span class="toolbar-title" id="toolbar-heading">Accessibility Aids:</span>
-      <div class="toolbar-buttons" role="group" aria-labelledby="toolbar-heading">
-        <button type="button" id="btn-contrast" class="tool-btn" aria-pressed="false">High Contrast</button>
-        <button type="button" id="btn-dyslexic" class="tool-btn" aria-pressed="false">Dyslexic Font</button>
-        <button type="button" id="btn-text-inc" class="tool-btn" aria-label="Increase text size">Font +</button>
-        <button type="button" id="btn-text-dec" class="tool-btn" aria-label="Decrease text size">Font -</button>
-        <button type="button" id="btn-reset-pref" class="tool-btn" aria-label="Reset display preferences">Reset</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- =====================================================================
-       4. HEADER LANDMARK (ROLE="BANNER")
-       ===================================================================== -->
-  <header role="banner" class="site-header">
-    <div class="container header-flex">
+  <!-- Banner Landmark -->
+  <header role="banner">
+    <div class="container">
       
-      <!-- Brand & Leadership Summary -->
-      <div class="branding-group">
-        <h1 id="site-heading">
-          <span class="brand-title">N-Labs</span> 
-          <span class="brand-subtitle">(Nitesh Inclusion Labs)</span>
-        </h1>
-        <p class="brand-tagline">Enterprise Accessibility Auditing, Technical Code Remediation & Corporate Inclusion Services</p>
+      <div class="banner-grid">
         
-        <button type="button" id="btn-profile-drawer" class="btn-drawer-toggle" aria-expanded="false" aria-controls="founder-profile-drawer">
-          <span id="drawer-toggle-text">Show Leadership Synopsis &darr;</span>
-        </button>
-
-        <div id="founder-profile-drawer" class="profile-drawer-content" hidden>
-          <div class="drawer-card">
-            <h3>Leadership & Identity Profile</h3>
-            <p><strong>Founder, CEO & Director:</strong> Nitesh Kumar</p>
-            <p><strong>Operational Philosophy:</strong> 100% Visually Impaired, daily native screen reader power user (NVDA, TalkBack, JAWS). Providing authentic non-visual verification combined with international compliance engineering.</p>
-            <p><strong>Credentials:</strong> NAB Delhi DADCA, NIIT Career Edge IT (94%), Deque IAAP CPACC Track, Web Accessibility Fundamentals, and Accessible Document Specialist (ADS).</p>
-            <p><strong>Base:</strong> Dinkar Nagar, Dahi Bhatta, Masaurhi, Patna, Bihar, India (PIN: 804452).</p>
-            <p><a href="about.html" class="btn-link">Read Full Founder Journey on About Page &rarr;</a></p>
+        <!-- Brand Identity -->
+        <div class="brand-section">
+          <img src="assets/images/logo.png" alt="Resilience Industries Limited Official Logo" class="company-logo" onerror="this.src='logo.png'; this.onerror=null;">
+          <div>
+            <span class="brand-title" style="display: block;">Resilience Industries Limited</span>
+            <p class="brand-tagline">Center for Digital Accessibility, WCAG 2.2 AAA Compliance & Assistive Tech Labs</p>
           </div>
         </div>
-      </div>
 
-      <!-- Navigation & Header Search -->
-      <div class="header-menu-container">
-        
-        <form id="universal-search" role="search" aria-label="Universal Site Search" class="universal-search-form" onsubmit="event.preventDefault(); window.executeGlobalSearch();">
-          <label for="search-input" class="sr-only">Search all pages, courses, tools, and articles:</label>
-          <div class="search-input-group">
-            <input type="search" id="search-input" name="q" placeholder="Search entire portal..." required autocomplete="off">
-            <button type="submit" class="btn-search-submit">Search</button>
+        <!-- Real-Time Live Widget (Millisecond Precision, Zero Refresh) -->
+        <div class="dynamic-banner-info" role="region" aria-label="Real-time Metrics">
+          <div id="banner-greeting" class="banner-greeting-text">Welcome to Resilience Industries Limited</div>
+          <div class="live-metrics-row">
+            <div>⏰ <span id="live-clock">--:--:--</span></div>
+            <div>📅 <span id="live-calendar">Loading calendar...</span></div>
           </div>
-        </form>
+          <div id="live-weather">Loading live weather...</div>
+        </div>
 
-        <button type="button" id="menu-toggle-btn" class="btn-menu-toggle" aria-expanded="false" aria-controls="global-dropdown-menu" aria-label="Open Website Main Navigation Menu">
-          <span class="menu-icon" aria-hidden="true">&#9776;</span>
-          <span class="menu-text">Website Menu</span>
-        </button>
+        <!-- Clean Accessibility Control Toolbar -->
+        <div class="a11y-controls-group" role="region" aria-label="Accessibility Settings">
+          <button id="btn-dark-mode" class="btn-ctrl" aria-pressed="false" onclick="toggleDarkMode()">🌓 Dark Mode</button>
+          <button id="btn-high-contrast" class="btn-ctrl" aria-pressed="false" onclick="toggleHighContrast()">👁️ High Contrast</button>
+          <button id="btn-font-size" class="btn-ctrl" aria-pressed="false" onclick="toggleFontSize()">🔤 Larger Text</button>
+          <button id="btn-pause-motion" class="btn-ctrl" aria-pressed="false" onclick="togglePauseMotion()">🛑 Pause Motion</button>
+          <button id="btn-auth-action" class="btn-ctrl" onclick="handleAuthButtonClick()">Sign In</button>
+        </div>
 
-        <nav id="global-dropdown-menu" class="dropdown-menu-list" role="navigation" aria-label="Universal Site Pages" hidden>
-          <ul class="menu-items">
-            <li><a href="index.html" class="menu-link">1. Home Page</a></li>
-            <li><a href="about.html" class="menu-link">2. About N-Labs (Story, Vision, Mission)</a></li>
-            <li><a href="services.html" class="menu-link current-page" aria-current="page">3. Core Enterprise Services</a></li>
-            <li><a href="courses.html" class="menu-link">4. Professional Courses (₹99 & ₹299 Batches)</a></li>
-            <li><a href="tools.html" class="menu-link">5. Audit Engines & Tools</a></li>
-            <li><a href="articles.html" class="menu-link">6. Articles & Publications</a></li>
-            <li><a href="faq.html" class="menu-link">7. Frequently Asked Questions (FAQ)</a></li>
-            <li><a href="contact.html" class="menu-link">8. Contact, Inquiries & Feedback</a></li>
-            <li><a href="register.html" class="menu-link">9. Course Registration Portal</a></li>
-            <li><a href="auth.html" class="menu-link">10. Client Portal Access (Sign Up / Login)</a></li>
-            <li><a href="privacy.html" class="menu-link">11. Privacy Policy</a></li>
-            <li><a href="terms.html" class="menu-link">12. Terms of Use & Disclaimer</a></li>
-            <li><a href="sitemap.html" class="menu-link">13. Universal Sitemap Index</a></li>
-          </ul>
-        </nav>
       </div>
 
+      <!-- Action Toolbar (Menu & Universal Search Only) -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        
+        <!-- Expandable Navigation Menu with Dedicated Close Button -->
+        <nav id="main-navigation" role="navigation" aria-label="Main Navigation">
+          <button id="menu-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="portal-nav-list" onclick="toggleNavigationMenu()">
+            ☰ Explore Pages Menu
+          </button>
+          
+          <div id="portal-nav-list" class="nav-links-list" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="font-weight: 700; font-size: 0.95rem;">Site Directory</span>
+              <button type="button" class="btn-ctrl" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;" onclick="closeNavigationMenu()">✕ Close Menu</button>
+            </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem;">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="services.html" aria-current="page">Services & Pricing</a></li>
+              <li><a href="audits.html">Accessibility Audits</a></li>
+              <li><a href="vpat.html">VPAT / ACR</a></li>
+              <li><a href="courses.html">Courses & Training</a></li>
+              <li><a href="tools.html">Tools & Labs</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="signup.html">Sign Up</a></li>
+              <li><a href="sitemap.html">Sitemap</a></li>
+              <li><a href="accessibility-statement.html">Accessibility Statement</a></li>
+              <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Expandable & Collapsible Universal Search Engine -->
+        <section role="search" aria-label="Portal Search">
+          <button id="search-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="banner-search-container" onclick="toggleBannerSearch()">
+            🔍 Search Portal
+          </button>
+          <div id="banner-search-container" style="display: none; margin-top: 0.5rem;">
+            <form onsubmit="handleUniversalSearch(event)" style="display: flex; gap: 0.4rem;">
+              <label for="global-search-input" class="sr-only">Search services, audits, pricing...</label>
+              <input type="search" id="global-search-input" class="form-control" placeholder="Search services, audits, pricing..." required style="min-width: 240px;">
+              <button type="submit" class="btn-primary">Go</button>
+              <button type="button" class="btn-ctrl" onclick="toggleBannerSearch()">✕</button>
+            </form>
+          </div>
+        </section>
+
+      </div>
+
+      <div id="user-session-greeting" style="margin-top: 0.5rem; font-size: 0.9rem; font-weight: 700;"></div>
     </div>
   </header>
 
-  <!-- =====================================================================
-       5. MAIN PAGE LAYOUT: TWO-COLUMN ENTERPRISE GRID
-       ===================================================================== -->
-  <div class="container page-layout">
-
-    <!-- ===================================================================
-         MAIN LANDMARK (ROLE="MAIN")
-         Contains: Overview and 5 Comprehensive Enterprise Services.
-         =================================================================== -->
-    <main id="main-content" role="main" tabindex="-1">
-
-      <section class="card">
-        <h2>Enterprise Digital Accessibility Services</h2>
-        <p>
-          At <strong>N-Labs (Nitesh Inclusion Labs)</strong>, digital accessibility is approached as mission-critical civil engineering. 
-          Under the direct technical supervision of <strong>Nitesh Kumar</strong>, our practice provides organizations with an authentic, 
-          dual-engine methodology: combining rigorous automated syntax sweeps with expert manual screen reader evaluations. 
-        </p>
-        <p>
-          Whether your goal is satisfying international compliance mandates (ADA Title III, Section 508, European Accessibility Act EN 301 549, GIGW 3.0) 
-          or unlocking full product operability for disabled users, our 5 core services deliver verified results.
-        </p>
-      </section>
-
-      <!-- SERVICE 1 -->
-      <section class="card">
-        <h2>1. Comprehensive Web & Mobile Accessibility Auditing</h2>
-        <p>
-          Automated checkers miss over 60% of real-world barriers. Our full-scale auditing service delivers exhaustive evaluation across public websites, 
-          enterprise SaaS applications, and native mobile platforms (Android and iOS).
-        </p>
-        <h3>Scope & Methodology</h3>
-        <ul class="clean-bullet-list">
-          <li><strong>Standards Evaluated:</strong> W3C WCAG 2.0, 2.1, and 2.2 across Levels A, AA, and AAA; Section 508; GIGW.</li>
-          <li><strong>Dual-Engine Testing:</strong> Automated code scanning (axe-core, Lighthouse) coupled with 100% manual assistive interaction.</li>
-          <li><strong>Assistive Tech Stack:</strong> NVDA and JAWS on Chromium/Firefox (Windows), VoiceOver on Safari (macOS/iOS), TalkBack on Chrome (Android).</li>
-          <li><strong>Keyboard Only Verification:</strong> Systematic validation of tab order, focus indicators, modal dialog traps, and bypass mechanisms.</li>
-        </ul>
-        <h3>Deliverables Provided</h3>
-        <p>
-          A prioritized Executive Conformance Summary, a developer-ready Defect Sheet (with exact steps to reproduce and code snippets), 
-          and an official Voluntary Product Accessibility Template (VPAT / ACR) ready for enterprise procurement.
-        </p>
-        <div class="auth-quick-actions">
-          <a href="contact.html?service=audit" class="btn-primary-action">Commission an Audit &rarr;</a>
-        </div>
-      </section>
-
-      <!-- SERVICE 2 -->
-      <section class="card">
-        <h2>2. PDF & Electronic Document Remediation (PDF/UA ISO 14289)</h2>
-        <p>
-          Inaccessible documents represent an invisible barrier across corporate annual reports, public policy notices, educational handouts, and banking statements. 
-          Grounded in the <strong>Accessible Document Specialist (ADS)</strong> domain, N-Labs remediates high-volume document archives to full universal readability.
-        </p>
-        <h3>Scope & Methodology</h3>
-        <ul class="clean-bullet-list">
-          <li><strong>Supported Formats:</strong> Adobe PDF, Microsoft Word (.docx), Microsoft Excel (.xlsx), PowerPoint (.pptx).</li>
-          <li><strong>Structural Tagging:</strong> Establishing logical document heading trees (H1–H6), paragraphs, lists, and artifact tags for decorative elements.</li>
-          <li><strong>Complex Data Tables:</strong> Remediation of multi-tier tabular data with explicit row/column headers and scope mapping.</li>
-          <li><strong>Alternative Text Formulation:</strong> Crafting concise, context-aware descriptions for charts, diagrams, and organizational logos.</li>
-          <li><strong>Compliance Verification:</strong> PAC (PDF Accessibility Checker) validation alongside manual NVDA/TalkBack reading verification.</li>
-        </ul>
-        <h3>Deliverables Provided</h3>
-        <p>
-          100% tagged, certified accessible documents conforming to PDF/UA (ISO 14289) and WCAG 2.1/2.2 AA document standards.
-        </p>
-        <div class="auth-quick-actions">
-          <a href="contact.html?service=remediation" class="btn-primary-action">Request Document Remediation &rarr;</a>
-        </div>
-      </section>
-
-      <!-- SERVICE 3 -->
-      <section class="card">
-        <h2>3. Technical Developer Remediation & WAI-ARIA Engineering</h2>
-        <p>
-          Traditional audit reports frequently overwhelm developers with compliance jargon without providing actionable code. 
-          N-Labs bridges the engineering gap by working directly within your code repository to supply clean, standards-compliant solutions.
-        </p>
-        <h3>Scope & Methodology</h3>
-        <ul class="clean-bullet-list">
-          <li><strong>Semantic HTML5 Refactoring:</strong> Replacing generic clickable divs with native semantic buttons, anchors, and form elements.</li>
-          <li><strong>WAI-ARIA 1.2 Implementation:</strong> Correct application of landmark roles, aria-expanded, aria-controls, aria-live, and modal dialog patterns.</li>
-          <li><strong>Focus Management Architecture:</strong> Writing vanilla JavaScript routines to handle focus trapping in popups and restoring focus on dismissal.</li>
-          <li><strong>Custom Component Design:</strong> Engineering custom accordions, tabsets, carousels, and complex grids that mirror W3C APG patterns.</li>
-        </ul>
-        <h3>Deliverables Provided</h3>
-        <p>
-          Copy-paste production code snippets, pull request reviews, and direct consultations with your front-end development leads.
-        </p>
-        <div class="auth-quick-actions">
-          <a href="contact.html?service=engineering" class="btn-primary-action">Hire Technical Consulting &rarr;</a>
-        </div>
-      </section>
-
-      <!-- SERVICE 4 -->
-      <section class="card">
-        <h2>4. Corporate Accessibility Training & SOP Governance</h2>
-        <p>
-          Building sustainable digital inclusion requires shifting left—empowering your product managers, UI/UX designers, and quality assurance engineers 
-          to incorporate accessibility into every sprint of the software development lifecycle (SDLC).
-        </p>
-        <h3>Scope & Methodology</h3>
-        <ul class="clean-bullet-list">
-          <li><strong>Executive Briefings:</strong> Understanding global compliance litigation, ADA risk mitigation, and the business ROI of universal access.</li>
-          <li><strong>UI/UX Design Workshops:</strong> Color contrast rules, target sizing, non-color visual cues, and accessible wireframing.</li>
-          <li><strong>QA & Tester Enablement:</strong> Practical keyboard-only test scripts, installing and operating NVDA for automated sprint checks.</li>
-          <li><strong>Accessibility SOP Development:</strong> Crafting organization-wide Standard Operating Procedures and definition-of-done checklists.</li>
-        </ul>
-        <h3>Deliverables Provided</h3>
-        <p>
-          Interactive live training workshops via Google Meet, recorded session modules, customized QA checklists, and corporate design guides.
-        </p>
-        <div class="auth-quick-actions">
-          <a href="contact.html?service=training" class="btn-primary-action">Schedule Corporate Training &rarr;</a>
-        </div>
-      </section>
-
-      <!-- SERVICE 5 -->
-      <section class="card">
-        <h2>5. Native Assistive Device User Acceptance Testing (UAT)</h2>
-        <p>
-          Compliance on paper does not guarantee authentic usability. N-Labs conducts authentic User Acceptance Testing performed directly by 
-          native screen reader power users who interact with assistive computing systems on a daily basis.
-        </p>
-        <h3>Scope & Methodology</h3>
-        <ul class="clean-bullet-list">
-          <li><strong>Real-World Task Completion:</strong> Validating critical user journeys including sign-up, complex checkouts, banking transfers, and form submissions.</li>
-          <li><strong>Friction & Cognitive Load Analysis:</strong> Identifying verbose ARIA announcements, erratic focus shifts, and disruptive live region spamming.</li>
-          <li><strong>Cross-Platform Compatibility:</strong> Verifying identical functional dignity across mobile (Android/iOS) and desktop platforms.</li>
-        </ul>
-        <h3>Deliverables Provided</h3>
-        <p>
-          Screen-recorded assistive testing videos with live spoken commentary, non-visual friction logs, and qualitative user experience feedback.
-        </p>
-        <div class="auth-quick-actions">
-          <a href="contact.html?service=uat" class="btn-primary-action">Book Assistive UAT Testing &rarr;</a>
-        </div>
-      </section>
-
-      <!-- Dynamic Search Results Display Container -->
-      <section id="search-results-panel" class="card" style="display:none;">
-        <h2>Universal Site Search Results</h2>
-        <div id="search-results-container" role="region" aria-live="polite"></div>
-        <button type="button" class="btn-search-close" onclick="document.getElementById('search-results-panel').style.display='none';">Close Search Results</button>
-      </section>
-
-    </main>
-    <!-- END MAIN LANDMARK -->
-
-    <!-- ===================================================================
-         COMPLEMENTARY LANDMARK (ROLE="COMPLEMENTARY")
-         Supporting sidebar content: Service guarantee, audit standards, and contact.
-         =================================================================== -->
-    <aside id="complementary-section" role="complementary" aria-label="Service Guarantees & Verification">
+  <!-- Main Content Landmark -->
+  <main id="main-content" role="main">
+    <div class="container">
       
-      <!-- Box 1: Verified Guarantees -->
-      <section class="card">
-        <h3>Our Service Guarantee</h3>
-        <ul class="clean-bullet-list">
-          <li><strong>Zero Automated-Only Fluff:</strong> Every audit is backed by thorough manual keyboard and screen reader verification.</li>
-          <li><strong>Actionable Code Fixes:</strong> We deliver working code snippets, not vague compliance criticism.</li>
-          <li><strong>Strict Confidentiality:</strong> Non-disclosure agreements (NDAs) respected across all commercial testing.</li>
-          <li><strong>Authentic Expertise:</strong> Audited under lived non-visual operational rigor.</li>
-        </ul>
-      </section>
+      <div class="main-layout-grid">
+        
+        <div class="primary-column">
+          
+          <!-- Section 1: Overview -->
+          <article class="card" aria-labelledby="services-overview-title">
+            <h1 id="services-overview-title" style="font-size: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; margin-bottom: 0.8rem;">
+              Professional Digital Accessibility Services & Pricing
+            </h1>
+            <p style="font-size: 1.05rem; line-height: 1.6;">
+              Resilience Industries Limited delivers authentic, manual assistive technology audits, federal VPAT authoring, and direct code remediation. Every assessment is executed with native screen readers (TalkBack, NVDA, JAWS) and physical hardware keyboards under the direct supervision of certified specialist <strong>Nitesh Kumar</strong>.
+            </p>
+            <p style="margin-top: 0.8rem; line-height: 1.6;">
+              <strong>Service Level Agreement (SLA):</strong> Initial project contact and technical scoping within <strong>4 to 6 hours</strong> of booking confirmation. All deliverables include verifiable screen reader recordings, source code patches, and post-fix validation.
+            </p>
+          </article>
 
-      <!-- Box 2: Quick Engagement -->
-      <section class="card">
-        <h3>Ready to Collaborate?</h3>
-        <p>Discuss your compliance timeline, target platforms, or request a custom proposal:</p>
-        <p><strong>Official Inbox:</strong> <a href="mailto:niteshkumar91845@gmail.com">niteshkumar91845@gmail.com</a></p>
-        <div class="auth-quick-actions">
-          <a href="contact.html" class="btn-auth-link">Contact Directorate</a>
+          <!-- Section 2: Transparent Pricing Matrix Table -->
+          <section class="card" aria-labelledby="pricing-packages-title">
+            <h2 id="pricing-packages-title">Standard Service Tiers & Turnaround Times</h2>
+            <p style="margin-top: 0.5rem; margin-bottom: 1rem;">Transparent global market pricing available in Indian Rupees (INR) and US Dollars (USD):</p>
+            
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+                <thead>
+                  <tr style="background: var(--surface-color); border-bottom: 2px solid var(--border-color);">
+                    <th style="padding: 0.75rem 0.5rem;">Package Tier</th>
+                    <th style="padding: 0.75rem 0.5rem;">Pricing (INR / USD)</th>
+                    <th style="padding: 0.75rem 0.5rem;">Timeline</th>
+                    <th style="padding: 0.75rem 0.5rem;">Tools & Methodology</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.75rem 0.5rem;">
+                      <strong>1. Baseline Health Check</strong><br>
+                      <span style="font-size: 0.85rem; opacity: 0.85;">Single page or critical user journey exploratory audit</span>
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem; font-weight: 700; color: var(--primary-color);">
+                      ₹500 / $10
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem;">24 - 48 Hours</td>
+                    <td style="padding: 0.75rem 0.5rem; font-size: 0.85rem;">TalkBack 14+, NVDA 2024, Keyboard focus map, summary video recording.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.75rem 0.5rem;">
+                      <strong>2. Standard WCAG 2.2 AAA Audit</strong><br>
+                      <span style="font-size: 0.85rem; opacity: 0.85;">Up to 5 representative templates across all 86 success criteria</span>
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem; font-weight: 700; color: var(--primary-color);">
+                      ₹4,999 / $60
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem;">3 - 5 Business Days</td>
+                    <td style="padding: 0.75rem 0.5rem; font-size: 0.85rem;">JAWS 2024, NVDA, TalkBack, axe-core, Contrast 7:1 AAA verification, full issue tracker.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.75rem 0.5rem;">
+                      <strong>3. Enterprise VPAT® / ACR Production</strong><br>
+                      <span style="font-size: 0.85rem; opacity: 0.85;">Federal procurement & legal defense (Section 508 / EN 301 549)</span>
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem; font-weight: 700; color: var(--primary-color);">
+                      ₹14,999 / $180
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem;">7 - 10 Business Days</td>
+                    <td style="padding: 0.75rem 0.5rem; font-size: 0.85rem;">Official VPAT 2.5 format, signed auditor declaration, empirical proof dossiers.</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 0.75rem 0.5rem;">
+                      <strong>4. Continuous Remediation Retainer</strong><br>
+                      <span style="font-size: 0.85rem; opacity: 0.85;">Monthly developer pairing, PR reviews, and live code patching</span>
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem; font-weight: 700; color: var(--primary-color);">
+                      ₹24,999 / $300 (per month)
+                    </td>
+                    <td style="padding: 0.75rem 0.5rem;">Ongoing Monthly Sprints</td>
+                    <td style="padding: 0.75rem 0.5rem; font-size: 0.85rem;">Direct GitHub PR reviews, WAI-ARIA 1.2 refactoring, certified compliance seal.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Section 3: Four Core Pillars Details -->
+          <section class="card" aria-labelledby="core-pillars-title">
+            <h2 id="core-pillars-title">Our Four Core Service Capabilities</h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.25rem;">
+              
+              <div style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem;">
+                <h3 style="color: var(--primary-color); font-size: 1.2rem;">1. Comprehensive WCAG 2.2 AAA Audits</h3>
+                <p style="margin-top: 0.5rem; line-height: 1.5;">
+                  A full-scope manual and diagnostic evaluation of your digital platform covering all 86 success criteria across Level A, Level AA, and Level AAA. 
+                </p>
+                <ul style="margin-left: 1.25rem; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;">
+                  <li><strong>Keyboard Navigation:</strong> Elimination of keyboard traps, verifying visible focus indicators, and logical sequential DOM focus order.</li>
+                  <li><strong>Color & Contrast:</strong> Strict AAA verification (minimum 7:1 ratio for regular text and 4.5:1 for large text).</li>
+                  <li><strong>Cognitive & Input:</strong> Verification of pointer gestures, focus appearance, target size (24x24 minimum), and redundant entry prevention.</li>
+                </ul>
+              </div>
+
+              <div style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem;">
+                <h3 style="color: var(--primary-color); font-size: 1.2rem;">2. VPAT® & ACR Authoring (Section 508 / EN 301 549)</h3>
+                <p style="margin-top: 0.5rem; line-height: 1.5;">
+                  We author legally binding Voluntary Product Accessibility Templates (VPAT) that transform into authoritative Accessibility Conformance Reports (ACRs).
+                </p>
+                <ul style="margin-left: 1.25rem; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;">
+                  <li><strong>Federal Procurement Ready:</strong> Meets strict U.S. Federal Government Section 508 standards for enterprise RFP bids.</li>
+                  <li><strong>European Standard (EN 301 549):</strong> Complete harmonized accessibility reporting for EU public sector procurement.</li>
+                  <li><strong>Defensible Documentation:</strong> Backed by empirical test recordings and verified by certified auditor Nitesh Kumar.</li>
+                </ul>
+              </div>
+
+              <div style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem;">
+                <h3 style="color: var(--primary-color); font-size: 1.2rem;">3. Direct Front-End Code Remediation</h3>
+                <p style="margin-top: 0.5rem; line-height: 1.5;">
+                  Unlike audit firms that merely deliver spreadsheets of issues, our engineering laboratory supplies functional, copy-paste code patches.
+                </p>
+                <ul style="margin-left: 1.25rem; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;">
+                  <li><strong>WAI-ARIA 1.2 Refactoring:</strong> Converting inaccessible custom controls (tabs, modals, carousels) into fully compliant ARIA structures.</li>
+                  <li><strong>DOM Semantic Repair:</strong> Replacing generic non-semantic `div` chains with structured semantic landmarks and heading levels.</li>
+                  <li><strong>Form Accessibility:</strong> Connecting programmatic field associations, inline live validation errors, and screen-reader accessible alerts.</li>
+                </ul>
+              </div>
+
+              <div style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.25rem;">
+                <h3 style="color: var(--primary-color); font-size: 1.2rem;">4. Assistive Technology User Testing Labs</h3>
+                <p style="margin-top: 0.5rem; line-height: 1.5;">
+                  Real-world validation executed exclusively with assistive hardware and native software configurations.
+                </p>
+                <ul style="margin-left: 1.25rem; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;">
+                  <li><strong>Screen Readers:</strong> In-depth manual execution across Android TalkBack, iOS VoiceOver, Windows NVDA, and Freedom Scientific JAWS.</li>
+                  <li><strong>Low Vision Modalities:</strong> Windows High Contrast Mode, fluid text zoom scaling up to 200% without horizontal scroll traps.</li>
+                  <li><strong>Motor & Switch Devices:</strong> Single-switch input, voice-dictation navigation, and hardware keyboard validation.</li>
+                </ul>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Section 4: Interactive Booking Gateway -->
+          <section class="card" aria-labelledby="request-service-heading">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+              <div>
+                <h2 id="request-service-heading" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0.2rem;">Book or Request a Service Package</h2>
+                <p style="font-size: 0.95rem; opacity: 0.9;">Secure booking with Razorpay payment authorization or custom formal quote request.</p>
+              </div>
+              <button type="button" id="service-toggle-btn" class="btn-primary" aria-expanded="false" aria-controls="service-booking-drawer" onclick="toggleServiceDrawer()">
+                📋 Open Service Booking Form
+              </button>
+            </div>
+
+            <!-- Collapsible Drawer Container -->
+            <div id="service-booking-drawer" style="display: none; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+              <form onsubmit="handleServiceBookingSubmission(event)">
+                <div class="form-field">
+                  <label for="service-package-select">Select Service Package & Rate:</label>
+                  <select id="service-package-select" name="service_tier" class="form-control" required onchange="handleServiceTierChange()">
+                    <option value="Baseline Health Check (₹500 / $10)" data-price="500" selected>1. Baseline Health Check — ₹500 / $10 (Immediate Booking)</option>
+                    <option value="Standard WCAG 2.2 AAA Audit (₹4,999 / $60)" data-price="4999">2. Standard WCAG 2.2 AAA Audit — ₹4,999 / $60 (Full 5 Pages)</option>
+                    <option value="Enterprise VPAT / ACR Production (₹14,999 / $180)" data-price="14999">3. Enterprise VPAT / ACR Production — ₹14,999 / $180 (Section 508 / EN 301 549)</option>
+                    <option value="Continuous Remediation Retainer (₹24,999 / $300)" data-price="24999">4. Monthly Remediation Retainer — ₹24,999 / $300 (Ongoing Sprints)</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="service-target-url">Target Platform / Website URL:</label>
+                  <input type="url" id="service-target-url" name="platform_url" class="form-control" required placeholder="https://example.com">
+                </div>
+                <div class="form-field">
+                  <label for="service-project-scope">Technical Scope & Specific Requirements:</label>
+                  <textarea id="service-project-scope" name="project_scope" class="form-control" rows="3" placeholder="Specify user journeys, mobile targets, RFP deadlines, or compliance frameworks..."></textarea>
+                </div>
+                <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+                  <button type="submit" id="btn-service-submit" class="btn-primary">Pay & Confirm Booking (₹500)</button>
+                  <button type="button" class="btn-ctrl" onclick="toggleServiceDrawer()">✕ Close Form</button>
+                  <a href="contact.html" class="btn-ctrl" style="text-decoration: none;">Need Custom Enterprise NDA? Contact Us →</a>
+                </div>
+                <div class="payment-status-msg" role="status" aria-live="polite" style="margin-top: 0.8rem; font-weight: 700;"></div>
+              </form>
+            </div>
+          </section>
+
         </div>
-      </section>
 
-      <!-- Box 3: Self-Service Tools -->
-      <section class="card">
-        <h3>Try Self-Service Engines</h3>
-        <p>Run quick preliminary checks on code snippets or color contrast using our free client-side utilities:</p>
-        <a href="tools.html" class="btn-read-more">Launch Free Tools &rarr;</a>
-      </section>
-
-    </aside>
-    <!-- END COMPLEMENTARY LANDMARK -->
-
-  </div>
-  <!-- END TWO-COLUMN CONTAINER -->
-
-  <!-- FLOATING GO TO TOP BUTTON -->
-  <button type="button" class="btn-floating-top" id="btn-go-top" aria-label="Return directly to top of page">
-    &uarr; Top
-  </button>
-
-  <!-- =====================================================================
-       6. FOOTER LANDMARK (ROLE="CONTENTINFO")
-       ===================================================================== -->
-  <footer id="footer-landmark" role="contentinfo" tabindex="-1">
-    
-    <div class="container footer-content-grid">
-      
-      <div class="footer-col">
-        <h3>N-Labs Headquarters</h3>
-        <p><strong>Entity:</strong> N-Labs (Nitesh Inclusion Labs)</p>
-        <p><strong>Founder, CEO & Director:</strong> Nitesh Kumar</p>
-        <p><strong>Address:</strong> Dinkar Nagar, Dahi Bhatta, Masaurhi, Patna, Bihar, India (PIN: 804452)</p>
-        <p><strong>Official Inbox:</strong> <a href="mailto:niteshkumar91845@gmail.com">niteshkumar91845@gmail.com</a></p>
-      </div>
-
-      <div class="footer-col">
-        <h3>Quick Navigation Links</h3>
-        <ul class="footer-links-list">
-          <li><a href="index.html">Home Page</a></li>
-          <li><a href="about.html">About N-Labs</a></li>
-          <li><a href="services.html">Enterprise Services</a></li>
-          <li><a href="courses.html">Training Courses (₹99 & ₹299)</a></li>
-          <li><a href="tools.html">Live Audit Engines</a></li>
-          <li><a href="articles.html">Articles & Publications</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="contact.html">Contact & Feedback</a></li>
-          <li><a href="register.html">Course Registration</a></li>
-          <li><a href="auth.html">Client Sign Up / Login</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3>Compliance & Legal Directives</h3>
-        <p>Engineered under the direct supervision of Nitesh Kumar in full conformance with W3C WAI-ARIA 1.2, WCAG 2.0/2.1/2.2 Levels A, AA, AAA, Section 508, and GIGW.</p>
-        <ul class="footer-links-list">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Use & Disclaimer</a></li>
-          <li><a href="sitemap.html">Universal Sitemap Index</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <!-- Integrated Real-Time Access Telemetry -->
-    <div class="container footer-telemetry-container">
-      <div class="footer-telemetry-box">
-        <h4>Terminal Access Telemetry</h4>
-        <dl class="analytics-data-grid">
-          <div class="data-item">
-            <dt><strong>User Identity:</strong></dt>
-            <dd id="telemetry-username">Guest Visitor (Unauthenticated)</dd>
+        <!-- Complementary Landmark -->
+        <aside role="complementary" aria-label="Corporate Headquarters & Accreditations">
+          <div class="card">
+            <h3>Specialist Oversight & Assurance</h3>
+            <p>Every audit and VPAT is personally authorized by:</p>
+            <p style="margin-top: 0.6rem;"><strong>Nitesh Kumar</strong><br>Founder & Lead Accessibility Specialist<br>AIIMS-Certified Accessibility Auditor</p>
+            <p style="margin-top: 0.6rem;">📍 Masaurhi, Patna, Bihar - 804452</p>
+            <p style="margin-top: 0.4rem;">📞 <a href="tel:+918434721287" style="color: var(--primary-color); text-decoration: none;">+91 8434721287</a></p>
+            <p>✉️ <a href="mailto:niteshkumar91845@gmail.com" style="color: var(--primary-color); word-break: break-all; text-decoration: none;">niteshkumar91845@gmail.com</a></p>
           </div>
-          <div class="data-item">
-            <dt><strong>Visit Frequency:</strong></dt>
-            <dd id="telemetry-visit-count">Calculating access frequency...</dd>
+
+          <div class="card">
+            <h3>Enterprise Security & NDA</h3>
+            <p style="font-size: 0.95rem; line-height: 1.5;">
+              We sign bilateral Non-Disclosure Agreements (NDAs) prior to examining enterprise codebases or internal staging environments.
+            </p>
+            <div style="margin-top: 1rem;">
+              <a href="contact.html" class="btn-ctrl" style="display: block; text-align: center; text-decoration: none;">
+                Request Mutual NDA via Contact Us →
+              </a>
+            </div>
           </div>
-          <div class="data-item">
-            <dt><strong>Prior Visit Timestamp:</strong></dt>
-            <dd id="telemetry-prior-date">Checking prior records...</dd>
-          </div>
-          <div class="data-item">
-            <dt><strong>Current Visit:</strong></dt>
-            <dd id="telemetry-current-date">Wednesday, October 7, 2026 - IST</dd>
-          </div>
-          <div class="data-item">
-            <dt><strong>Session Active Duration:</strong></dt>
-            <dd id="telemetry-session-duration">0m 0s</dd>
-          </div>
-          <div class="data-item">
-            <dt><strong>Device & Architecture:</strong></dt>
-            <dd id="telemetry-device">Detecting client platform...</dd>
-          </div>
-          <div class="data-item">
-            <dt><strong>Network Node:</strong></dt>
-            <dd id="telemetry-location">Patna Node, Bihar, India (Resolved)</dd>
-          </div>
-          <div class="data-item">
-            <dt><strong>Activity Log:</strong></dt>
-            <dd id="telemetry-activity-log">Services Page Initialized</dd>
-          </div>
-        </dl>
+        </aside>
+
       </div>
     </div>
+  </main>
 
-    <!-- Copyright & Version Stamp -->
-    <div class="footer-bottom-bar">
-      <div class="container footer-bottom-flex">
-        <p class="copyright-text">&copy; 2026 Nitesh Kumar / N-Labs (Nitesh Inclusion Labs). All rights reserved.</p>
-        <p class="version-stamp"><strong>Platform Build Version:</strong> v3.2.0-PROD | Build: 2026.10.07-IST</p>
+  <!-- Footer Landmark -->
+  <footer id="bottom-of-page" role="contentinfo">
+    <div class="container">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <a href="#top-of-page" class="btn-ctrl" style="text-decoration: none; font-size: 0.9rem;">⬆ Back to Top</a>
+      </div>
+
+      <div class="footer-grid">
+        <div class="analytics-widget" role="region" aria-label="Public Usage Analytics">
+          <h3>Public Usage Analytics</h3>
+          <p style="font-size: 0.9rem; margin-bottom: 0.6rem;">Real-time transparency statistics:</p>
+          <div class="analytics-stat-row">
+            <span>Total Pageviews:</span>
+            <span id="analytics-pageviews" class="analytics-stat-val">0</span>
+          </div>
+          <div class="analytics-stat-row">
+            <span>Active Sessions:</span>
+            <span id="analytics-sessions" class="analytics-stat-val">0</span>
+          </div>
+          <div class="analytics-stat-row">
+            <span>Deep Reads (80%+):</span>
+            <span id="analytics-reads" class="analytics-stat-val">0</span>
+          </div>
+        </div>
+
+        <div>
+          <h3>Policies & Compliance</h3>
+          <ul style="list-style: none; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li><a href="terms.html" style="color: var(--text-color);">Terms of Use</a></li>
+            <li><a href="privacy-policy.html" style="color: var(--text-color);">Privacy Policy</a></li>
+            <li><a href="refund-policy.html" style="color: var(--text-color);">Refund & Cancellation Policy</a></li>
+            <li><a href="accessibility-statement.html" style="color: var(--text-color);">Accessibility Statement</a></li>
+            <li><a href="sitemap.html" style="color: var(--text-color);">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Official Channels</h3>
+          <ul style="list-style: none; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem;">
+            <li><a href="https://www.linkedin.com/company/resilience-industries-limited" target="_blank" rel="noopener noreferrer" style="color: var(--text-color);">LinkedIn Organization</a></li>
+            <li><a href="https://www.linkedin.com/in/nitesh-kumar-AT" target="_blank" rel="noopener noreferrer" style="color: var(--text-color);">LinkedIn Personal Profile</a></li>
+            <li><a href="https://github.com/resilience-industries/resilience-industries.github.io" target="_blank" rel="noopener noreferrer" style="color: var(--text-color);">GitHub Source Repository</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright-bar">
+        <p>&copy; 2026 Resilience Industries Limited. All Rights Reserved. Engineered strictly to WCAG 2.2 AAA & WAI-ARIA 1.2 Standards.</p>
       </div>
     </div>
   </footer>
 
-  <!-- External Unified Logic Script -->
-  <script src="script.js" defer></script>
+  <!-- Unified Auth Modal -->
+  <div id="auth-gate-modal" class="auth-gate-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" style="display: none;">
+    <div class="auth-gate-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <h2 id="auth-modal-title" style="font-size: 1.25rem;">Enterprise Portal Sign In</h2>
+        <button type="button" class="btn-ctrl" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;" onclick="closeAuthModal()">✕ Close</button>
+      </div>
+
+      <div id="auth-view-login">
+        <p style="margin-bottom: 1.25rem; font-size: 0.95rem;">Please authenticate to access auditing reservations, lab tools, and client portals.</p>
+
+        <button type="button" class="btn-ctrl" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.8rem; font-size: 1rem; border-color: var(--primary-color);" onclick="handleGoogleSignIn()">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div style="display: flex; align-items: center; margin: 1.25rem 0;">
+          <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
+          <span style="padding: 0 0.8rem; font-size: 0.85rem; font-weight: bold;">OR WITH EMAIL</span>
+          <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
+        </div>
+
+        <form onsubmit="handleUserEmailLogin(event)">
+          <div class="form-field">
+            <label for="auth-login-email">Registered Email Address:</label>
+            <input type="email" id="auth-login-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <div class="form-field">
+            <label for="auth-login-pass">Password:</label>
+            <input type="password" id="auth-login-pass" class="form-control" required autocomplete="current-password" placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
+        </form>
+
+        <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); text-align: left; cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('reset')">
+            Forgot password? Click here to reset
+          </button>
+          <button type="button" style="background: none; border: none; color: var(--primary-color); text-align: left; cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('signup')">
+            New to Resilience Industries? Click here to register
+          </button>
+        </div>
+      </div>
+
+      <div id="auth-view-signup" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Create your client account for official audits, reports, and courses:</p>
+        <form onsubmit="handleUserSignUp(event)">
+          <div class="form-field">
+            <label for="auth-signup-name">Full Name:</label>
+            <input type="text" id="auth-signup-name" class="form-control" required placeholder="John Doe">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-country">Country of Residence:</label>
+            <select id="auth-signup-country" class="form-control" required>
+              <option value="India" selected>India</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+              <option value="United Arab Emirates">United Arab Emirates</option>
+              <option value="Germany">Germany</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-email">Official Email Address:</label>
+            <input type="email" id="auth-signup-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-pass">Create Password:</label>
+            <input type="password" id="auth-signup-pass" class="form-control" required autocomplete="new-password" placeholder="Minimum 6 characters">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-confirm">Confirm Password:</label>
+            <input type="password" id="auth-signup-confirm" class="form-control" required autocomplete="new-password" placeholder="Re-enter password">
+          </div>
+          <div class="form-field" style="margin: 1rem 0; background: var(--surface-color); padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+            <label style="display: flex; align-items: flex-start; gap: 0.6rem; font-weight: normal; font-size: 0.9rem; cursor: pointer;">
+              <input type="checkbox" id="auth-signup-declaration" required style="margin-top: 0.2rem;">
+              <span>I declare that I have read and agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>, <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>, and <a href="refund-policy.html" target="_blank" rel="noopener noreferrer">Refund Policy</a>.</span>
+            </label>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Create Account & Send Verification Link</button>
+        </form>
+        <div style="margin-top: 1rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('login')">
+            ← Already have an account? Sign In
+          </button>
+        </div>
+      </div>
+
+      <div id="auth-view-reset" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Enter your registered email to receive official password reset instructions:</p>
+        <form onsubmit="handlePasswordReset(event)">
+          <div class="form-field">
+            <label for="auth-reset-email">Registered Email Address:</label>
+            <input type="email" id="auth-reset-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Verify & Send Reset Link</button>
+        </form>
+        <div style="margin-top: 1rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('login')">
+            ← Remember your password? Back to Sign In
+          </button>
+        </div>
+      </div>
+
+      <div id="auth-view-newpassword" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Enter your new password below to update your account credentials:</p>
+        <form onsubmit="handleConfirmNewPassword(event)">
+          <div class="form-field">
+            <label for="auth-new-pass">New Password:</label>
+            <input type="password" id="auth-new-pass" class="form-control" required autocomplete="new-password" placeholder="Minimum 6 characters">
+          </div>
+          <div class="form-field">
+            <label for="auth-new-confirm">Confirm New Password:</label>
+            <input type="password" id="auth-new-confirm" class="form-control" required autocomplete="new-password" placeholder="Re-enter new password">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Update Password</button>
+        </form>
+      </div>
+
+      <div id="resend-verification-container" style="display: none; margin-top: 1rem; text-align: center; font-size: 0.9rem;">
+        <span id="resend-timer-text">Resend link in 60s</span>
+        <button type="button" id="btn-resend-link" class="btn-ctrl" style="display: none; margin: 0.5rem auto 0; font-size: 0.85rem;">Resend Link Now</button>
+      </div>
+
+      <div id="auth-status-message" class="auth-status-alert" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
 </body>
 </html>
