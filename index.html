@@ -74,7 +74,7 @@
   <!-- External Stylesheet (0% Inline CSS) -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- Third-Party Verified SDKs -->
+  <!-- Verified Third-Party SDKs -->
   <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
   <script src="https://www.google.com/recaptcha/api.js?render=6Ldur_MtAAAAAGQlqUGYPk6103KttHViERKln2NF" async defer></script>
 
@@ -83,10 +83,13 @@
 </head>
 <body id="top-of-page">
 
-  <!-- Accessible Skip Links for Screen Reader Users -->
+  <!-- Accessible Skip Navigation Links & Built-in Text-To-Speech -->
   <a href="#main-content" class="skip-link">Skip to Main Content</a>
   <a href="#main-navigation" class="skip-link">Skip to Navigation Menu</a>
   <a href="#bottom-of-page" class="skip-link">Skip to Footer</a>
+  <button type="button" id="btn-read-page" class="skip-link" style="left: auto; right: 1rem;" onclick="toggleReadPageAloud()">
+    🔊 Read Website Aloud
+  </button>
 
   <!-- Banner Landmark -->
   <header role="banner">
@@ -113,12 +116,13 @@
           <div id="live-weather">Loading live weather...</div>
         </div>
 
-        <!-- Full Accessibility Control Toolbar -->
+        <!-- Accessibility Control Toolbar -->
         <div class="a11y-controls-group" role="region" aria-label="Accessibility Settings">
           <button id="btn-dark-mode" class="btn-ctrl" aria-pressed="false" onclick="toggleDarkMode()">🌓 Dark Mode</button>
           <button id="btn-high-contrast" class="btn-ctrl" aria-pressed="false" onclick="toggleHighContrast()">👁️ High Contrast</button>
           <button id="btn-font-size" class="btn-ctrl" aria-pressed="false" onclick="toggleFontSize()">🔤 Larger Text</button>
           <button id="btn-pause-motion" class="btn-ctrl" aria-pressed="false" onclick="togglePauseMotion()">🛑 Pause Motion</button>
+          <button id="btn-tts-toolbar" class="btn-ctrl" aria-pressed="false" onclick="toggleReadPageAloud()">🔊 Speak Page</button>
           <button id="btn-auth-action" class="btn-ctrl" onclick="handleAuthButtonClick()">Sign In</button>
         </div>
 
@@ -127,7 +131,7 @@
       <!-- Action Toolbar (Menu, Universal Search & AI Copilot) -->
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
         
-        <!-- 1. Expandable Navigation Menu with Dedicated Close Button -->
+        <!-- Expandable Navigation Menu with Dedicated Close Button -->
         <nav id="main-navigation" role="navigation" aria-label="Main Navigation">
           <button id="menu-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="portal-nav-list" onclick="toggleNavigationMenu()">
             ☰ Explore Pages Menu
@@ -157,7 +161,7 @@
           </div>
         </nav>
 
-        <!-- 2. Expandable Universal Search Engine -->
+        <!-- Expandable & Collapsible Universal Search Engine -->
         <section role="search" aria-label="Portal Search">
           <button id="search-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="banner-search-container" onclick="toggleBannerSearch()">
             🔍 Search Portal
@@ -165,13 +169,14 @@
           <div id="banner-search-container" style="display: none; margin-top: 0.5rem;">
             <form onsubmit="handleUniversalSearch(event)" style="display: flex; gap: 0.4rem;">
               <label for="global-search-input" class="sr-only">Search audits, tools, standards...</label>
-              <input type="search" id="global-search-input" class="form-control" placeholder="Search audits, tools, standards..." required style="min-width: 260px;">
+              <input type="search" id="global-search-input" class="form-control" placeholder="Search audits, tools, standards..." required style="min-width: 240px;">
               <button type="submit" class="btn-primary">Go</button>
+              <button type="button" class="btn-ctrl" onclick="toggleBannerSearch()">✕</button>
             </form>
           </div>
         </section>
 
-        <!-- 3. Expandable Ask Resilience Industries (AI Copilot) -->
+        <!-- Expandable & Collapsible Ask Resilience Industries (AI Copilot) -->
         <div role="region" aria-label="Customer AI Support">
           <button id="ask-ai-toggle-btn" class="btn-ctrl" aria-expanded="false" aria-controls="banner-ai-chat-container" onclick="toggleAskAICopilot()" style="border-color: var(--primary-color);">
             🤖 Ask Resilience Industries
@@ -180,7 +185,7 @@
 
       </div>
 
-      <!-- Banner AI Copilot Expanded Drawer -->
+      <!-- Banner AI Copilot Drawer -->
       <div id="banner-ai-chat-container" style="display: none; margin-top: 1rem; background: var(--surface-color); border: 2px solid var(--primary-color); border-radius: 6px; padding: 1rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
           <h3 style="font-size: 1.05rem;">Ask Resilience Industries | 24/7 AI Accessibility Desk</h3>
@@ -207,7 +212,6 @@
       
       <div class="main-layout-grid">
         
-        <!-- Primary Article Section -->
         <div class="primary-column">
           
           <article class="card" aria-labelledby="hero-title">
@@ -249,7 +253,7 @@
             </div>
           </section>
 
-          <!-- Baseline Audit Booking Gateway (Razorpay Payment-First) -->
+          <!-- Baseline Audit Booking Gateway -->
           <section class="card" aria-labelledby="book-audit-title">
             <h2 id="book-audit-title">Book a Baseline Accessibility Audit</h2>
             <p style="margin-bottom: 1.2rem;">Initiate an immediate exploratory assessment of your website. Secure payment authorization via Razorpay:</p>
@@ -300,14 +304,12 @@
   <footer id="bottom-of-page" role="contentinfo">
     <div class="container">
       
-      <!-- Back to Top Link -->
       <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
         <a href="#top-of-page" class="btn-ctrl" style="text-decoration: none; font-size: 0.9rem;">⬆ Back to Top</a>
       </div>
 
       <div class="footer-grid">
         
-        <!-- Live Transparency Analytics -->
         <div class="analytics-widget" role="region" aria-label="Public Usage Analytics">
           <h3>Public Usage Analytics</h3>
           <p style="font-size: 0.9rem; margin-bottom: 0.6rem;">Real-time transparency statistics:</p>
@@ -325,7 +327,6 @@
           </div>
         </div>
 
-        <!-- Compliance & Legal Navigation -->
         <div>
           <h3>Policies & Compliance</h3>
           <ul style="list-style: none; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem;">
@@ -337,7 +338,6 @@
           </ul>
         </div>
 
-        <!-- Verified Official Channels -->
         <div>
           <h3>Official Channels</h3>
           <ul style="list-style: none; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.4rem;">
@@ -356,7 +356,7 @@
     </div>
   </footer>
 
-  <!-- Modal Authentication Gatekeeper (Accessible Dialog) -->
+  <!-- Single-Container Unified Auth Modal (0 Tabs - Fluid In-Place Swapping) -->
   <div id="auth-gate-modal" class="auth-gate-overlay" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" style="display: none;">
     <div class="auth-gate-box">
       
@@ -365,94 +365,119 @@
         <button type="button" class="btn-ctrl" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;" onclick="closeAuthModal()">✕ Close</button>
       </div>
 
-      <p style="margin-bottom: 1.25rem; font-size: 0.95rem;">Please authenticate to access auditing reservations, lab tools, and client portals.</p>
+      <!-- State 1: Default Sign In View -->
+      <div id="auth-view-login">
+        <p style="margin-bottom: 1.25rem; font-size: 0.95rem;">Please authenticate to access auditing reservations, lab tools, and client portals.</p>
 
-      <!-- Primary Action: Google One-Click Sign In -->
-      <button type="button" class="btn-ctrl" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.8rem; font-size: 1rem; border-color: var(--primary-color);" onclick="handleGoogleSignIn()">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-        </svg>
-        Continue with Google
-      </button>
+        <!-- Primary Action: Google 1-Click Redirect -->
+        <button type="button" class="btn-ctrl" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.8rem; font-size: 1rem; border-color: var(--primary-color);" onclick="handleGoogleSignIn()">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          Continue with Google
+        </button>
 
-      <div style="display: flex; align-items: center; margin: 1.25rem 0;">
-        <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
-        <span style="padding: 0 0.8rem; font-size: 0.85rem; font-weight: bold;">OR WITH EMAIL</span>
-        <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
+        <div style="display: flex; align-items: center; margin: 1.25rem 0;">
+          <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
+          <span style="padding: 0 0.8rem; font-size: 0.85rem; font-weight: bold;">OR WITH EMAIL</span>
+          <hr style="flex: 1; border: none; border-top: 1px solid var(--border-color);">
+        </div>
+
+        <form onsubmit="handleUserEmailLogin(event)">
+          <div class="form-field">
+            <label for="auth-login-email">Registered Email Address:</label>
+            <input type="email" id="auth-login-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <div class="form-field">
+            <label for="auth-login-pass">Password:</label>
+            <input type="password" id="auth-login-pass" class="form-control" required autocomplete="current-password" placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
+        </form>
+
+        <!-- Dynamic Action Links (Swap View Inside Same Container) -->
+        <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); text-align: left; cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('reset')">
+            Forgot password? Click here to reset
+          </button>
+          <button type="button" style="background: none; border: none; color: var(--primary-color); text-align: left; cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('signup')">
+            New to Resilience Industries? Click here to register
+          </button>
+        </div>
       </div>
 
-      <!-- Tab Switch Controls -->
-      <div class="auth-tabs" role="tablist" aria-label="Email Authentication Forms">
-        <button id="tab-btn-login" class="auth-tab-btn" role="tab" aria-selected="true" aria-controls="form-login-tab" onclick="switchAuthTab('login')">Sign In</button>
-        <button id="tab-btn-signup" class="auth-tab-btn" role="tab" aria-selected="false" aria-controls="form-signup-tab" onclick="switchAuthTab('signup')">Sign Up</button>
-        <button id="tab-btn-reset" class="auth-tab-btn" role="tab" aria-selected="false" aria-controls="form-reset-tab" onclick="switchAuthTab('reset')">Reset Password</button>
+      <!-- State 2: In-Place Registration View -->
+      <div id="auth-view-signup" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Create your client account for official audits, reports, and courses:</p>
+        
+        <form onsubmit="handleUserSignUp(event)">
+          <div class="form-field">
+            <label for="auth-signup-name">Full Name:</label>
+            <input type="text" id="auth-signup-name" class="form-control" required placeholder="John Doe">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-country">Country of Residence:</label>
+            <select id="auth-signup-country" class="form-control" required>
+              <option value="India" selected>India</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+              <option value="United Arab Emirates">United Arab Emirates</option>
+              <option value="Germany">Germany</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-email">Official Email Address:</label>
+            <input type="email" id="auth-signup-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-pass">Create Password:</label>
+            <input type="password" id="auth-signup-pass" class="form-control" required autocomplete="new-password" placeholder="Minimum 6 characters">
+          </div>
+          <div class="form-field">
+            <label for="auth-signup-confirm">Confirm Password:</label>
+            <input type="password" id="auth-signup-confirm" class="form-control" required autocomplete="new-password" placeholder="Re-enter password">
+          </div>
+          <div class="form-field" style="margin: 1rem 0; background: var(--surface-color); padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+            <label style="display: flex; align-items: flex-start; gap: 0.6rem; font-weight: normal; font-size: 0.9rem; cursor: pointer;">
+              <input type="checkbox" id="auth-signup-declaration" required style="margin-top: 0.2rem;">
+              <span>I declare that I have read and agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>, <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>, and <a href="refund-policy.html" target="_blank" rel="noopener noreferrer">Refund Policy</a>.</span>
+            </label>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Create Account & Send Verification Link</button>
+        </form>
+
+        <div style="margin-top: 1rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('login')">
+            ← Already have an account? Sign In
+          </button>
+        </div>
       </div>
 
-      <!-- Form 1: Sign In -->
-      <form id="form-login-tab" role="tabpanel" aria-labelledby="tab-btn-login" onsubmit="handleUserEmailLogin(event)">
-        <div class="form-field">
-          <label for="auth-login-email">Registered Email Address:</label>
-          <input type="email" id="auth-login-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
-        </div>
-        <div class="form-field">
-          <label for="auth-login-pass">Password:</label>
-          <input type="password" id="auth-login-pass" class="form-control" required autocomplete="current-password" placeholder="••••••••">
-        </div>
-        <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
-      </form>
+      <!-- State 3: In-Place Password Reset View -->
+      <div id="auth-view-reset" style="display: none;">
+        <p style="margin-bottom: 1rem; font-size: 0.95rem;">Enter your registered email to receive official password reset instructions:</p>
+        
+        <form onsubmit="handlePasswordReset(event)">
+          <div class="form-field">
+            <label for="auth-reset-email">Registered Email Address:</label>
+            <input type="email" id="auth-reset-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Verify & Send Reset Link</button>
+        </form>
 
-      <!-- Form 2: Sign Up -->
-      <form id="form-signup-tab" role="tabpanel" aria-labelledby="tab-btn-signup" style="display: none;" onsubmit="handleUserSignUp(event)">
-        <div class="form-field">
-          <label for="auth-signup-name">Full Name:</label>
-          <input type="text" id="auth-signup-name" class="form-control" required placeholder="John Doe">
+        <div style="margin-top: 1rem;">
+          <button type="button" style="background: none; border: none; color: var(--primary-color); cursor: pointer; text-decoration: underline; font-size: 0.9rem;" onclick="showAuthView('login')">
+            ← Remember your password? Back to Sign In
+          </button>
         </div>
-        <div class="form-field">
-          <label for="auth-signup-country">Country of Residence:</label>
-          <select id="auth-signup-country" class="form-control" required>
-            <option value="India" selected>India</option>
-            <option value="United States">United States</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="Canada">Canada</option>
-            <option value="Australia">Australia</option>
-            <option value="United Arab Emirates">United Arab Emirates</option>
-            <option value="Germany">Germany</option>
-            <option value="Singapore">Singapore</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="auth-signup-email">Official Email Address:</label>
-          <input type="email" id="auth-signup-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
-        </div>
-        <div class="form-field">
-          <label for="auth-signup-pass">Create Password:</label>
-          <input type="password" id="auth-signup-pass" class="form-control" required autocomplete="new-password" placeholder="Minimum 6 characters">
-        </div>
-        <div class="form-field">
-          <label for="auth-signup-confirm">Confirm Password:</label>
-          <input type="password" id="auth-signup-confirm" class="form-control" required autocomplete="new-password" placeholder="Re-enter password">
-        </div>
-        <div class="form-field" style="margin: 1rem 0; background: var(--surface-color); padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
-          <label style="display: flex; align-items: flex-start; gap: 0.6rem; font-weight: normal; font-size: 0.9rem; cursor: pointer;">
-            <input type="checkbox" id="auth-signup-declaration" required style="margin-top: 0.2rem;">
-            <span>I declare that I have read and agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>, <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>, and <a href="refund-policy.html" target="_blank" rel="noopener noreferrer">Refund Policy</a>.</span>
-          </label>
-        </div>
-        <button type="submit" class="btn-primary" style="width: 100%;">Create Account & Verify</button>
-      </form>
-
-      <!-- Form 3: Reset Password -->
-      <form id="form-reset-tab" role="tabpanel" aria-labelledby="tab-btn-reset" style="display: none;" onsubmit="handlePasswordReset(event)">
-        <div class="form-field">
-          <label for="auth-reset-email">Registered Email Address:</label>
-          <input type="email" id="auth-reset-email" class="form-control" required autocomplete="email" placeholder="user@example.com">
-        </div>
-        <button type="submit" class="btn-primary" style="width: 100%;">Dispatch Reset Link</button>
-      </form>
+      </div>
 
       <!-- Resend Verification Link Row -->
       <div id="resend-verification-container" style="display: none; margin-top: 1rem; text-align: center; font-size: 0.9rem;">
@@ -460,6 +485,7 @@
         <button type="button" id="btn-resend-link" class="btn-ctrl" style="display: none; margin: 0.5rem auto 0; font-size: 0.85rem;" onclick="handleResendVerificationLink()">Resend Link Now</button>
       </div>
 
+      <!-- ARIA Live Status Alert -->
       <div id="auth-status-message" class="auth-status-alert" role="status" aria-live="polite"></div>
     </div>
   </div>
