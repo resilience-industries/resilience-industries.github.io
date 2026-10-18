@@ -1,9 +1,14 @@
 /**
  * Resilience Industries Limited (RIL)
  * Master External JavaScript Engine: script.js
- * Multi-Tier Dynamic Razorpay Integration, In-App Password Reset Execution,
- * Permanent Resend Destruction, Strict 24h / 3-Attempts Limiter & 60s Cooldown.
- * 100% International Standard English | Strict WCAG 2.2 AAA
+ * Unified Enterprise Portal Controller (100% of Portal Logic in Single File)
+ * - Firebase Modular Authentication & In-App Password Reset
+ * - Strict 24h / 3-Attempts Rate Limiting & 60s Countdown Cooldown
+ * - Multi-Tier Razorpay Payment Integration (Services & Audits)
+ * - Web3Forms Universal Contact Form & Security Notification Engine
+ * - Real-Time Live Clock, Calendar & Weather Engine
+ * - WCAG 2.2 AAA Accessible Controls (Dark Mode, High Contrast, Larger Text, Pause Motion, TTS)
+ * 100% International Standard English | Strict Zero-Inline Architecture
  */
 
 // --- 1. Firebase Modular SDK Imports ---
@@ -79,7 +84,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     openAuthModal();
     showAuthView("newpassword");
     
-    // Invalidate URL params to prevent re-triggering on manual refresh
     window.history.replaceState({}, document.title, window.location.pathname);
 
     try {
@@ -134,7 +138,6 @@ function updateLiveBannerMetrics() {
 liveClockInterval = setInterval(updateLiveBannerMetrics, 1000);
 updateLiveBannerMetrics();
 
-// Live Weather Feed
 function fetchLiveWeather() {
   const weatherEl = document.getElementById("live-weather");
   if (!weatherEl) return;
@@ -188,7 +191,6 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Dual Option Handler: Sign Out OR Permanently Purge Account from Database
 window.handleAuthButtonClick = async function() {
   const currentUser = auth.currentUser;
 
@@ -265,7 +267,6 @@ window.closeAuthModal = function() {
   }
 };
 
-// In-Place Dynamic View Swapper (0 Tabs)
 window.showAuthView = function(viewName) {
   const views = ["login", "signup", "reset", "newpassword"];
   views.forEach(v => {
@@ -301,12 +302,11 @@ window.showAuthView = function(viewName) {
   }, 100);
 };
 
-// --- 4. Google Sign-In (Bulletproof Popup with Mobile Fallback) ---
+// --- 4. Google Sign-In ---
 window.handleGoogleSignIn = async function() {
   const statusElem = document.getElementById("auth-status-message");
   try {
     statusElem.textContent = "Connecting to Google Accounts...";
-    
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     if (isMobile) {
@@ -369,7 +369,7 @@ window.handleUserEmailLogin = async function(event) {
   }
 };
 
-// --- 6. Registration with Strict 24h/3-Attempts Rate Limiting ---
+// --- 6. Registration with Strict 24h / 3-Attempts Limiter ---
 window.handleUserSignUp = async function(event) {
   event.preventDefault();
   const name = document.getElementById("auth-signup-name").value.trim();
@@ -462,7 +462,6 @@ window.smartTriggerPasswordReset = async function(email) {
   }
 };
 
-// --- Strict 24-Hours / 3-Attempts Rate Limiting Controller ---
 function getRateLimitKey(type, email) {
   return `ril_rate_${type}_${email.toLowerCase()}`;
 }
@@ -473,10 +472,7 @@ function checkResendEligibility(type, email) {
   const now = Date.now();
   const dayInMillis = 24 * 60 * 60 * 1000;
 
-  if (now - data.startTime > dayInMillis) {
-    return true;
-  }
-
+  if (now - data.startTime > dayInMillis) return true;
   return data.count < 3;
 }
 
@@ -495,7 +491,6 @@ function recordResendAttempt(type, email) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Verification Poller: Detects link click in Gmail and Auto-Redirects
 function startVerificationPolling(user) {
   stopVerificationPolling();
   
@@ -517,12 +512,8 @@ function startVerificationPolling(user) {
           showAuthView("login");
           const loginEmailField = document.getElementById("auth-login-email");
           const loginPassField = document.getElementById("auth-login-pass");
-          if (loginEmailField && pendingUserEmail) {
-            loginEmailField.value = pendingUserEmail;
-          }
-          if (loginPassField) {
-            loginPassField.focus();
-          }
+          if (loginEmailField && pendingUserEmail) loginEmailField.value = pendingUserEmail;
+          if (loginPassField) loginPassField.focus();
           if (statusElem) {
             statusElem.textContent = "Email verified! Enter your password and click Sign In to continue.";
           }
@@ -547,16 +538,11 @@ function destroyResendContainer() {
     resendInterval = null;
   }
   const container = document.getElementById("resend-verification-container");
-  if (container) {
-    container.style.display = "none";
-  }
+  if (container) container.style.display = "none";
   const resendBtn = document.getElementById("btn-resend-link");
-  if (resendBtn) {
-    resendBtn.style.display = "none";
-  }
+  if (resendBtn) resendBtn.style.display = "none";
 }
 
-// 60-Second Countdown Timer with 24h / 3-Attempts Enforcer
 function startResendTimer(type = "verification") {
   const container = document.getElementById("resend-verification-container");
   const timerText = document.getElementById("resend-timer-text");
@@ -627,7 +613,6 @@ window.handleResendVerificationLink = async function() {
   }
 };
 
-// --- 7. Password Reset Request Handler ---
 window.handlePasswordReset = async function(event) {
   event.preventDefault();
   const email = document.getElementById("auth-reset-email").value.trim();
@@ -645,7 +630,6 @@ window.handlePasswordReset = async function(event) {
 
   try {
     statusElem.textContent = "Checking official user directory...";
-    
     const methods = await fetchSignInMethodsForEmail(auth, email);
     if (!methods || methods.length === 0) {
       statusElem.textContent = "Error: User not found. You are not registered with Resilience Industries. Please create an account first. Redirecting to Registration...";
@@ -679,7 +663,6 @@ window.handlePasswordReset = async function(event) {
   }
 };
 
-// --- 8. Confirm New Password Handler (Direct In-App Execution) ---
 window.handleConfirmNewPassword = async function(event) {
   event.preventDefault();
   const newPass = document.getElementById("auth-new-pass").value;
@@ -716,15 +699,9 @@ window.handleConfirmNewPassword = async function(event) {
       showAuthView("login");
       const loginEmailField = document.getElementById("auth-login-email");
       const loginPassField = document.getElementById("auth-login-pass");
-      if (loginEmailField && pendingUserEmail) {
-        loginEmailField.value = pendingUserEmail;
-      }
-      if (loginPassField) {
-        loginPassField.focus();
-      }
-      if (statusElem) {
-        statusElem.textContent = "Password changed! Enter your new password and click Sign In.";
-      }
+      if (loginEmailField && pendingUserEmail) loginEmailField.value = pendingUserEmail;
+      if (loginPassField) loginPassField.focus();
+      if (statusElem) statusElem.textContent = "Password changed! Enter your new password and click Sign In.";
     }, 1500);
   } catch (error) {
     statusElem.style.color = "#c0392b";
@@ -732,7 +709,7 @@ window.handleConfirmNewPassword = async function(event) {
   }
 };
 
-// --- 9. Navigation Menu Controller with Dedicated Close ---
+// --- 7. Universal Navigation & Search Controllers ---
 window.toggleNavigationMenu = function() {
   const menuList = document.getElementById("portal-nav-list");
   const toggleBtn = document.getElementById("menu-toggle-btn");
@@ -764,7 +741,6 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// --- 10. Expandable & Collapsible Search Bar ---
 window.toggleBannerSearch = function() {
   const container = document.getElementById("banner-search-container");
   const btn = document.getElementById("search-toggle-btn");
@@ -790,7 +766,7 @@ window.handleUniversalSearch = function(event) {
   alert(`Search index queried for: "${query}". Conforming to Section 508 & WCAG standards.`);
 };
 
-// --- 11. Built-in Web Speech Text-To-Speech (Read Aloud Engine) ---
+// --- 8. Accessible Text-To-Speech (Read Aloud) ---
 window.toggleReadPageAloud = function() {
   const btn = document.getElementById("btn-read-page");
   if (!("speechSynthesis" in window)) {
@@ -801,9 +777,7 @@ window.toggleReadPageAloud = function() {
   if (isSpeaking) {
     window.speechSynthesis.cancel();
     isSpeaking = false;
-    if (btn) {
-      btn.textContent = "🔊 Read Website Aloud";
-    }
+    if (btn) btn.textContent = "🔊 Read Website Aloud";
   } else {
     const mainText = document.getElementById("main-content")?.innerText || document.body.innerText;
     const utterance = new SpeechSynthesisUtterance(mainText);
@@ -813,20 +787,16 @@ window.toggleReadPageAloud = function() {
 
     utterance.onend = () => {
       isSpeaking = false;
-      if (btn) {
-        btn.textContent = "🔊 Read Website Aloud";
-      }
+      if (btn) btn.textContent = "🔊 Read Website Aloud";
     };
 
     window.speechSynthesis.speak(utterance);
     isSpeaking = true;
-    if (btn) {
-      btn.textContent = "⏹️ Stop Reading";
-    }
+    if (btn) btn.textContent = "⏹️ Stop Reading";
   }
 };
 
-// --- 12. Complete Accessibility Controls Toolkit ---
+// --- 9. Complete Accessibility Controls Toolkit ---
 window.toggleDarkMode = function() {
   const root = document.documentElement;
   const isDark = root.getAttribute("data-theme") === "dark";
@@ -894,7 +864,7 @@ window.togglePauseMotion = function() {
   }
 };
 
-// --- 13. Universal Email Dispatch (Web3Forms) ---
+// --- 10. Universal Email Dispatch (Web3Forms) ---
 async function dispatchWeb3Notification(subject, messageContent, extraData = {}) {
   const payload = {
     access_key: WEB3FORMS_ACCESS_KEY,
@@ -916,10 +886,10 @@ async function dispatchWeb3Notification(subject, messageContent, extraData = {})
   }
 }
 
-// --- 14. Universal Razorpay Payment-First Gateway ---
+// --- 11. Universal Razorpay Payment-First Gateway ---
 window.initiatePaidRequest = function(event, serviceName, amountINR) {
   if (event && event.preventDefault) event.preventDefault();
-  const form = (event && event.target && event.target.tagName === "FORM") ? event.target : document.querySelector("#service-booking-drawer form");
+  const form = (event && event.target && event.target.tagName === "FORM") ? event.target : document.querySelector("form");
   const statusBox = form ? form.querySelector(".payment-status-msg") : document.querySelector(".payment-status-msg");
   const user = auth.currentUser;
 
@@ -931,7 +901,7 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
 
   const options = {
     key: RAZORPAY_KEY_ID,
-    amount: amountINR * 100, // Amount in paise
+    amount: amountINR * 100,
     currency: "INR",
     name: "Resilience Industries Limited",
     description: `Service: ${serviceName}`,
@@ -950,7 +920,7 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
       alert(`Success! Payment reference ${response.razorpay_payment_id} captured. Your booking for ${serviceName} is confirmed.`);
       if (form) form.reset();
       
-      const drawer = document.getElementById("service-booking-drawer") || document.getElementById("audit-booking-drawer");
+      const drawer = document.getElementById("service-booking-drawer") || document.getElementById("audit-booking-drawer") || document.getElementById("audit-protocol-drawer");
       if (drawer) drawer.style.display = "none";
     },
     prefill: { email: user.email, contact: "8434721287" },
@@ -965,7 +935,7 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
   }
 };
 
-// --- 15. Expandable Drawers & Dynamic Services Page Controller ---
+// --- 12. Drawers & Dynamic Forms Controllers ---
 window.toggleAuditDrawer = function() {
   const drawer = document.getElementById("audit-booking-drawer");
   const btn = document.getElementById("audit-toggle-btn");
@@ -1024,7 +994,93 @@ window.handleServiceBookingSubmission = function(event) {
   initiatePaidRequest(event, serviceName, price);
 };
 
-// --- 16. Public Live Analytics Engine ---
+window.toggleAuditProtocolDrawer = function() {
+  const drawer = document.getElementById("audit-protocol-drawer");
+  const btn = document.getElementById("audit-protocol-toggle-btn");
+  if (!drawer || !btn) return;
+
+  const isExpanded = btn.getAttribute("aria-expanded") === "true";
+  if (isExpanded) {
+    drawer.style.display = "none";
+    btn.setAttribute("aria-expanded", "false");
+    btn.textContent = "📋 Initiate Audit Protocol";
+  } else {
+    drawer.style.display = "block";
+    btn.setAttribute("aria-expanded", "true");
+    btn.textContent = "✕ Close Protocol Form";
+    const select = document.getElementById("audit-protocol-tier");
+    if (select) select.focus();
+  }
+};
+
+window.handleAuditProtocolTierChange = function() {
+  const select = document.getElementById("audit-protocol-tier");
+  const submitBtn = document.getElementById("btn-audit-protocol-submit");
+  if (!select || !submitBtn) return;
+
+  const selectedOption = select.options[select.selectedIndex];
+  const price = selectedOption.getAttribute("data-price") || "500";
+  submitBtn.textContent = `Pay & Confirm Audit (₹${parseInt(price).toLocaleString('en-IN')})`;
+};
+
+window.handleAuditProtocolSubmission = function(event) {
+  event.preventDefault();
+  const select = document.getElementById("audit-protocol-tier");
+  const selectedOption = select.options[select.selectedIndex];
+  const serviceName = selectedOption.value;
+  const price = parseInt(selectedOption.getAttribute("data-price") || "500");
+
+  initiatePaidRequest(event, serviceName, price);
+};
+
+// --- 13. Universal Contact Form Submission Controller ---
+window.handleUniversalContactSubmission = async function(event) {
+  event.preventDefault();
+  const form = document.getElementById("main-contact-form");
+  const statusBox = document.getElementById("contact-form-status");
+  const submitBtn = document.getElementById("btn-contact-submit");
+
+  if (!form || !statusBox) return;
+
+  try {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Transmitting to Headquarters...";
+    }
+    statusBox.style.color = "var(--primary-color)";
+    statusBox.textContent = "Securely dispatching your inquiry to our engineering desk...";
+
+    const formData = new FormData(form);
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.append("to_email", ADMIN_EMAIL);
+    formData.append("submission_timestamp", new Date().toISOString());
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      statusBox.style.color = "#27ae60";
+      statusBox.textContent = "Success: Your formal technical inquiry has been delivered! Our specialists will respond within 24 to 72 business hours.";
+      form.reset();
+    } else {
+      throw new Error(result.message || "Failed to transmit message.");
+    }
+  } catch (error) {
+    statusBox.style.color = "#c0392b";
+    statusBox.textContent = `Transmission Error: ${error.message}. Please email niteshkumar91845@gmail.com directly.`;
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Transmitting Formal Inquiry Dossier";
+    }
+  }
+};
+
+// --- 14. Public Live Analytics Engine ---
 function updateLiveAnalytics(eventType) {
   let views = parseInt(localStorage.getItem("ril_total_pageviews") || "1420");
   let sessions = parseInt(localStorage.getItem("ril_total_sessions") || "310");
