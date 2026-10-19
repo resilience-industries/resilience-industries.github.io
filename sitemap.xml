@@ -1,116 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- 1. Home Page -->
+  <!-- 1. Home Portal -->
   <url>
     <loc>https://resilience-industries.github.io/</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- 2. About Us -->
+  <!-- 2. About Us & Leadership -->
   <url>
     <loc>https://resilience-industries.github.io/about.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- 3. Services & Pricing -->
   <url>
     <loc>https://resilience-industries.github.io/services.html</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 4. Accessibility Audits -->
+  <!-- 4. Accessibility Audits & Testing Fleet -->
   <url>
     <loc>https://resilience-industries.github.io/audits.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 5. VPAT & ACR Authoring -->
+  <!-- 5. VPAT 2.5 / ACR Procurement -->
   <url>
     <loc>https://resilience-industries.github.io/vpat.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 6. Courses & Training -->
+  <!-- 6. Courses & Masterclasses -->
   <url>
     <loc>https://resilience-industries.github.io/courses.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 7. Tools & Testing Labs -->
+  <!-- 7. Testing Tools & Labs -->
   <url>
     <loc>https://resilience-industries.github.io/tools.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 8. Contact Us -->
-  <url>
-    <loc>https://resilience-industries.github.io/contact.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- 9. Frequently Asked Questions (FAQ) -->
+  <!-- 8. Frequently Asked Questions (FAQ) -->
   <url>
     <loc>https://resilience-industries.github.io/faq.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 
-  <!-- 10. Accessibility Statement -->
+  <!-- 9. Contact Headquarters Desk -->
+  <url>
+    <loc>https://resilience-industries.github.io/contact.html</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 10. Statutory Accessibility Statement -->
   <url>
     <loc>https://resilience-industries.github.io/accessibility-statement.html</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- 11. Accessible HTML Sitemap -->
+  <!-- 11. Accessible HTML Sitemap Directory -->
   <url>
     <loc>https://resilience-industries.github.io/sitemap.html</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 12. Privacy Policy & DPDP Governance -->
+  <url>
+    <loc>https://resilience-industries.github.io/privacy-policy.html</loc>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- 12. Privacy Policy -->
-  <url>
-    <loc>https://resilience-industries.github.io/privacy-policy.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <!-- 13. Terms of Use -->
+  <!-- 13. Terms of Use & Commercial Conditions -->
   <url>
     <loc>https://resilience-industries.github.io/terms.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <!-- 14. Refund & Cancellation Policy -->
   <url>
     <loc>https://resilience-industries.github.io/refund-policy.html</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 
 </urlset>
