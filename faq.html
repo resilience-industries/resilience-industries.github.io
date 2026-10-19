@@ -3,56 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Frequently Asked Questions (FAQ) | Resilience Industries Limited</title>
+  <title>Frequently Asked Questions (FAQ) | Resilience Industries - Accessibility Intelligence</title>
   
   <!-- Primary SEO Metadata -->
-  <meta name="description" content="Frequently Asked Questions about enterprise digital accessibility audits, W3C WCAG 2.2 AAA compliance, Section 508 VPAT authoring, pricing, and assistive technology testing.">
-  <meta name="keywords" content="Accessibility FAQ, WCAG 2.2 Questions, VPAT ACR FAQ, Screen Reader Testing FAQ, Section 508 Audits, Nitesh Kumar">
+  <meta name="description" content="Frequently asked questions about digital accessibility audits, VPAT 2.5 ACR authoring, WCAG 2.2 AAA compliance, and screen reader testing by Nitesh Kumar, CPACC. Govt. of India MSME Registered.">
+  <meta name="keywords" content="Accessibility FAQ, WCAG 2.2 Questions, VPAT Questions, Section 508 FAQ, Screen Reader Testing FAQ, Nitesh Kumar CPACC, UDYAM-BR-26-0255682">
   <meta name="author" content="Nitesh Kumar">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="theme-color" content="#0b3d91">
   <link rel="canonical" href="https://resilience-industries.github.io/faq.html">
 
-  <!-- Social Open Graph & Twitter Cards -->
+  <!-- Social Open Graph Metadata -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://resilience-industries.github.io/faq.html">
-  <meta property="og:title" content="FAQ | Resilience Industries Limited">
-  <meta property="og:description" content="Clear answers on WCAG 2.2 AAA audits, federal VPAT authoring, turnaround times, and pricing.">
-  <meta property="og:image" content="https://resilience-industries.github.io/assets/images/logo.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FAQ | Resilience Industries Limited">
-  <meta name="twitter:description" content="Answers to common questions regarding enterprise accessibility and manual assistive tech validation.">
-  <meta name="twitter:image" content="https://resilience-industries.github.io/assets/images/logo.png">
+  <meta property="og:site_name" content="Resilience Industries">
+  <meta property="og:title" content="Accessibility FAQ & Knowledge Base | Resilience Industries">
+  <meta property="og:description" content="Authoritative answers on federal Section 508, WCAG 2.2 AAA audits, and defensible VPAT authoring.">
+  <meta property="og:image" content="https://resilience-industries.github.io/logo.png">
 
-  <!-- Schema.org JSON-LD Structured Data (FAQPage) -->
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://resilience-industries.github.io/faq.html">
+  <meta name="twitter:title" content="Accessibility Intelligence FAQ | Resilience Industries">
+  <meta name="twitter:description" content="Expert answers to enterprise digital accessibility, legal compliance, and testing methodologies.">
+  <meta name="twitter:image" content="https://resilience-industries.github.io/logo.png">
+
+  <!-- Schema.org Knowledge Graph Triangulation & FAQPage Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    "@graph": [
       {
-        "@type": "Question",
-        "name": "Why is manual screen reader testing necessary if we already run automated accessibility scanners?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Automated scanners (such as Axe, Lighthouse, or WAVE) detect only approximately 30% of WCAG success criteria failures. They cannot evaluate logical focus order, dynamic live region announcements, keyboard focus traps, or whether alt text accurately describes functional content. Manual testing by certified specialists using TalkBack, NVDA, and JAWS guarantees true usability."
-        }
+        "@type": "FAQPage",
+        "@id": "https://resilience-industries.github.io/faq.html#faq",
+        "url": "https://resilience-industries.github.io/faq.html",
+        "name": "Frequently Asked Questions | Resilience Industries",
+        "isPartOf": {
+          "@id": "https://resilience-industries.github.io/#organization"
+        },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why are automated accessibility scanners insufficient for compliance?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Automated tools identify only approximately 30% of accessibility defects—mainly syntax errors like missing alt attributes or basic contrast calculations. They cannot evaluate logical keyboard tab orders, modal focus traps, dynamic screen reader live region announcements, or genuine cognitive readability."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between a VPAT and an ACR?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A VPAT (Voluntary Product Accessibility Template) is an empty standardized reporting template developed by the ITI. Once an accredited accessibility specialist audits a product and completes the evaluation rubric, the finished document is officially termed an Accessibility Conformance Report (ACR)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which screen readers does Resilience Industries test against?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Our laboratory conducts 100% manual assistive technology evaluations using Google TalkBack (Android 14+), Windows NVDA, and Freedom Scientific JAWS 2024, paired exclusively with hardware physical keyboards."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are reports issued by Resilience Industries legally defensible?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Every assessment is personally executed and signed by founder Nitesh Kumar, an IAAP-certified CPACC specialist and Deque Systems accredited auditor. Audits include time-stamped video/audio proof recordings and specific WAI-ARIA code remediation patches."
+            }
+          }
+        ]
       },
       {
-        "@type": "Question",
-        "name": "What is the typical turnaround time for a Baseline Audit versus a Full VPAT ACR?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A Baseline Health Check (₹500 / $10) is typically completed and delivered within 24 to 48 hours. A comprehensive enterprise VPAT 2.5 Accessibility Conformance Report (ACR) takes 7 to 10 business days, backed by empirical screen reader video recordings."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does Resilience Industries Limited safeguard proprietary source code and staging environments?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "We execute bilateral attorney-drafted Non-Disclosure Agreements (NDAs) prior to accessing any staging server or pre-production repository. All temporary testing credentials are fully purged within 14 days of final deliverable transmission."
-        }
+        "@type": "ProfessionalService",
+        "@id": "https://resilience-industries.github.io/#organization",
+        "name": "Resilience Industries",
+        "legalName": "Resilience Industries",
+        "alternateName": ["Resilience Industries Limited", "RIL"],
+        "url": "https://resilience-industries.github.io/",
+        "logo": "https://resilience-industries.github.io/logo.png",
+        "image": "https://resilience-industries.github.io/logo.png",
+        "telephone": "+918434721287",
+        "email": "niteshkumar91845@gmail.com",
+        "priceRange": "$$",
+        "identifier": [
+          {
+            "@type": "PropertyValue",
+            "name": "Udyam Registration Number",
+            "value": "UDYAM-BR-26-0255682",
+            "url": "https://udyamregistration.gov.in/"
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "National Industry Classification (NIC)",
+            "value": "62020 - Computer consultancy and facilities management"
+          }
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ward No. 1, Dinkar Nagar, Dahibhatta, Court",
+          "addressLocality": "Masaurhi, Patna",
+          "addressRegion": "Bihar",
+          "postalCode": "804452",
+          "addressCountry": "IN"
+        },
+        "founder": {
+          "@type": "Person",
+          "@id": "https://resilience-industries.github.io/#founder",
+          "name": "Nitesh Kumar",
+          "jobTitle": "Founder & Lead Digital Accessibility Auditor",
+          "gender": "Male",
+          "nationality": "Indian",
+          "description": "Visually impaired accessibility engineer, certified CPACC auditor by IAAP and Deque Systems, holder of Career Edge IT distinction (94%) from NIIT Foundation, and diploma in assistive devices from National Association for the Blind (NAB Delhi). Permanent visual disability certified by AIIMS New Delhi under UDID: DL8390220020008444.",
+          "identifier": {
+            "@type": "PropertyValue",
+            "name": "Unique Disability ID (UDID)",
+            "value": "DL8390220020008444",
+            "description": "Permanent Visual Impairment Disability Certification issued by AIIMS, New Delhi"
+          },
+          "hasCredential": [
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "CPACC (Certified Professional in Accessibility Core Competencies)",
+              "dateCreated": "2026-10-02",
+              "recognizedBy": {
+                "@type": "Organization",
+                "name": "International Association of Accessibility Professionals (IAAP)",
+                "url": "https://www.accessibilityassociation.org/"
+              }
+            },
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "Accessibility Fundamentals - Disability Guidelines & Laws",
+              "dateCreated": "2026-10-02",
+              "recognizedBy": {
+                "@type": "Organization",
+                "name": "Deque Systems / Deque University",
+                "url": "https://www.deque.com/"
+              }
+            },
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "Career Edge IT Certification (Scored: 94% Distinction)",
+              "recognizedBy": {
+                "@type": "Organization",
+                "name": "NIIT Foundation",
+                "url": "https://www.niitfoundation.org/"
+              }
+            },
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "Diploma in Computer Applications & Assistive Devices (NVDA)",
+              "recognizedBy": {
+                "@type": "Organization",
+                "name": "National Association for the Blind (NAB), R.K. Puram, New Delhi",
+                "url": "https://nabdelhi.in/"
+              }
+            },
+            {
+              "@type": "EducationalOccupationalCredential",
+              "name": "Permanent Visual Impairment Medical Certification (UDID: DL8390220020008444)",
+              "recognizedBy": {
+                "@type": "Organization",
+                "name": "All India Institute of Medical Sciences (AIIMS), New Delhi",
+                "url": "https://www.aiims.edu/"
+              }
+            }
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/in/nitesh-kumar-AT",
+            "https://github.com/resilience-industries"
+          ]
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/resilience-industries-limited",
+          "https://github.com/resilience-industries/resilience-industries.github.io"
+        ]
       }
     ]
   }
@@ -86,16 +214,16 @@
         
         <!-- Brand Identity -->
         <div class="brand-section">
-          <img src="assets/images/logo.png" alt="Resilience Industries Limited Official Logo" class="company-logo" onerror="this.src='logo.png'; this.onerror=null;">
+          <img src="logo.png" alt="Resilience Industries Official Logo" class="company-logo" onerror="this.src='logo.png'; this.onerror=null;">
           <div>
-            <span class="brand-title" style="display: block;">Resilience Industries Limited</span>
+            <span class="brand-title" style="display: block;">Resilience Industries</span>
             <p class="brand-tagline">Center for Digital Accessibility, WCAG 2.2 AAA Compliance & Assistive Tech Labs</p>
           </div>
         </div>
 
         <!-- Real-Time Live Widget (Millisecond Precision, Zero Refresh) -->
         <div class="dynamic-banner-info" role="region" aria-label="Real-time Metrics">
-          <div id="banner-greeting" class="banner-greeting-text">Welcome to Resilience Industries Limited</div>
+          <div id="banner-greeting" class="banner-greeting-text">Welcome to Resilience Industries</div>
           <div class="live-metrics-row">
             <div>⏰ <span id="live-clock">--:--:--</span></div>
             <div>📅 <span id="live-calendar">Loading calendar...</span></div>
@@ -114,7 +242,7 @@
 
       </div>
 
-      <!-- Action Toolbar (Menu & Universal Search Only) -->
+      <!-- Action Toolbar (Clean Layout, Zero Broken Links) -->
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
         
         <!-- Expandable Navigation Menu with Dedicated Close Button -->
@@ -154,8 +282,8 @@
           </button>
           <div id="banner-search-container" style="display: none; margin-top: 0.5rem;">
             <form onsubmit="handleUniversalSearch(event)" style="display: flex; gap: 0.4rem;">
-              <label for="global-search-input" class="sr-only">Search FAQ, audits, VPAT questions...</label>
-              <input type="search" id="global-search-input" class="form-control" placeholder="Search FAQ, audits, VPAT questions..." required style="min-width: 240px;">
+              <label for="global-search-input" class="sr-only">Search FAQ answers, legal standards, testing scopes...</label>
+              <input type="search" id="global-search-input" class="form-control" placeholder="Search FAQ answers, legal standards, testing scopes..." required style="min-width: 240px;">
               <button type="submit" class="btn-primary">Go</button>
               <button type="button" class="btn-ctrl" onclick="toggleBannerSearch()">✕</button>
             </form>
@@ -176,175 +304,94 @@
         
         <div class="primary-column">
           
-          <!-- Section 1: Overview -->
-          <article class="card" aria-labelledby="faq-heading">
-            <h1 id="faq-heading" style="font-size: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; margin-bottom: 0.8rem;">
-              Frequently Asked Questions (FAQ)
+          <!-- FAQ Header -->
+          <article class="card" aria-labelledby="faq-main-heading">
+            <h1 id="faq-main-heading" style="font-size: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.4rem; margin-bottom: 0.8rem;">
+              Frequently Asked Questions & Compliance Intelligence
             </h1>
             <p style="font-size: 1.05rem; line-height: 1.6;">
-              Find clear, authoritative answers to common questions regarding enterprise digital accessibility audits, W3C WCAG 2.2 AAA conformance, Section 508 VPAT authoring, turnaround times, and Razorpay payment processes.
-            </p>
-            <p style="margin-top: 0.8rem; line-height: 1.6;">
-              Screen reader and keyboard users can navigate directly between question categories using heading keys (<code>H</code>) and press <code>Enter</code> or <code>Space</code> on any question summary to expand its answer.
+              Understanding digital accessibility standards, statutory compliance requirements, and testing methodologies can be challenging. 
+              Below are answers to fundamental questions regarding <strong>W3C WCAG 2.2 AAA</strong> conformance, federal <strong>VPAT® 2.5</strong> reporting, and our assistive technology testing laboratory.
             </p>
           </article>
 
-          <!-- Category 1: General & Standards -->
-          <section class="card" aria-labelledby="cat-general-title">
-            <h2 id="cat-general-title">1. Accessibility Standards & Core Concepts</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+          <!-- FAQ Accordion Container -->
+          <section class="card" aria-labelledby="faq-items-heading">
+            <h2 id="faq-items-heading">Core Advisory Inquiries</h2>
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
               
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  Why is manual screen reader testing necessary if we already run automated accessibility scanners?
+              <!-- Q1 -->
+              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;" open>
+                <summary style="font-weight: 700; font-size: 1.05rem; cursor: pointer; color: var(--primary-color);">
+                  Why are automated accessibility scanners insufficient on their own?
                 </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  Automated testing tools (such as Axe-core, WAVE, or Google Lighthouse) identify approximately 30% of WCAG compliance failures—chiefly programmatic syntax checks like missing `alt` attributes or basic color contrast ratios. However, automated scripts cannot verify whether keyboard focus order is logical, whether custom modal dialogs trap screen reader cursors, or whether dynamic asynchronous alerts are announced properly. True usability can only be verified through 100% manual testing with real assistive technology operators.
+                <div style="margin-top: 0.8rem; font-size: 0.95rem; line-height: 1.6;">
+                  Automated scanning tools catch only ~30% of accessibility failures—primarily straightforward syntax issues such as missing <code>alt</code> attributes or straightforward CSS color contrast. 
+                  They are fundamentally incapable of testing logical keyboard tab order, modal dialog focus traps, whether custom ARIA states update dynamically during screen reader announcements, or whether alt text is authentically descriptive. Manual testing by certified screen reader operators is required for legal and functional compliance.
                 </div>
               </details>
 
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  What is the difference between WCAG 2.2 Level AA and Level AAA?
+              <!-- Q2 -->
+              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <summary style="font-weight: 700; font-size: 1.05rem; cursor: pointer; color: var(--primary-color);">
+                  What is the difference between a VPAT® and an Accessibility Conformance Report (ACR)?
                 </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  WCAG 2.2 Level AA is the recognized legal standard for commercial websites, ADA Title III compliance, and Section 508. Level AAA is the highest, most stringent tier of digital inclusion. It mandates enhanced color contrast (7:1 for normal text vs 4.5:1 in AA), strict 24x24 pixel touch targets, error prevention across all transactional inputs, and cognitive assistance. Resilience Industries Limited specializes in helping enterprise platforms attain full Level AAA conformance.
+                <div style="margin-top: 0.8rem; font-size: 0.95rem; line-height: 1.6;">
+                  The <strong>VPAT (Voluntary Product Accessibility Template)</strong> is a standardized blank template created by the Information Technology Industry Council (ITI). 
+                  When an accredited accessibility auditor assesses a specific digital product against statutory standards (such as Section 508 or EN 301 549) and documents the detailed findings into the template, the resulting completed document is officially designated as an <strong>Accessibility Conformance Report (ACR)</strong>.
                 </div>
               </details>
 
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  What are the new success criteria introduced in WCAG 2.2?
+              <!-- Q3 -->
+              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <summary style="font-weight: 700; font-size: 1.05rem; cursor: pointer; color: var(--primary-color);">
+                  Which assistive technologies and operating systems does your lab test?
                 </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  WCAG 2.2 officially introduced nine critical success criteria focusing on cognitive load, low vision, and motor accessibility. Key criteria include: (1) Focus Appearance (SC 2.4.11), (2) Focus Not Obscured (SC 2.4.12 & 2.4.13), (3) Target Size Minimum (SC 2.5.8), (4) Redundant Entry (SC 3.3.7), and (5) Accessible Authentication (SC 3.3.8 & 3.3.9). Our audits validate every single one of these criteria.
+                <div style="margin-top: 0.8rem; font-size: 0.95rem; line-height: 1.6;">
+                  Resilience Industries maintains a multi-environment testing laboratory. We conduct 100% manual evaluations using:
+                  <ul style="margin-left: 1.25rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem;">
+                    <li><strong>Google TalkBack (Android 14+):</strong> Mobile touch exploration, swipe gestures, and dynamic web app testing on Google Chrome Mobile.</li>
+                    <li><strong>Windows NVDA:</strong> Desktop virtual cursor navigation, heading jumps, and ARIA 1.2 state verification on Mozilla Firefox and Google Chrome.</li>
+                    <li><strong>Freedom Scientific JAWS 2024:</strong> Enterprise application evaluations on Microsoft Edge and Google Chrome.</li>
+                    <li><strong>Hardware Keyboards:</strong> Strict mouse-free navigation validating WCAG 2.2 Focus Visible and Focus Not Obscured criteria.</li>
+                  </ul>
+                </div>
+              </details>
+
+              <!-- Q4 -->
+              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <summary style="font-weight: 700; font-size: 1.05rem; cursor: pointer; color: var(--primary-color);">
+                  Are reports issued by Resilience Industries legally defensible in procurement and disputes?
+                </summary>
+                <div style="margin-top: 0.8rem; font-size: 0.95rem; line-height: 1.6;">
+                  Yes. Every assessment is personally executed and digitally signed by founder <strong>Nitesh Kumar</strong>, an IAAP-certified CPACC specialist and Deque Systems accredited practitioner. 
+                  Our audit packages are backed by time-stamped video/audio proof logs showing exact screen reader interactions, statutory citations, and production-ready code remediation patches.
+                </div>
+              </details>
+
+              <!-- Q5 -->
+              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem;">
+                <summary style="font-weight: 700; font-size: 1.05rem; cursor: pointer; color: var(--primary-color);">
+                  How does the code remediation delivery process work?
+                </summary>
+                <div style="margin-top: 0.8rem; font-size: 0.95rem; line-height: 1.6;">
+                  Unlike consulting agencies that provide only vague recommendations, Resilience Industries provides production-ready code snippets. 
+                  We deliver corrected semantic HTML5 markup, validated WAI-ARIA 1.2 state management logic, and keyboard focus trap scripts tailored for frameworks including React, Vue, Angular, or vanilla JavaScript.
                 </div>
               </details>
 
             </div>
           </section>
 
-          <!-- Category 2: Auditing & Methodology -->
-          <section class="card" aria-labelledby="cat-auditing-title">
-            <h2 id="cat-auditing-title">2. Auditing Methodology & Laboratory Testing</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
-              
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  Which screen readers and operating systems do you test with?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  Our physical testing laboratory evaluates platforms across real hardware devices using: (1) <strong>Google TalkBack 14+</strong> on Android, (2) <strong>Apple VoiceOver</strong> on iOS/macOS, (3) <strong>NVDA (NonVisual Desktop Access)</strong> on Windows paired with Chrome and Firefox, and (4) <strong>Freedom Scientific JAWS 2024</strong> on Windows. All desktop evaluations are performed using physical hardware keyboards with zero mouse assistance.
-                </div>
-              </details>
-
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  What deliverables will our development team receive after an audit?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  Your team receives: (1) An Executive Compliance Brief summarizing legal exposure and risk scores, (2) A Granular Issue Dossier mapping each violation to its exact URL, DOM selector, and WCAG SC, (3) Production-ready HTML5/ARIA remediation code snippets, and (4) Empirical screen-recorded video proofs demonstrating friction points as experienced by screen reader users.
-                </div>
-              </details>
-
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  Do you provide post-remediation verification after our developers fix the bugs?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  Yes. All Standard WCAG Audits and Enterprise VPAT packages include <strong>one complimentary regression testing round</strong>. Once your engineering team applies the provided code patches, our laboratory re-tests the impacted user journeys and issues an updated Compliance Certificate.
-                </div>
-              </details>
-
-            </div>
-          </section>
-
-          <!-- Category 3: VPAT & Federal Procurement -->
-          <section class="card" aria-labelledby="cat-vpat-title">
-            <h2 id="cat-vpat-title">3. VPAT® & Legal Accessibility Reporting</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
-              
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  What is a VPAT and why does our enterprise need one?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  A Voluntary Product Accessibility Template (VPAT®) is an internationally standardized template created by the Information Technology Industry Council (ITI). When completed by an independent auditor, it becomes an official Accessibility Conformance Report (ACR). U.S. Federal agencies (Section 508), state governments, universities, and enterprise procurement departments require a valid ACR before approving software procurement bids.
-                </div>
-              </details>
-
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  Can our own developers write our VPAT ACR in-house?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  While vendors can technically complete their own VPATs, self-authored reports are heavily scrutinized and often rejected by federal buyers due to inherent bias and lack of empirical assistive technology validation. An ACR authored and signed by an independent accredited accessibility specialist carries legal credibility and satisfies procurement review boards.
-                </div>
-              </details>
-
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  How long is an Accessibility Conformance Report (ACR) valid?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  An ACR represents a point-in-time evaluation of a specific software release or website version. As long as your core user interface does not undergo major redesigns, an ACR is generally accepted for <strong>12 to 18 months</strong> by procurement officers. If major architectural changes occur, an audit delta check is recommended.
-                </div>
-              </details>
-
-            </div>
-          </section>
-
-          <!-- Category 4: Commercial, Timelines & Security -->
-          <section class="card" aria-labelledby="cat-commercial-title">
-            <h2 id="cat-commercial-title">4. Commercial Terms, Turnaround & Security</h2>
-            
-            <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
-              
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  What are your typical turnaround times for audit delivery?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  Our turnaround schedules are strictly defined: (1) <strong>Baseline Health Checks:</strong> 24 to 48 hours, (2) <strong>Standard WCAG Audits (5 Pages):</strong> 3 to 5 business days, and (3) <strong>Enterprise VPAT / ACR Production:</strong> 7 to 10 business days. Initial scoping communication is guaranteed within 24 to 72 business hours.
-                </div>
-              </details>
-
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  How are payments handled on your portal?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  All transactions are securely authorized through <strong>Razorpay Software Private Limited</strong>, complying with PCI-DSS Level 1 standards and RBI tokenization regulations. We accept UPI, Net Banking, and Credit/Debit Cards in Indian Rupees (INR) and US Dollars (USD). Tax invoices with statutory itemization are dispatched automatically upon settlement.
-                </div>
-              </details>
-
-              <details style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.8rem 1rem;">
-                <summary style="font-weight: 700; cursor: pointer; color: var(--primary-color); font-size: 1.05rem;">
-                  Will you sign our organization's bilateral Non-Disclosure Agreement (NDA)?
-                </summary>
-                <div style="margin-top: 0.6rem; line-height: 1.6; font-size: 0.95rem;">
-                  Yes, absolutely. We routinely execute bilateral NDAs prior to accessing proprietary staging servers, pre-production code repositories, or confidential enterprise blueprints. You can request mutual NDA execution directly through our <a href="contact.html">Contact Us desk</a>.
-                </div>
-              </details>
-
-            </div>
-          </section>
-
-          <!-- Still Have Questions Section -->
-          <section class="card" aria-labelledby="still-questions-title">
-            <h2 id="still-questions-title">Have a Specific Project Question?</h2>
-            <p style="margin-top: 0.5rem; line-height: 1.6;">
-              If your technical inquiry or enterprise procurement requirement is not covered here, connect directly with our engineering team:
+          <!-- Inquiry Gateway Card -->
+          <section class="card" aria-labelledby="custom-inquiry-heading">
+            <h2 id="custom-inquiry-heading">Have a Custom RFP or Procurement Milestone?</h2>
+            <p style="font-size: 0.95rem; margin-top: 0.4rem; line-height: 1.6;">
+              If your organization requires a tailored statement of work, multi-product enterprise VPAT ACR, or on-site engineer masterclass, connect directly with our engineering desk.
             </p>
-            <div style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-              <a href="contact.html" class="btn-primary" style="text-decoration: none;">
-                Submit Inquiries via Contact Desk →
-              </a>
-              <a href="services.html" class="btn-ctrl" style="text-decoration: none;">
-                Review Services & Pricing
+            <div style="margin-top: 1rem;">
+              <a href="contact.html" class="btn-primary" style="text-decoration: none; display: inline-block;">
+                ✉️ Contact Leadership Desk
               </a>
             </div>
           </section>
@@ -352,21 +399,27 @@
         </div>
 
         <!-- Complementary Landmark -->
-        <aside role="complementary" aria-label="Corporate Headquarters & Verified Contacts">
+        <aside role="complementary" aria-label="Official Corporate Accreditation">
           
           <div class="card">
-            <h3>Direct Specialist Advisory</h3>
-            <p><strong>Nitesh Kumar</strong><br>Founder & Lead Accessibility Specialist<br>AIIMS-Certified Accessibility Auditor</p>
-            <p style="margin-top: 0.6rem;">📍 Masaurhi, Patna, Bihar - 804452</p>
+            <h3>Verified Identity & Headquarters</h3>
+            <p><strong>Nitesh Kumar</strong><br>Founder & Lead Accessibility Specialist<br>CPACC Certified (IAAP / Deque)</p>
+            <p style="margin-top: 0.4rem;">♿ <strong>UDID Card:</strong> DL8390220020008444</p>
+            <p style="margin-top: 0.4rem;">📜 <strong>MSME Reg:</strong> <a href="https://udyamregistration.gov.in/" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color);">UDYAM-BR-26-0255682</a></p>
             <p style="margin-top: 0.4rem;">📞 <a href="tel:+918434721287" style="color: var(--primary-color); text-decoration: none;">+91 8434721287</a></p>
             <p>✉️ <a href="mailto:niteshkumar91845@gmail.com" style="color: var(--primary-color); word-break: break-all; text-decoration: none;">niteshkumar91845@gmail.com</a></p>
+            <p style="margin-top: 0.6rem;">📍 Dinkar Nagar, Dahibhatta, Ward 1, Court, Masaurhi, Patna, Bihar - 804452, India</p>
           </div>
 
           <div class="card">
-            <h3>SLA Response Guarantee</h3>
-            <p style="font-size: 0.95rem; line-height: 1.5;">
-              Technical inquiries and custom scope requests submitted to our desk are acknowledged within <strong>24 to 72 business hours</strong>.
-            </p>
+            <h3>Institutional Links</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; margin-top: 0.6rem;">
+              <li>🌐 <a href="https://www.accessibilityassociation.org/" target="_blank" rel="noopener noreferrer">IAAP Official Portal</a></li>
+              <li>🌐 <a href="https://dequeuniversity.com/" target="_blank" rel="noopener noreferrer">Deque University</a></li>
+              <li>🌐 <a href="https://www.niitfoundation.org/" target="_blank" rel="noopener noreferrer">NIIT Foundation</a></li>
+              <li>🌐 <a href="https://nabdelhi.in/" target="_blank" rel="noopener noreferrer">NAB New Delhi</a></li>
+              <li>🌐 <a href="https://www.aiims.edu/" target="_blank" rel="noopener noreferrer">AIIMS New Delhi</a></li>
+            </ul>
           </div>
 
         </aside>
@@ -426,7 +479,7 @@
       </div>
 
       <div class="copyright-bar">
-        <p>&copy; 2026 Resilience Industries Limited. All Rights Reserved. Engineered strictly to WCAG 2.2 AAA & WAI-ARIA 1.2 Standards.</p>
+        <p>&copy; 2026 Resilience Industries. All Rights Reserved. Govt. of India MSME: UDYAM-BR-26-0255682. Engineered strictly to WCAG 2.2 AAA & WAI-ARIA 1.2 Standards.</p>
       </div>
 
     </div>
