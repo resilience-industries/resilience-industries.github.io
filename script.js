@@ -1,5 +1,5 @@
 /**
- * Resilience Industries Limited (RIL)
+ * Resilience Industries (RIL)
  * Master External JavaScript Engine: script.js
  * Unified Enterprise Portal Controller (100% of Portal Logic in Single File)
  * - Firebase Modular Authentication & In-App Password Reset
@@ -118,7 +118,7 @@ function updateLiveBannerMetrics() {
 
   const greetingEl = document.getElementById("banner-greeting");
   if (greetingEl) {
-    greetingEl.textContent = `${greeting} | Welcome to Resilience Industries Limited`;
+    greetingEl.textContent = `${greeting} | Welcome to Resilience Industries`;
   }
 
   const timeStr = now.toLocaleTimeString("en-US", { hour12: false });
@@ -903,7 +903,7 @@ window.initiatePaidRequest = function(event, serviceName, amountINR) {
     key: RAZORPAY_KEY_ID,
     amount: amountINR * 100,
     currency: "INR",
-    name: "Resilience Industries Limited",
+    name: "Resilience Industries",
     description: `Service: ${serviceName}`,
     handler: async function(response) {
       if (statusBox) statusBox.textContent = "Payment authorized. Transmitting audit dossier to headquarters...";
