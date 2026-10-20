@@ -46,7 +46,7 @@ Our assessments combine automated validation pipelines with 100% manual assistiv
 ## 🔗 Official Channels & Verification
 
 * **Web Portal:** [resilience-industries.github.io](https://resilience-industries.github.io/)
-* **LinkedIn Organization:** [Resilience Industries](https://www.linkedin.com/company/resilience-industries-limited)
+* **LinkedIn Organization:** [Resilience Industries](https://www.linkedin.com/company/resilience-industries)
 * **Lead Auditor LinkedIn:** [Nitesh Kumar](https://www.linkedin.com/in/nitesh-kumar-AT)
 * **Official Registry:** [Udyam Registration Portal](https://udyamregistration.gov.in/)
 * **Direct Contact:** `niteshkumar91845@gmail.com` | `+91-8434721287`
