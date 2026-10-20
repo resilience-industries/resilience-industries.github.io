@@ -1,64 +1,52 @@
-# Resilience Industries Limited (RIL)
-> Center for Digital Accessibility, W3C WCAG 2.2 AAA Conformance & Assistive Technology Research Laboratories.
+# Resilience Industries
 
-[![WCAG 2.2 AAA](https://img.shields.io/badge/WCAG-2.2%20AAA-brightgreen.svg)](https://www.w3.org/WAI/WCAG22/quickref/)
-[![Section 508](https://img.shields.io/badge/Compliance-Section%20508-blue.svg)](https://www.section508.gov/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+> **Enterprise Digital Accessibility Consulting & Native Assistive Technology Laboratory**  
+> Officially Registered Micro Enterprise | Ministry of MSME, Govt. of India: **UDYAM-BR-26-0255682** (NIC 62020)
 
-Resilience Industries Limited (RIL) is an enterprise digital accessibility consultancy dedicated to eliminating barriers across web ecosystems, enterprise software, and mobile applications.
-
-Directed by **Nitesh Kumar**, an AIIMS-certified 100% blind accessibility specialist, our engineering laboratory combines automated validation pipelines with 100% manual assistive technology audits executed on native hardware across **TalkBack, NVDA, and JAWS**.
-
----
-
-## 🌐 Live Production Deployment
-* **Official Website:** [https://resilience-industries.github.io/](https://resilience-industries.github.io/)
-* **Headquarters:** Dinkar Nagar, Dahibhatta, Ward 1, Masaurhi, Patna, Bihar - 804452, India
-* **Official Inquiries Desk:** [niteshkumar91845@gmail.com](mailto:niteshkumar91845@gmail.com) | +91 8434721287
+[![W3C WCAG 2.2 AAA](https://img.shields.io/badge/WCAG-2.2%20AAA-blue.svg)](https://www.w3.org/TR/WCAG22/)
+[![Section 508](https://img.shields.io/badge/Compliance-Section%20508-green.svg)](https://www.section508.gov/)
+[![CPACC Certified](https://img.shields.io/badge/Auditor-CPACC%20IAAP-orange.svg)](https://www.accessibilityassociation.org/)
+[![License: All Rights Reserved](https://img.shields.io/badge/Copyright-2026%20Resilience%20Industries-lightgrey.svg)](https://resilience-industries.github.io/)
 
 ---
 
-## 🏛️ Core Capabilities & Deliverables
-1. **WCAG 2.2 AAA Manual Audits:** Diagnostic exploratory evaluations across all 86 success criteria.
-2. **VPAT® 2.5 / ACR Production:** Defensible federal and EU procurement reports (Section 508 / EN 301 549).
-3. **Direct Code Remediation:** Semantic HTML5 repair and accessible WAI-ARIA 1.2 code patches.
-4. **Assistive Technology Lab Testing:** Hardware validation using real mobile and desktop screen readers.
-5. **Academy Masterclasses:** Specialized training for software engineers and QA teams.
+## 🌐 Enterprise Overview
+
+**Resilience Industries** provides defense-grade digital accessibility audits, federal Voluntary Product Accessibility Template (VPAT® 2.5 / ACR) authoring, and direct front-end code remediation. 
+
+Directed by **Nitesh Kumar**, an IAAP-certified accessibility specialist (CPACC) who is 100% blind (Permanent Disability certified by AIIMS New Delhi, UDID: `DL8390220020008444`), our laboratory delivers empirical, barrier-free validation across native desktop and mobile environments.
+
+- **Official Web Portal:** [https://resilience-industries.github.io/](https://resilience-industries.github.io/)
+- **Founder & Lead Auditor:** Nitesh Kumar, CPACC
+- **Headquarters:** Ward No. 1, Dinkar Nagar, Dahibhatta, Court, Masaurhi, Patna, Bihar - 804452, India
+- **Statutory Registration:** UDYAM-BR-26-0255682 (MSME, Government of India)
 
 ---
 
-## 📂 Architecture & Page Directory
-The web portal conforms to strict WCAG 2.2 AAA standards with zero inline styles and zero inline scripts:
+## 🛠️ Testing Fleet & Laboratory Infrastructure
 
-| Page | Filename | Description |
-| :--- | :--- | :--- |
-| **Home** | `index.html` | Core capability overview & baseline audit reservation |
-| **About Us** | `about.html` | Leadership credentials, methodology & accreditations |
-| **Services & Pricing** | `services.html` | Transparent commercial tiers (INR / USD) & Razorpay checkout |
-| **Audits** | `audits.html` | Multi-disability testing matrix & deliverable specifications |
-| **VPAT / ACR** | `vpat.html` | Supported editions (508, WCAG, EU, INT) & conformance standards |
-| **Courses** | `courses.html` | Academy masterclasses & corporate cohort enrollment |
-| **Tools & Labs** | `tools.html` | Testing laboratory fleet & hardware setup |
-| **Contact Us** | `contact.html` | Universal inquiry form with 24–72h SLA guarantee |
-| **A11y Statement** | `accessibility-statement.html` | Formal W3C WCAG 2.2 AAA conformance declaration |
-| **Sitemap** | `sitemap.html` | Complete accessible document hierarchy |
-| **Privacy Policy** | `privacy-policy.html` | Statutory data protection, NDA & Firebase security |
-| **Terms of Use** | `terms.html` | Commercial contract terms & IP licensing |
-| **Refund Policy** | `refund-policy.html` | Razorpay merchant compliance terms & cancellation rules |
-| **FAQ** | `faq.html` | Structured Schema.org FAQ on audits, pricing & testing |
+Our assessments combine automated validation pipelines with 100% manual assistive technology audits using hardware keyboards (zero mouse emulation):
+
+* **Android Mobile Fleet:** Google TalkBack 14+ on Android 14 (Google Chrome Mobile).
+* **Windows Desktop Fleet:** NVDA (NonVisual Desktop Access) on Firefox and Chrome.
+* **Enterprise Desktop Fleet:** Freedom Scientific JAWS 2024 on Microsoft Edge.
+* **Code Remediation Architecture:** Semantic HTML5 refactoring, WAI-ARIA 1.2 state management, and focus trap elimination.
 
 ---
 
-## 🛠️ Technology Stack
-* **Markup:** Semantic HTML5 (WAI-ARIA 1.2 compliant landmarks & widgets)
-* **Styling:** External `style.css` (Fluid design, Dark Mode, High Contrast, Zoom scaling)
-* **Client Engine:** External `script.js` (Vanilla ES6+ Modular SDK)
-* **Authentication:** Google Firebase Auth (In-App Password Reset, Verification Limiter)
-* **Payments:** Razorpay Payment Gateway (PCI-DSS Level 1 Compliant)
-* **Dispatches:** Web3Forms API (Encrypted end-to-end form transmissions)
+## 📑 Core Consulting Capabilities
+
+1. **W3C WCAG 2.2 Level AAA Audits:** Comprehensive line-by-line evaluation of all 86 success criteria with time-stamped video/audio proof captures.
+2. **VPAT® 2.5 & ACR Authoring:** Formal procurement compliance reporting conforming to Revised Section 508 and European Standard EN 301 549 (EAA).
+3. **Direct Engineering Remediation:** Production-ready HTML/ARIA code snippets for React, Vue, Angular, and static stacks.
+4. **Academy & Executive Training:** IAAP CPACC certification bootcamps and screen reader bug-hunting masterclasses.
 
 ---
 
-## 📜 Compliance & Legal
-© 2026 Resilience Industries Limited. All Rights Reserved.  
-All audit dossiers, code patches, and client communications are protected under bilateral Non-Disclosure Agreements (NDAs).
+## 🔗 Official Channels & Verification
+
+* **Web Portal:** [resilience-industries.github.io](https://resilience-industries.github.io/)
+* **LinkedIn Organization:** [Resilience Industries](https://www.linkedin.com/company/resilience-industries-limited)
+* **Lead Auditor LinkedIn:** [Nitesh Kumar](https://www.linkedin.com/in/nitesh-kumar-AT)
+* **Official Registry:** [Udyam Registration Portal](https://udyamregistration.gov.in/)
+* **Direct Contact:** `niteshkumar91845@gmail.com` | `+91-8434721287`
