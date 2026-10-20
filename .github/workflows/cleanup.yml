@@ -1,0 +1,34 @@
+name: Bulk Remove Limited Everywhere
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  remove-limited:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Replace and Clean All Files
+        run: |
+          # 1. Replace LinkedIn URL
+          find . -type f \( -name "*.html" -o -name "*.json" -o -name "*.md" \) -exec sed -i 's|https://www.linkedin.com/company/resilience-industries-limited|https://www.linkedin.com/company/resilience-industries|g' {} +
+
+          # 2. Replace Brand Name
+          find . -type f \( -name "*.html" -o -name "*.json" -o -name "*.md" \) -exec sed -i 's/Resilience Industries Limited/Resilience Industries/g' {} +
+
+          # 3. Clean schema alternateName
+          find . -type f \( -name "*.html" -o -name "*.json" \) -exec sed -i 's/"Resilience Industries Limited", //g' {} +
+          find . -type f \( -name "*.html" -o -name "*.json" \) -exec sed -i 's/, "Resilience Industries Limited"//g' {} +
+
+      - name: Auto-Commit and Push Changes
+        run: |
+          git config user.name "Auto Cleanup Bot"
+          git config user.email "bot@resilience-industries.github.io"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-clean: remove Limited and fix LinkedIn URL across all files" && git push)
