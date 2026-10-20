@@ -1,11 +1,11 @@
-name: Bulk Remove Limited Everywhere
+name: Universal Cleanup Everywhere
 
 on:
   push:
   workflow_dispatch:
 
 jobs:
-  remove-limited:
+  deep-clean:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -14,21 +14,38 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Replace and Clean All Files
+      - name: Purge Limited Across Code, Content, URLs, and Scripts
         run: |
-          # 1. Replace LinkedIn URL
-          find . -type f \( -name "*.html" -o -name "*.json" -o -name "*.md" \) -exec sed -i 's|https://www.linkedin.com/company/resilience-industries-limited|https://www.linkedin.com/company/resilience-industries|g' {} +
+          # 1. Purge "-limited" from all URLs (LinkedIn, Web addresses, canonical links)
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.json" -o -name "*.xml" -o -name "*.md" \) \
+            -not -path "*/.git/*" \
+            -exec sed -i 's|https://www.linkedin.com/company/resilience-industries-limited|https://www.linkedin.com/company/resilience-industries|g' {} +
+          
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.json" -o -name "*.xml" -o -name "*.md" \) \
+            -not -path "*/.git/*" \
+            -exec sed -i 's|resilience-industries-limited|resilience-industries|g' {} +
 
-          # 2. Replace Brand Name
-          find . -type f \( -name "*.html" -o -name "*.json" -o -name "*.md" \) -exec sed -i 's/Resilience Industries Limited/Resilience Industries/g' {} +
+          # 2. Purge exact phrase "Resilience Industries Limited" across all code & visible text
+          find . -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" -o -name "*.json" -o -name "*.xml" -o -name "*.md" \) \
+            -not -path "*/.git/*" \
+            -exec sed -i 's/Resilience Industries Limited/Resilience Industries/g' {} +
 
-          # 3. Clean schema alternateName
-          find . -type f \( -name "*.html" -o -name "*.json" \) -exec sed -i 's/"Resilience Industries Limited", //g' {} +
-          find . -type f \( -name "*.html" -o -name "*.json" \) -exec sed -i 's/, "Resilience Industries Limited"//g' {} +
+          # 3. Clean schema.json alternateName array
+          find . -type f \( -name "*.html" -o -name "*.json" \) \
+            -not -path "*/.git/*" \
+            -exec sed -i 's/"Resilience Industries Limited", //g' {} +
+          find . -type f \( -name "*.html" -o -name "*.json" \) \
+            -not -path "*/.git/*" \
+            -exec sed -i 's/, "Resilience Industries Limited"//g' {} +
 
-      - name: Auto-Commit and Push Changes
+          # 4. Clean JS Voice Announcements & Strings (ensure pure brand name)
+          find . -type f -name "*.js" \
+            -not -path "*/.git/*" \
+            -exec sed -i 's/welcome to Resilience Industries Limited/welcome to Resilience Industries/gI' {} +
+
+      - name: Commit and Push Clean Repository
         run: |
           git config user.name "Auto Cleanup Bot"
           git config user.email "bot@resilience-industries.github.io"
           git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-clean: remove Limited and fix LinkedIn URL across all files" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Universal deep-clean: remove Limited & -limited from all files, URLs, and voice scripts" && git push)
