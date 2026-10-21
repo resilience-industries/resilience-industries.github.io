@@ -14,20 +14,41 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Inject GA4 Tag into Head of all HTML files
+      - name: Safely Inject GA4 Tag into Head
         run: |
-          GA_TAG='<!-- Google tag (gtag.js) -->\n<script async src="https:\/\/www.googletagmanager.com\/gtag\/js?id=G-VCN9N2TXZD"><\/script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag("js", new Date());\n  gtag("config", "G-VCN9N2TXZD");\n<\/script>'
-          
-          # Inject GA4 directly after <head> in all HTML files if not already present
-          for file in *.html; do
-            if ! grep -q "G-VCN9N2TXZD" "$file"; then
-              sed -i "s|<head>|<head>\n$GA_TAG|g" "$file"
-            fi
-          done
+          python3 -c '
+          import glob
 
-      - name: Commit and Push Clean Updates
+          ga_code = """<!-- Google tag (gtag.js) -->
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-VCN9N2TXZD"></script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag("js", new Date());
+            gtag("config", "G-VCN9N2TXZD");
+          </script>
+          """
+
+          for filename in glob.glob("*.html"):
+              with open(filename, "r", encoding="utf-8") as f:
+                  content = f.read()
+
+              if "G-VCN9N2TXZD" not in content:
+                  if "<head>" in content:
+                      content = content.replace("<head>", "<head>\n" + ga_code, 1)
+                  elif "<HEAD>" in content:
+                      content = content.replace("<HEAD>", "<HEAD>\n" + ga_code, 1)
+
+                  with open(filename, "w", encoding="utf-8") as f:
+                      f.write(content)
+                  print(f"Updated {filename}")
+              else:
+                  print(f"Already present in {filename}")
+          '
+
+      - name: Commit and Push Updates
         run: |
           git config user.name "Auto Feature Bot"
           git config user.email "bot@resilience-industries.github.io"
           git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-inject Google Analytics 4 (G-VCN9N2TXZD) across all HTML files" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Fix: Safely inject GA4 tag across all HTML files" && git push)
