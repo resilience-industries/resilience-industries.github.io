@@ -209,6 +209,20 @@
 
   <!-- Accessible Skip Navigation Links & Sighted Speaker TTS Button -->
   <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+<div class="smart-tour-wrapper">
+  <button class="tour-trigger-btn" id="smart-tour-trigger" aria-expanded="false" aria-controls="smart-tour-bar">
+    🔊 Voice Tour
+  </button>
+  <div class="smart-tour-bar" id="smart-tour-bar" role="region" aria-label="Audio Tour Player">
+    <button class="smart-tour-btn" id="smart-tour-play">Play</button>
+    <button class="smart-tour-btn" id="smart-tour-next">Next / Replay</button>
+    <button class="smart-tour-btn" id="smart-tour-voice">Voice: Female</button>
+    <button class="smart-tour-btn" id="smart-tour-lang">Lang: English</button>
+    <span class="smart-tour-live" id="smart-tour-status" aria-live="polite">Ready</span>
+  </div>
+</div>
+
   <a href="#main-navigation" class="skip-link">Skip to Navigation Menu</a>
   <a href="#bottom-of-page" class="skip-link">Skip to Footer</a>
   <button type="button" id="btn-read-page" class="skip-link" style="left: auto; right: 1rem;" onclick="toggleReadPageAloud()">

@@ -392,3 +392,60 @@ footer[role="contentinfo"] {
   font-size: 0.9rem;
   opacity: 0.9;
 }
+
+/* Smart Accessible Voice Tour Bar */
+.smart-tour-wrapper {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  vertical-align: middle;
+  font-family: inherit;
+}
+.tour-trigger-btn {
+  background: #00f2fe;
+  color: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.tour-trigger-btn:focus {
+  outline: 3px solid #ffeb3b !important;
+  outline-offset: 3px;
+}
+.smart-tour-bar {
+  display: none;
+  background: #121824;
+  border: 2px solid #00f2fe;
+  border-radius: 8px;
+  padding: 8px 12px;
+  gap: 8px;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  margin-top: 6px;
+}
+.smart-tour-bar.open {
+  display: flex;
+  flex-wrap: wrap;
+}
+.smart-tour-btn {
+  background: #1e293b;
+  color: #ffffff;
+  border: 1px solid #00f2fe;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.smart-tour-btn:focus {
+  outline: 3px solid #ffeb3b !important;
+}
+.smart-tour-live {
+  color: #00f2fe;
+  font-size: 0.8rem;
+  margin-left: 6px;
+}

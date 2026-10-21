@@ -1103,3 +1103,208 @@ function updateLiveAnalytics(eventType) {
   if (readEl) readEl.textContent = deepReads;
 }
 updateLiveAnalytics("pageview");
+
+/* Resilience Industries - Natural Voice Tour & Uplifting Ambient */
+(function() {
+  let synth = window.speechSynthesis;
+  let currentUtterance = null;
+  let isPaused = false;
+  let tourLang = "en"; // en, hi, hinglish
+  let tourVoiceGender = "female";
+  let tourIndex = 0;
+  let tourQueue = [];
+  let availableVoices = [];
+
+  let audioCtx = null;
+  let ambientOscs = [];
+  let ambientGain = null;
+
+  function loadVoices() {
+    if ("speechSynthesis" in window) {
+      availableVoices = synth.getVoices();
+    }
+  }
+  if ("speechSynthesis" in window) {
+    loadVoices();
+    synth.onvoiceschanged = loadVoices;
+  }
+
+  function startUpliftingMusic() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      
+      ambientGain = audioCtx.createGain();
+      ambientGain.gain.setValueAtTime(0.005, audioCtx.currentTime);
+      ambientGain.gain.exponentialRampToValueAtTime(0.03, audioCtx.currentTime + 2);
+      ambientGain.connect(audioCtx.destination);
+
+      ambientOscs = [];
+      // Joyful, uplifting C Major chord: C4 (261.63Hz), E4 (329.63Hz), G4 (392.00Hz)
+      const freqs = [261.63, 329.63, 392.00];
+      freqs.forEach(freq => {
+        let osc = audioCtx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        osc.connect(ambientGain);
+        osc.start();
+        ambientOscs.push(osc);
+      });
+    } catch(e) {}
+  }
+
+  function stopUpliftingMusic() {
+    if (ambientGain && audioCtx) {
+      ambientGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1);
+      setTimeout(() => {
+        ambientOscs.forEach(osc => osc.stop());
+        ambientOscs = [];
+      }, 1000);
+    }
+  }
+
+  function selectHumanVoice(targetLang, gender) {
+    let langFilter = targetLang === "hi" ? "hi" : "en";
+    let filtered = availableVoices.filter(v => v.lang.toLowerCase().includes(langFilter));
+    if (filtered.length === 0) filtered = availableVoices;
+    
+    let found = null;
+    if (gender === "female") {
+      found = filtered.find(v => v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("natural") || v.name.toLowerCase().includes("google") || v.name.toLowerCase().includes("zira") || v.name.toLowerCase().includes("swara"));
+    } else {
+      found = filtered.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("david") || v.name.toLowerCase().includes("madhur") || v.name.toLowerCase().includes("guy"));
+    }
+    return found || filtered[0] || null;
+  }
+
+  function buildQueue() {
+    tourQueue = [];
+    const main = document.querySelector("main") || document.body;
+    let h1 = document.querySelector("h1")?.innerText || "";
+
+    if (tourLang === "hi") {
+      tourQueue.push("रेज़िलिएंस इंडस्ट्रीज़ में आपका स्वागत है। मुख्य पृष्ठ शीर्षक है: " + h1);
+    } else if (tourLang === "hinglish") {
+      tourQueue.push("Resilience Industries ke page tour mein welcome. Top heading hai: " + h1);
+    } else {
+      tourQueue.push("Welcome to Resilience Industries. The main page heading is: " + h1);
+    }
+
+    const elements = main.querySelectorAll("h2, h3, p, button, a");
+    elements.forEach(el => {
+      let text = el.innerText.trim();
+      if (text && text.length > 2 && !el.closest(".smart-tour-wrapper")) {
+        let tag = el.tagName.toLowerCase();
+        if (tourLang === "hi") {
+          if (tag === "h2" || tag === "h3") tourQueue.push("अनुभाग शीर्षक: " + text);
+          else if (tag === "button") tourQueue.push("बटन: " + text);
+          else if (tag === "a") tourQueue.push("लिंक: " + text);
+          else tourQueue.push(text);
+        } else if (tourLang === "hinglish") {
+          if (tag === "h2" || tag === "h3") tourQueue.push("Section heading hai: " + text);
+          else if (tag === "button") tourQueue.push("Action button: " + text);
+          else if (tag === "a") tourQueue.push("Link available: " + text);
+          else tourQueue.push(text);
+        } else {
+          if (tag === "h2" || tag === "h3") tourQueue.push("Section heading: " + text);
+          else if (tag === "button") tourQueue.push("Button: " + text);
+          else if (tag === "a") tourQueue.push("Link: " + text);
+          else tourQueue.push(text);
+        }
+      }
+    });
+  }
+
+  function speakStep() {
+    if (tourIndex >= tourQueue.length) {
+      stopUpliftingMusic();
+      updateStatus("Finished");
+      return;
+    }
+    synth.cancel();
+    currentUtterance = new SpeechSynthesisUtterance(tourQueue[tourIndex]);
+    let chosenVoice = selectHumanVoice(tourLang, tourVoiceGender);
+    if (chosenVoice) currentUtterance.voice = chosenVoice;
+    currentUtterance.rate = 0.95;
+    currentUtterance.pitch = tourVoiceGender === "female" ? 1.05 : 0.9;
+
+    currentUtterance.onend = function() {
+      if (!isPaused && tourIndex < tourQueue.length - 1) {
+        tourIndex++;
+        speakStep();
+      }
+    };
+
+    updateStatus((tourIndex + 1) + "/" + tourQueue.length);
+    synth.speak(currentUtterance);
+  }
+
+  function updateStatus(txt) {
+    const live = document.getElementById("smart-tour-status");
+    if (live) live.textContent = txt;
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const trigger = document.getElementById("smart-tour-trigger");
+    const bar = document.getElementById("smart-tour-bar");
+    const playBtn = document.getElementById("smart-tour-play");
+    const nextBtn = document.getElementById("smart-tour-next");
+    const voiceBtn = document.getElementById("smart-tour-voice");
+    const langBtn = document.getElementById("smart-tour-lang");
+
+    if (trigger && bar) {
+      trigger.addEventListener("click", () => {
+        let isOpen = bar.classList.toggle("open");
+        trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+
+      playBtn.addEventListener("click", () => {
+        if (!synth.speaking && tourQueue.length === 0) {
+          buildQueue();
+          tourIndex = 0;
+          isPaused = false;
+          startUpliftingMusic();
+          speakStep();
+          playBtn.textContent = "Pause";
+        } else if (synth.speaking && !synth.paused) {
+          synth.pause();
+          isPaused = true;
+          playBtn.textContent = "Resume";
+        } else if (synth.paused) {
+          synth.resume();
+          isPaused = false;
+          playBtn.textContent = "Pause";
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (tourIndex < tourQueue.length - 1) {
+          tourIndex++;
+          speakStep();
+        } else {
+          tourIndex = 0;
+          speakStep();
+        }
+      });
+
+      voiceBtn.addEventListener("click", () => {
+        tourVoiceGender = tourVoiceGender === "female" ? "male" : "female";
+        voiceBtn.textContent = tourVoiceGender === "female" ? "Voice: Female" : "Voice: Male";
+        if (synth.speaking) speakStep();
+      });
+
+      langBtn.addEventListener("click", () => {
+        if (tourLang === "en") tourLang = "hi";
+        else if (tourLang === "hi") tourLang = "hinglish";
+        else tourLang = "en";
+
+        let lbl = tourLang === "en" ? "Lang: English" : (tourLang === "hi" ? "Lang: Hindi" : "Lang: Hinglish");
+        langBtn.textContent = lbl;
+        synth.cancel();
+        buildQueue();
+        tourIndex = 0;
+        if (!isPaused && tourQueue.length > 0) speakStep();
+      });
+    }
+  });
+})();
