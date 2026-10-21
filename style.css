@@ -1,11 +1,14 @@
 
 
 
-/* Audio Describer & Smart Tour Bar */
+
+
+
+/* Audio Describer Toolbar */
 .smart-tour-wrapper {
   display: inline-flex;
   align-items: center;
-  margin-left: 12px;
+  margin-left: 10px;
   vertical-align: middle;
   font-family: inherit;
 }
@@ -44,7 +47,7 @@
   color: #ffffff;
   border: 1px solid #00f2fe;
   border-radius: 4px;
-  padding: 6px 12px;
+  padding: 7px 12px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
