@@ -1,0 +1,33 @@
+name: Inject Google Analytics 4 Tag
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  add-ga4:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Inject GA4 Tag into Head of all HTML files
+        run: |
+          GA_TAG='<!-- Google tag (gtag.js) -->\n<script async src="https:\/\/www.googletagmanager.com\/gtag\/js?id=G-VCN9N2TXZD"><\/script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag("js", new Date());\n  gtag("config", "G-VCN9N2TXZD");\n<\/script>'
+          
+          # Inject GA4 directly after <head> in all HTML files if not already present
+          for file in *.html; do
+            if ! grep -q "G-VCN9N2TXZD" "$file"; then
+              sed -i "s|<head>|<head>\n$GA_TAG|g" "$file"
+            fi
+          done
+
+      - name: Commit and Push Clean Updates
+        run: |
+          git config user.name "Auto Feature Bot"
+          git config user.email "bot@resilience-industries.github.io"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-inject Google Analytics 4 (G-VCN9N2TXZD) across all HTML files" && git push)
