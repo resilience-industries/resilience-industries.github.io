@@ -2,37 +2,38 @@
 
 
 
-/* Resilience Industries - Google Cloud TTS Audio Describer Engine */
+
+
+/* Resilience Industries - Production Audio Describer Engine */
 (function() {
+  let synth = window.speechSynthesis;
+  let currentUtterance = null;
   let isPaused = false;
   let isPlaying = false;
-  let tourLang = "en"; // en, hi
+  let tourLang = "en"; // Strictly only "en" or "hi"
   let tourGender = "female"; // female, male
   let sections = [];
   let curSec = 0;
   let curItem = 0;
+  let voiceList = [];
 
-  // Cloud TTS Audio Element (Bypasses local eSpeak completely)
-  let cloudVoiceAudio = new Audio();
-  cloudVoiceAudio.preload = "auto";
-
-  // Romantic Acoustic Ambient Melody (Volume at 18%)
+  // Modern Romantic Ambient Melody (20% Loudness)
   let bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/11/06/audio_c9735d568c.mp3?filename=romantic-ambient-126298.mp3");
   bgMusic.loop = true;
-  bgMusic.volume = 0.18;
+  bgMusic.volume = 0.20;
 
-  // Instant Reliable SFX
+  // Tactile SFX
   function playSFX(freq, duration) {
     try {
-      let AContext = window.AudioContext || window.webkitAudioContext;
-      if (!AContext) return;
-      let ctx = new AContext();
+      let AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      let ctx = new AC();
       ctx.resume().then(() => {
         let osc = ctx.createOscillator();
         let gain = ctx.createGain();
         osc.type = "sine";
         osc.frequency.setValueAtTime(freq, ctx.currentTime);
-        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
         osc.connect(gain);
         gain.connect(ctx.destination);
@@ -40,6 +41,39 @@
         osc.stop(ctx.currentTime + duration);
       });
     } catch(e) {}
+  }
+
+  function loadVoices() {
+    if ("speechSynthesis" in window) {
+      // Completely Block eSpeak
+      voiceList = synth.getVoices().filter(v => {
+        let n = v.name.toLowerCase();
+        return !n.includes("espeak") && !n.includes("espeak-ng");
+      });
+    }
+  }
+  if ("speechSynthesis" in window) {
+    loadVoices();
+    synth.onvoiceschanged = loadVoices;
+  }
+
+  function getPureGoogleVoice(lang, gender) {
+    if (voiceList.length === 0) loadVoices();
+    let targetCode = lang === "hi" ? "hi" : "en";
+    
+    let matches = voiceList.filter(v => v.lang.toLowerCase().replace("_", "-").startsWith(targetCode));
+    if (matches.length === 0) matches = voiceList;
+
+    let googleVoices = matches.filter(v => v.name.toLowerCase().includes("google") || v.name.toLowerCase().includes("natural") || v.name.toLowerCase().includes("india"));
+    let pool = googleVoices.length > 0 ? googleVoices : matches;
+
+    if (gender === "female") {
+      let f = pool.find(v => v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("swara") || v.name.toLowerCase().includes("zira") || (v.name.toLowerCase().includes("google") && !v.name.toLowerCase().includes("male")));
+      return f || pool[0];
+    } else {
+      let m = pool.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("madhur") || v.name.toLowerCase().includes("david") || v.name.toLowerCase().includes("ravi"));
+      return m || pool[0];
+    }
   }
 
   async function translateForVoice(text) {
@@ -53,35 +87,6 @@
     }
   }
 
-  // Stream Google Cloud Natural Voice
-  function playGoogleCloudTTS(text, lang, gender) {
-    let tl = lang === "hi" ? "hi" : "en-IN";
-    // Google TTS Cloud Endpoint
-    let cleanText = encodeURIComponent(text.substring(0, 200));
-    let voiceUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${cleanText}&tl=${tl}&client=tw-ob`;
-
-    cloudVoiceAudio.src = voiceUrl;
-    cloudVoiceAudio.playbackRate = gender === "female" ? 1.0 : 0.92;
-    cloudVoiceAudio.play().catch(e => {
-      // Graceful fallback without eSpeak
-      setLive("Audio play error");
-    });
-
-    cloudVoiceAudio.onended = function() {
-      if (!isPaused && isPlaying) {
-        curItem++;
-        speakStep();
-      }
-    };
-
-    cloudVoiceAudio.onerror = function() {
-      if (!isPaused && isPlaying) {
-        curItem++;
-        speakStep();
-      }
-    };
-  }
-
   function scanDetailedDOM() {
     sections = [];
     const main = document.querySelector("main") || document.body;
@@ -90,8 +95,8 @@
     let title = document.title || "Resilience Industries";
     currentSec.items.push({
       type: "meta",
-      en: "Currently browsing page: " + title + ". Layout contains top header banner, main content container, and bottom footer.",
-      hi: "आप अभी देख रहे हैं पृष्ठ: " + title + "। इस पृष्ठ का लेआउट शीर्ष बैनर, मुख्य सामग्री और निचले फुटर में व्यवस्थित है।"
+      en: "Currently browsing: " + title + ". Layout structured into Header Banner, Main Landmark, and Page Footer.",
+      hi: "वर्तमान पृष्ठ: " + title + "। पृष्ठ का ढाँचा हेडर बैनर, मुख्य सामग्री और फ़ूटर में संरचित है।"
     });
 
     const nodes = main.querySelectorAll("h1, h2, h3, p, a, button, input, ul, ol");
@@ -107,34 +112,30 @@
           heading: text,
           items: [{
             type: "heading",
-            en: "Heading level " + level + ": " + text,
+            en: "Heading Level " + level + ": " + text,
             hi: "शीर्षक स्तर " + level + ": " + text
           }]
         };
       } else if (tag === "p" && text.length > 2) {
-        currentSec.items.push({
-          type: "text",
-          en: text,
-          hi: text
-        });
+        currentSec.items.push({ type: "text", en: text, hi: text });
       } else if (tag === "button" && text.length > 1) {
         currentSec.items.push({
           type: "button",
-          en: "Interactive Button: " + text + ", visual cyan accent, keyboard clickable.",
-          hi: "क्रियाशील बटन: " + text + ", नीले रंग में दृश्यमान, क्लिक करने योग्य।"
+          en: "Action Button: " + text + ", visual cyan accent.",
+          hi: "एक्शन बटन: " + text + ", नीले रंग में दृश्यमान।"
         });
       } else if (tag === "a" && text.length > 1) {
         currentSec.items.push({
           type: "link",
-          en: "Navigation Link: " + text + ", opens related view.",
-          hi: "नेविगेशन लिंक: " + text + ", संबंधित पृष्ठ पर ले जाने हेतु उपलब्ध।"
+          en: "Link: " + text + ", opens section.",
+          hi: "लिंक: " + text + ", अनुभाग खोलने हेतु।"
         });
       } else if (tag === "input") {
-        let ph = el.getAttribute("placeholder") || "search or input field";
+        let ph = el.getAttribute("placeholder") || "Search field";
         currentSec.items.push({
           type: "input",
-          en: "Text entry field: " + ph + ", highlighted for typing.",
-          hi: "टेक्स्ट इनपुट बॉक्स: " + ph + ", टाइप करने के लिए उपलब्ध।"
+          en: "Text Box: " + ph,
+          hi: "टेक्स्ट बॉक्स: " + ph
         });
       }
     });
@@ -156,6 +157,7 @@
       return;
     }
 
+    synth.cancel();
     let itemObj = s.items[curItem];
     let textToSpeak = itemObj.en;
 
@@ -168,8 +170,29 @@
       }
     }
 
+    currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+    let pickedVoice = getPureGoogleVoice(tourLang, tourGender);
+    if (pickedVoice) currentUtterance.voice = pickedVoice;
+
+    currentUtterance.rate = 0.95;
+    currentUtterance.pitch = tourGender === "female" ? 1.08 : 0.88;
+
+    currentUtterance.onend = function() {
+      if (!isPaused && isPlaying) {
+        curItem++;
+        speakStep();
+      }
+    };
+
+    currentUtterance.onerror = function() {
+      if (!isPaused && isPlaying) {
+        curItem++;
+        speakStep();
+      }
+    };
+
     setLive("Heading " + (curSec + 1) + "/" + sections.length);
-    playGoogleCloudTTS(textToSpeak, tourLang, tourGender);
+    synth.speak(currentUtterance);
   }
 
   function startTour() {
@@ -184,7 +207,7 @@
 
   function pauseTour() {
     isPaused = true;
-    cloudVoiceAudio.pause();
+    synth.pause();
     bgMusic.pause();
     let pBtn = document.getElementById("smart-tour-play");
     if (pBtn) pBtn.textContent = "Resume";
@@ -193,7 +216,7 @@
   function resumeTour() {
     isPaused = false;
     bgMusic.play().catch(e => {});
-    cloudVoiceAudio.play().catch(e => {});
+    synth.resume();
     let pBtn = document.getElementById("smart-tour-play");
     if (pBtn) pBtn.textContent = "Pause";
   }
@@ -201,8 +224,7 @@
   function stopTour() {
     isPlaying = false;
     isPaused = false;
-    cloudVoiceAudio.pause();
-    cloudVoiceAudio.currentTime = 0;
+    synth.cancel();
     bgMusic.pause();
     bgMusic.currentTime = 0;
     let pBtn = document.getElementById("smart-tour-play");
@@ -232,7 +254,6 @@
         playSFX(isOpen ? 650 : 350, 0.12);
         trigger.textContent = isOpen ? "❌ Close Tour" : "🔊 Explore Site by Voice";
         
-        // Stop everything immediately if user collapses without pausing
         if (!isOpen) {
           stopTour();
         }
@@ -310,11 +331,8 @@
     }
   });
 
-  // Strict lifecycle hooks for all background/exit events
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden && isPlaying) {
-      pauseTour();
-    }
+    if (document.hidden && isPlaying) pauseTour();
   });
   window.addEventListener("pagehide", stopTour);
   window.addEventListener("beforeunload", stopTour);
