@@ -1,1254 +1,261 @@
-/**
- * Resilience Industries (RIL)
- * Master External JavaScript Engine: script.js
- * Unified Enterprise Portal Controller (100% of Portal Logic in Single File)
- * - Firebase Modular Authentication & In-App Password Reset
- * - Strict 24h / 3-Attempts Rate Limiting & 60s Countdown Cooldown
- * - Multi-Tier Razorpay Payment Integration (Services & Audits)
- * - Web3Forms Universal Contact Form & Security Notification Engine
- * - Real-Time Live Clock, Calendar & Weather Engine
- * - WCAG 2.2 AAA Accessible Controls (Dark Mode, High Contrast, Larger Text, Pause Motion, TTS)
- * 100% International Standard English | Strict Zero-Inline Architecture
- */
 
-// --- 1. Firebase Modular SDK Imports ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-import { 
-  getAuth, 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signInWithPopup, 
-  signInWithRedirect, 
-  getRedirectResult, 
-  fetchSignInMethodsForEmail, 
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-  confirmPasswordReset,
-  verifyPasswordResetCode,
-  GoogleAuthProvider, 
-  sendPasswordResetEmail, 
-  sendEmailVerification, 
-  deleteUser, 
-  signOut 
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-analytics.js";
 
-// Official Firebase Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAnjYkiS9r1SigAQVgC56l-veY1hWAu_vE",
-  authDomain: "resilience-industries.firebaseapp.com",
-  projectId: "resilience-industries",
-  storageBucket: "resilience-industries.firebasestorage.app",
-  messagingSenderId: "1037348610218",
-  appId: "1:1037348610218:web:dacf7c850d9cc6b18430d3",
-  measurementId: "G-NP4D2BPKBF"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const analytics = getAnalytics(app);
-const googleProvider = new GoogleAuthProvider();
-
-// Global Secure API Credentials
-const WEB3FORMS_ACCESS_KEY = "d2c05cee-06e6-4d04-9343-5d6643886a0a";
-const RAZORPAY_KEY_ID = "rzp_test_TozWNx1OzB1cBY";
-const ADMIN_EMAIL = "niteshkumar91845@gmail.com";
-
-// Verification Tracker & State Variables
-let lastCreatedUser = null;
-let pendingUserEmail = "";
-let resendInterval = null;
-let verificationCheckInterval = null;
-let liveClockInterval = null;
-let isSpeaking = false;
-let currentResetCode = null;
-
-// Catch Mobile Google Redirect Results on Load
-getRedirectResult(auth).then((result) => {
-  if (result && result.user) {
-    dispatchWeb3Notification("Google Sign-In", `User ${result.user.email} authenticated via Mobile Google Redirect.`);
-  }
-}).catch((error) => {
-  console.warn("Redirect Result Note:", error.message);
-});
-
-// Check if User Arrived via Firebase Email Link (Password Reset Mode)
-window.addEventListener("DOMContentLoaded", async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const mode = urlParams.get("mode");
-  const oobCode = urlParams.get("oobCode");
-
-  if (mode === "resetPassword" && oobCode) {
-    currentResetCode = oobCode;
-    openAuthModal();
-    showAuthView("newpassword");
-    
-    window.history.replaceState({}, document.title, window.location.pathname);
-
-    try {
-      const accountEmail = await verifyPasswordResetCode(auth, oobCode);
-      pendingUserEmail = accountEmail;
-      const statusElem = document.getElementById("auth-status-message");
-      if (statusElem) {
-        statusElem.textContent = `Resetting password for: ${accountEmail}. Please enter your new password below.`;
-      }
-    } catch (err) {
-      const statusElem = document.getElementById("auth-status-message");
-      if (statusElem) {
-        statusElem.textContent = "Error: This password reset link has expired or has already been used. Please request a fresh reset link.";
-      }
-      setTimeout(() => {
-        showAuthView("reset");
-      }, 3000);
-    }
-  }
-});
-
-// --- 2. Real-Time Millisecond Precision Live Engine (Zero Refresh) ---
-function updateLiveBannerMetrics() {
-  const now = new Date();
-  const hours = now.getHours();
-
-  let greeting = "Welcome";
-  if (hours >= 4 && hours < 12) greeting = "Good Morning";
-  else if (hours >= 12 && hours < 17) greeting = "Good Afternoon";
-  else if (hours >= 17 && hours < 22) greeting = "Good Evening";
-  else greeting = "Good Night";
-
-  const greetingEl = document.getElementById("banner-greeting");
-  if (greetingEl) {
-    greetingEl.textContent = `${greeting} | Welcome to Resilience Industries`;
-  }
-
-  const timeStr = now.toLocaleTimeString("en-US", { hour12: false });
-  const clockEl = document.getElementById("live-clock");
-  if (clockEl) {
-    clockEl.textContent = `Time: ${timeStr}`;
-  }
-
-  const calendarOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-  const calendarStr = now.toLocaleDateString("en-US", calendarOptions);
-  const calendarEl = document.getElementById("live-calendar");
-  if (calendarEl) {
-    calendarEl.textContent = calendarStr;
-  }
-}
-
-liveClockInterval = setInterval(updateLiveBannerMetrics, 1000);
-updateLiveBannerMetrics();
-
-function fetchLiveWeather() {
-  const weatherEl = document.getElementById("live-weather");
-  if (!weatherEl) return;
-
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        try {
-          const lat = pos.coords.latitude;
-          const lon = pos.coords.longitude;
-          const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-          const data = await res.json();
-          const temp = data.current_weather.temperature;
-          weatherEl.textContent = `Live Weather: ${temp}°C (Local Station)`;
-        } catch (e) {
-          weatherEl.textContent = "Live Weather: Patna, Bihar ~28°C";
-        }
-      },
-      () => {
-        weatherEl.textContent = "Live Weather: Patna, Bihar ~28°C";
-      }
-    );
-  } else {
-    weatherEl.textContent = "Live Weather: Patna, Bihar ~28°C";
-  }
-}
-fetchLiveWeather();
-
-// --- 3. Authentication State Monitor & Permanent Account Purge Engine ---
-const userGreetingBanner = document.getElementById("user-session-greeting");
-const btnAuthAction = document.getElementById("btn-auth-action");
-
-onAuthStateChanged(auth, (user) => {
-  if (user && (user.emailVerified || user.providerData.some(p => p.providerId === "google.com"))) {
-    if (userGreetingBanner) {
-      userGreetingBanner.textContent = `Active Client: ${user.email} (Verified)`;
-    }
-    if (btnAuthAction) {
-      btnAuthAction.textContent = "Account Options";
-      btnAuthAction.style.color = "#c0392b";
-    }
-    stopVerificationPolling();
-    destroyResendContainer();
-    updateLiveAnalytics("session_active");
-  } else {
-    if (userGreetingBanner) userGreetingBanner.textContent = "";
-    if (btnAuthAction) {
-      btnAuthAction.textContent = "Sign In";
-      btnAuthAction.style.color = "var(--text-color)";
-    }
-  }
-});
-
-window.handleAuthButtonClick = async function() {
-  const currentUser = auth.currentUser;
-
-  if (currentUser) {
-    const choice = window.prompt(
-      `Manage Account (${currentUser.email}):\n\n` +
-      `Type 1 to SIGN OUT (Keep account for later).\n` +
-      `Type 2 to DELETE ACCOUNT (Permanently wipe all records from database).\n` +
-      `Click Cancel to go back.`
-    );
-
-    if (choice === "1") {
-      await signOut(auth);
-      dispatchWeb3Notification("User Sign-Out", `User ${currentUser.email} logged out.`);
-      alert("Signed out successfully. Your account remains active.");
-    } else if (choice === "2") {
-      const confirmDelete = window.confirm(
-        `WARNING: This will permanently delete ${currentUser.email} from our Firebase database.\n\n` +
-        `You will be able to create a brand new account with this email anytime without errors.\n\n` +
-        `Are you sure you want to proceed?`
-      );
-
-      if (confirmDelete) {
-        await executePermanentUserDeletion(currentUser);
-      }
-    }
-  } else {
-    openAuthModal();
-  }
-};
-
-async function executePermanentUserDeletion(user) {
-  const email = user.email;
-  try {
-    await deleteUser(user);
-    dispatchWeb3Notification("User Purged", `User ${email} was permanently deleted from the database.`);
-    alert(`Success: Account ${email} has been completely removed from the database. You can register fresh anytime.`);
-  } catch (err) {
-    if (err.code === "auth/requires-recent-login") {
-      const pass = window.prompt("Security Check: Please confirm your password to finalize permanent account deletion:");
-      if (pass) {
-        try {
-          const cred = EmailAuthProvider.credential(email, pass);
-          await reauthenticateWithCredential(user, cred);
-          await deleteUser(user);
-          dispatchWeb3Notification("User Purged", `User ${email} re-authenticated and purged permanently.`);
-          alert(`Success: Account ${email} has been completely removed from the database.`);
-        } catch (reauthErr) {
-          alert(`Deletion Failed: ${reauthErr.message}`);
-        }
-      }
-    } else {
-      alert(`Error deleting account: ${err.message}`);
-    }
-  }
-}
-
-window.openAuthModal = function() {
-  const modal = document.getElementById("auth-gate-modal");
-  if (modal) {
-    modal.style.display = "flex";
-    modal.removeAttribute("aria-hidden");
-    showAuthView("login");
-  }
-};
-
-window.closeAuthModal = function() {
-  const modal = document.getElementById("auth-gate-modal");
-  if (modal) {
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", "true");
-    const triggerBtn = document.getElementById("btn-auth-action");
-    if (triggerBtn) triggerBtn.focus();
-  }
-};
-
-window.showAuthView = function(viewName) {
-  const views = ["login", "signup", "reset", "newpassword"];
-  views.forEach(v => {
-    const el = document.getElementById(`auth-view-${v}`);
-    if (el) el.style.display = (v === viewName) ? "block" : "none";
-  });
-  
-  const statusElem = document.getElementById("auth-status-message");
-  if (statusElem) statusElem.textContent = "";
-
-  const titleEl = document.getElementById("auth-modal-title");
-  if (titleEl) {
-    if (viewName === "login") titleEl.textContent = "Enterprise Portal Sign In";
-    if (viewName === "signup") titleEl.textContent = "Create Client Account";
-    if (viewName === "reset") titleEl.textContent = "Reset Password";
-    if (viewName === "newpassword") titleEl.textContent = "Set New Password";
-  }
-
-  setTimeout(() => {
-    if (viewName === "login") {
-      const el = document.getElementById("auth-login-email");
-      if (el) el.focus();
-    } else if (viewName === "signup") {
-      const el = document.getElementById("auth-signup-name");
-      if (el) el.focus();
-    } else if (viewName === "reset") {
-      const el = document.getElementById("auth-reset-email");
-      if (el) el.focus();
-    } else if (viewName === "newpassword") {
-      const el = document.getElementById("auth-new-pass");
-      if (el) el.focus();
-    }
-  }, 100);
-};
-
-// --- 4. Google Sign-In ---
-window.handleGoogleSignIn = async function() {
-  const statusElem = document.getElementById("auth-status-message");
-  try {
-    statusElem.textContent = "Connecting to Google Accounts...";
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      statusElem.textContent = "Redirecting to Google Secure Login...";
-      await signInWithRedirect(auth, googleProvider);
-      return;
-    }
-
-    const result = await signInWithPopup(auth, googleProvider);
-    const user = result.user;
-
-    statusElem.textContent = "Google Sign-In authorized! Unlocking session...";
-    dispatchWeb3Notification("Google Sign-In", `User ${user.email} authenticated via Google One-Tap.`);
-    setTimeout(closeAuthModal, 1000);
-  } catch (error) {
-    if (error.code === "auth/popup-closed-by-user" || error.code === "auth/cancelled-popup-request") {
-      statusElem.textContent = "Sign-In cancelled. Google popup window was closed before completing.";
-    } else {
-      statusElem.textContent = `Google Sign-In Error: ${error.message}`;
-    }
-  }
-};
-
-// --- 5. Email Login Handler ---
-window.handleUserEmailLogin = async function(event) {
-  event.preventDefault();
-  const email = document.getElementById("auth-login-email").value.trim();
-  const pass = document.getElementById("auth-login-pass").value;
-  const statusElem = document.getElementById("auth-status-message");
-
-  try {
-    statusElem.textContent = "Verifying credentials...";
-    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-    
-    if (!userCredential.user.emailVerified) {
-      lastCreatedUser = userCredential.user;
-      pendingUserEmail = email;
-      statusElem.textContent = "Access Pending: Verification link sent. Please verify your Gmail. This portal will unlock automatically once verified.";
-      startResendTimer("verification");
-      startVerificationPolling(userCredential.user);
-      return;
-    }
-
-    stopVerificationPolling();
-    destroyResendContainer();
-    statusElem.textContent = "Authentication successful. Access granted.";
-    dispatchWeb3Notification("User Sign-In", `User ${email} signed in via email.`);
-    setTimeout(closeAuthModal, 1000);
-  } catch (error) {
-    if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
-      statusElem.textContent = "Error: Account not found. You have not registered yet. Please create an account first. Redirecting to Registration...";
-      setTimeout(() => {
-        showAuthView("signup");
-        const signupEmail = document.getElementById("auth-signup-email");
-        if (signupEmail) signupEmail.value = email;
-      }, 2000);
-    } else {
-      statusElem.textContent = `Login Error: ${error.message}`;
-    }
-  }
-};
-
-// --- 6. Registration with Strict 24h / 3-Attempts Limiter ---
-window.handleUserSignUp = async function(event) {
-  event.preventDefault();
-  const name = document.getElementById("auth-signup-name").value.trim();
-  const country = document.getElementById("auth-signup-country").value;
-  const email = document.getElementById("auth-signup-email").value.trim();
-  const pass = document.getElementById("auth-signup-pass").value;
-  const passConfirm = document.getElementById("auth-signup-confirm").value;
-  const declaration = document.getElementById("auth-signup-declaration").checked;
-  const statusElem = document.getElementById("auth-status-message");
-
-  if (!declaration) {
-    statusElem.textContent = "Error: You must accept the declaration and policies to create an account.";
-    return;
-  }
-
-  if (pass !== passConfirm) {
-    statusElem.textContent = "Error: Passwords do not match.";
-    return;
-  }
-
-  try {
-    statusElem.textContent = "Creating official account and dispatching verification link...";
-    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-    lastCreatedUser = userCredential.user;
-    pendingUserEmail = email;
-    
-    await sendEmailVerification(userCredential.user);
-    recordResendAttempt("verification", email);
-
-    dispatchWeb3Notification("New User Provisioned", `User Dossier:\nName: ${name}\nCountry: ${country}\nEmail: ${email}\nAgreed to Policies: Yes`);
-
-    showAuthView("login");
-    const loginEmailField = document.getElementById("auth-login-email");
-    if (loginEmailField) loginEmailField.value = email;
-
-    statusElem.textContent = `Account created! Verification link sent to ${email}. Please check your Gmail.`;
-    
-    startResendTimer("verification");
-    startVerificationPolling(userCredential.user);
-  } catch (error) {
-    if (error.code === "auth/email-already-in-use") {
-      statusElem.innerHTML = `
-        <div style="margin-top: 0.5rem; line-height: 1.5;">
-          <strong>Notice:</strong> This email is already registered.<br>
-          <button type="button" class="btn-ctrl" style="margin: 0.3rem 0.2rem 0 0; padding: 0.3rem 0.6rem; font-size: 0.85rem;" onclick="smartSwitchToLogin('${email}')">Sign In</button>
-          <button type="button" class="btn-ctrl" style="margin: 0.3rem 0.2rem 0 0; padding: 0.3rem 0.6rem; font-size: 0.85rem;" onclick="smartTriggerPasswordReset('${email}')">Reset Forgotten Password</button>
-          <button type="button" class="btn-ctrl" style="margin: 0.3rem 0 0 0; padding: 0.3rem 0.6rem; font-size: 0.85rem;" onclick="handleGoogleSignIn()">Continue with Google</button>
-        </div>
-      `;
-    } else {
-      statusElem.textContent = `Registration Error: ${error.message}`;
-    }
-  }
-};
-
-window.smartSwitchToLogin = function(email) {
-  showAuthView("login");
-  const loginEmail = document.getElementById("auth-login-email");
-  const loginPass = document.getElementById("auth-login-pass");
-  if (loginEmail) loginEmail.value = email;
-  if (loginPass) loginPass.focus();
-};
-
-window.smartTriggerPasswordReset = async function(email) {
-  showAuthView("reset");
-  const resetEmail = document.getElementById("auth-reset-email");
-  if (resetEmail) resetEmail.value = email;
-  pendingUserEmail = email;
-
-  const statusElem = document.getElementById("auth-status-message");
-
-  if (!checkResendEligibility("password_reset", email)) {
-    if (statusElem) {
-      statusElem.textContent = "Security Notice: Maximum password reset limit reached (3 requests per 24 hours). Please check your existing email or retry after 24 hours.";
-    }
-    return;
-  }
-
-  try {
-    if (statusElem) statusElem.textContent = "Dispatching password reset link...";
-    await sendPasswordResetEmail(auth, email);
-    recordResendAttempt("password_reset", email);
-
-    if (statusElem) {
-      statusElem.textContent = `Password reset link sent to ${email}. Check your inbox or spam folder.`;
-    }
-    startResendTimer("password_reset");
-  } catch (err) {
-    if (statusElem) statusElem.textContent = `Reset Error: ${err.message}`;
-  }
-};
-
-function getRateLimitKey(type, email) {
-  return `ril_rate_${type}_${email.toLowerCase()}`;
-}
-
-function checkResendEligibility(type, email) {
-  const key = getRateLimitKey(type, email);
-  const data = JSON.parse(localStorage.getItem(key) || '{"count": 0, "startTime": 0}');
-  const now = Date.now();
-  const dayInMillis = 24 * 60 * 60 * 1000;
-
-  if (now - data.startTime > dayInMillis) return true;
-  return data.count < 3;
-}
-
-function recordResendAttempt(type, email) {
-  const key = getRateLimitKey(type, email);
-  const now = Date.now();
-  const dayInMillis = 24 * 60 * 60 * 1000;
-  let data = JSON.parse(localStorage.getItem(key) || '{"count": 0, "startTime": 0}');
-
-  if (now - data.startTime > dayInMillis) {
-    data = { count: 1, startTime: now };
-  } else {
-    data.count += 1;
-  }
-
-  localStorage.setItem(key, JSON.stringify(data));
-}
-
-function startVerificationPolling(user) {
-  stopVerificationPolling();
-  
-  verificationCheckInterval = setInterval(async () => {
-    try {
-      if (!user) return;
-      await user.reload();
-      if (user.emailVerified) {
-        stopVerificationPolling();
-        destroyResendContainer();
-
-        const statusElem = document.getElementById("auth-status-message");
-        if (statusElem) {
-          statusElem.style.color = "#27ae60";
-          statusElem.textContent = "Email Verified Successfully! Redirecting to Sign In...";
-        }
-
-        setTimeout(() => {
-          showAuthView("login");
-          const loginEmailField = document.getElementById("auth-login-email");
-          const loginPassField = document.getElementById("auth-login-pass");
-          if (loginEmailField && pendingUserEmail) loginEmailField.value = pendingUserEmail;
-          if (loginPassField) loginPassField.focus();
-          if (statusElem) {
-            statusElem.textContent = "Email verified! Enter your password and click Sign In to continue.";
-          }
-        }, 1200);
-      }
-    } catch (err) {
-      console.warn("Polling note:", err.message);
-    }
-  }, 2500);
-}
-
-function stopVerificationPolling() {
-  if (verificationCheckInterval) {
-    clearInterval(verificationCheckInterval);
-    verificationCheckInterval = null;
-  }
-}
-
-function destroyResendContainer() {
-  if (resendInterval) {
-    clearInterval(resendInterval);
-    resendInterval = null;
-  }
-  const container = document.getElementById("resend-verification-container");
-  if (container) container.style.display = "none";
-  const resendBtn = document.getElementById("btn-resend-link");
-  if (resendBtn) resendBtn.style.display = "none";
-}
-
-function startResendTimer(type = "verification") {
-  const container = document.getElementById("resend-verification-container");
-  const timerText = document.getElementById("resend-timer-text");
-  const resendBtn = document.getElementById("btn-resend-link");
-  if (!container || !timerText || !resendBtn) return;
-
-  const targetEmail = pendingUserEmail || document.getElementById("auth-reset-email")?.value.trim() || "";
-  
-  if (!checkResendEligibility(type, targetEmail)) {
-    container.style.display = "block";
-    timerText.textContent = "Security Notice: Maximum 3 link dispatches reached for this 24-hour cycle.";
-    resendBtn.style.display = "none";
-    return;
-  }
-
-  container.style.display = "block";
-  resendBtn.style.display = "none";
-  let seconds = 60;
-
-  if (resendInterval) clearInterval(resendInterval);
-
-  resendInterval = setInterval(() => {
-    seconds--;
-    timerText.textContent = `Did not receive link? You can request a new link in ${seconds}s`;
-    if (seconds <= 0) {
-      clearInterval(resendInterval);
-      
-      if (!checkResendEligibility(type, targetEmail)) {
-        timerText.textContent = "Maximum 3 link dispatches reached for today (24h cooldown).";
-        resendBtn.style.display = "none";
-      } else {
-        timerText.textContent = "Did not receive the link? Request a fresh link now:";
-        resendBtn.style.display = "block";
-        resendBtn.onclick = () => {
-          if (type === "password_reset") {
-            const email = pendingUserEmail || document.getElementById("auth-reset-email")?.value.trim();
-            if (email) smartTriggerPasswordReset(email);
-          } else {
-            handleResendVerificationLink();
-          }
-        };
-      }
-    }
-  }, 1000);
-}
-
-window.handleResendVerificationLink = async function() {
-  const statusElem = document.getElementById("auth-status-message");
-  if (!lastCreatedUser) {
-    statusElem.textContent = "Please enter credentials to re-trigger verification.";
-    return;
-  }
-
-  const targetEmail = pendingUserEmail || lastCreatedUser.email;
-  if (!checkResendEligibility("verification", targetEmail)) {
-    statusElem.textContent = "Security Notice: Maximum 3 verification links reached in 24 hours. Please check your existing email.";
-    return;
-  }
-
-  try {
-    statusElem.textContent = "Dispatching fresh verification link...";
-    await sendEmailVerification(lastCreatedUser);
-    recordResendAttempt("verification", targetEmail);
-    statusElem.textContent = "A fresh verification link has been sent to your email!";
-    startResendTimer("verification");
-  } catch (error) {
-    statusElem.textContent = `Error resending link: ${error.message}`;
-  }
-};
-
-window.handlePasswordReset = async function(event) {
-  event.preventDefault();
-  const email = document.getElementById("auth-reset-email").value.trim();
-  const statusElem = document.getElementById("auth-status-message");
-
-  if (!email) {
-    statusElem.textContent = "Please provide your registered email address.";
-    return;
-  }
-
-  if (!checkResendEligibility("password_reset", email)) {
-    statusElem.textContent = "Security Notice: Maximum 3 password reset requests reached for this 24-hour cycle. Please check your existing inbox or spam folder.";
-    return;
-  }
-
-  try {
-    statusElem.textContent = "Checking official user directory...";
-    const methods = await fetchSignInMethodsForEmail(auth, email);
-    if (!methods || methods.length === 0) {
-      statusElem.textContent = "Error: User not found. You are not registered with Resilience Industries. Please create an account first. Redirecting to Registration...";
-      setTimeout(() => {
-        showAuthView("signup");
-        const signupEmail = document.getElementById("auth-signup-email");
-        if (signupEmail) signupEmail.value = email;
-      }, 2000);
-      return;
-    }
-
-    pendingUserEmail = email;
-    statusElem.textContent = "Account verified. Dispatching password reset instructions...";
-    await sendPasswordResetEmail(auth, email);
-    recordResendAttempt("password_reset", email);
-    
-    statusElem.textContent = `Password reset link dispatched to ${email}. Check your inbox. You can request again after 60s if needed.`;
-    dispatchWeb3Notification("Password Reset Request", `Password reset requested for: ${email}`);
-    startResendTimer("password_reset");
-  } catch (error) {
-    if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
-      statusElem.textContent = "Error: User not found. You are not registered with Resilience Industries. Please create an account first. Redirecting to Registration...";
-      setTimeout(() => {
-        showAuthView("signup");
-        const signupEmail = document.getElementById("auth-signup-email");
-        if (signupEmail) signupEmail.value = email;
-      }, 2000);
-    } else {
-      statusElem.textContent = `Error: ${error.message}`;
-    }
-  }
-};
-
-window.handleConfirmNewPassword = async function(event) {
-  event.preventDefault();
-  const newPass = document.getElementById("auth-new-pass").value;
-  const newConfirm = document.getElementById("auth-new-confirm").value;
-  const statusElem = document.getElementById("auth-status-message");
-
-  if (!currentResetCode) {
-    statusElem.textContent = "Error: Reset code missing or expired. Please request a new password reset link.";
-    return;
-  }
-
-  if (newPass !== newConfirm) {
-    statusElem.textContent = "Error: Passwords do not match. Please re-enter identical passwords.";
-    return;
-  }
-
-  if (newPass.length < 6) {
-    statusElem.textContent = "Error: Password must be at least 6 characters long.";
-    return;
-  }
-
-  try {
-    statusElem.textContent = "Updating password in secure directory...";
-    await confirmPasswordReset(auth, currentResetCode, newPass);
-
-    destroyResendContainer();
-
-    statusElem.style.color = "#27ae60";
-    statusElem.textContent = "Success: Your password has been changed successfully! Redirecting to Sign In...";
-
-    dispatchWeb3Notification("Password Changed", `User ${pendingUserEmail || "Account"} updated their password successfully.`);
-
-    setTimeout(() => {
-      showAuthView("login");
-      const loginEmailField = document.getElementById("auth-login-email");
-      const loginPassField = document.getElementById("auth-login-pass");
-      if (loginEmailField && pendingUserEmail) loginEmailField.value = pendingUserEmail;
-      if (loginPassField) loginPassField.focus();
-      if (statusElem) statusElem.textContent = "Password changed! Enter your new password and click Sign In.";
-    }, 1500);
-  } catch (error) {
-    statusElem.style.color = "#c0392b";
-    statusElem.textContent = `Error updating password: ${error.message}. Please request a new link.`;
-  }
-};
-
-// --- 7. Universal Navigation & Search Controllers ---
-window.toggleNavigationMenu = function() {
-  const menuList = document.getElementById("portal-nav-list");
-  const toggleBtn = document.getElementById("menu-toggle-btn");
-  if (!menuList || !toggleBtn) return;
-
-  const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    closeNavigationMenu();
-  } else {
-    menuList.style.display = "block";
-    toggleBtn.setAttribute("aria-expanded", "true");
-  }
-};
-
-window.closeNavigationMenu = function() {
-  const menuList = document.getElementById("portal-nav-list");
-  const toggleBtn = document.getElementById("menu-toggle-btn");
-  if (!menuList || !toggleBtn) return;
-
-  menuList.style.display = "none";
-  toggleBtn.setAttribute("aria-expanded", "false");
-  toggleBtn.focus();
-};
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closeNavigationMenu();
-    closeAuthModal();
-  }
-});
-
-window.toggleBannerSearch = function() {
-  const container = document.getElementById("banner-search-container");
-  const btn = document.getElementById("search-toggle-btn");
-  if (!container || !btn) return;
-
-  const isExpanded = btn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    container.style.display = "none";
-    btn.setAttribute("aria-expanded", "false");
-    btn.focus();
-  } else {
-    container.style.display = "block";
-    btn.setAttribute("aria-expanded", "true");
-    const input = document.getElementById("global-search-input");
-    if (input) input.focus();
-  }
-};
-
-window.handleUniversalSearch = function(event) {
-  event.preventDefault();
-  const query = document.getElementById("global-search-input").value.trim();
-  if (!query) return;
-  alert(`Search index queried for: "${query}". Conforming to Section 508 & WCAG standards.`);
-};
-
-// --- 8. Accessible Text-To-Speech (Read Aloud) ---
-window.toggleReadPageAloud = function() {
-  const btn = document.getElementById("btn-read-page");
-  if (!("speechSynthesis" in window)) {
-    alert("Sorry, your browser does not support Web Speech Text-to-Speech.");
-    return;
-  }
-
-  if (isSpeaking) {
-    window.speechSynthesis.cancel();
-    isSpeaking = false;
-    if (btn) btn.textContent = "🔊 Read Website Aloud";
-  } else {
-    const mainText = document.getElementById("main-content")?.innerText || document.body.innerText;
-    const utterance = new SpeechSynthesisUtterance(mainText);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-    utterance.lang = "en-US";
-
-    utterance.onend = () => {
-      isSpeaking = false;
-      if (btn) btn.textContent = "🔊 Read Website Aloud";
-    };
-
-    window.speechSynthesis.speak(utterance);
-    isSpeaking = true;
-    if (btn) btn.textContent = "⏹️ Stop Reading";
-  }
-};
-
-// --- 9. Complete Accessibility Controls Toolkit ---
-window.toggleDarkMode = function() {
-  const root = document.documentElement;
-  const isDark = root.getAttribute("data-theme") === "dark";
-  const btn = document.getElementById("btn-dark-mode");
-  if (isDark) {
-    root.removeAttribute("data-theme");
-    if (btn) btn.setAttribute("aria-pressed", "false");
-    localStorage.setItem("ril_theme", "light");
-  } else {
-    root.setAttribute("data-theme", "dark");
-    if (btn) btn.setAttribute("aria-pressed", "true");
-    localStorage.setItem("ril_theme", "dark");
-  }
-};
-
-window.toggleHighContrast = function() {
-  const root = document.documentElement;
-  const isContrast = root.getAttribute("data-contrast") === "high";
-  const btn = document.getElementById("btn-high-contrast");
-  if (isContrast) {
-    root.removeAttribute("data-contrast");
-    if (btn) btn.setAttribute("aria-pressed", "false");
-    localStorage.setItem("ril_contrast", "normal");
-  } else {
-    root.setAttribute("data-contrast", "high");
-    if (btn) btn.setAttribute("aria-pressed", "true");
-    localStorage.setItem("ril_contrast", "high");
-  }
-};
-
-window.toggleFontSize = function() {
-  const root = document.documentElement;
-  const isLarge = root.getAttribute("data-font-size") === "large";
-  const btn = document.getElementById("btn-font-size");
-  if (isLarge) {
-    root.removeAttribute("data-font-size");
-    if (btn) {
-      btn.setAttribute("aria-pressed", "false");
-      btn.textContent = "🔤 Larger Text";
-    }
-  } else {
-    root.setAttribute("data-font-size", "large");
-    if (btn) {
-      btn.setAttribute("aria-pressed", "true");
-      btn.textContent = "🔤 Default Text";
-    }
-  }
-};
-
-window.togglePauseMotion = function() {
-  const btn = document.getElementById("btn-pause-motion");
-  if (liveClockInterval) {
-    clearInterval(liveClockInterval);
-    liveClockInterval = null;
-    if (btn) {
-      btn.setAttribute("aria-pressed", "true");
-      btn.textContent = "▶ Resume Motion";
-    }
-  } else {
-    liveClockInterval = setInterval(updateLiveBannerMetrics, 1000);
-    if (btn) {
-      btn.setAttribute("aria-pressed", "false");
-      btn.textContent = "🛑 Pause Motion";
-    }
-  }
-};
-
-// --- 10. Universal Email Dispatch (Web3Forms) ---
-async function dispatchWeb3Notification(subject, messageContent, extraData = {}) {
-  const payload = {
-    access_key: WEB3FORMS_ACCESS_KEY,
-    subject: `[RIL Portal] ${subject}`,
-    from_name: "RIL Automated Security Engine",
-    to_email: ADMIN_EMAIL,
-    message: messageContent,
-    ...extraData
-  };
-
-  try {
-    await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify(payload)
-    });
-  } catch (err) {
-    console.error("Web3Forms transmission error:", err);
-  }
-}
-
-// --- 11. Universal Razorpay Payment-First Gateway ---
-window.initiatePaidRequest = function(event, serviceName, amountINR) {
-  if (event && event.preventDefault) event.preventDefault();
-  const form = (event && event.target && event.target.tagName === "FORM") ? event.target : document.querySelector("form");
-  const statusBox = form ? form.querySelector(".payment-status-msg") : document.querySelector(".payment-status-msg");
-  const user = auth.currentUser;
-
-  if (!user) {
-    openAuthModal();
-    if (statusBox) statusBox.textContent = "Please sign in to proceed with payment and booking.";
-    return;
-  }
-
-  const options = {
-    key: RAZORPAY_KEY_ID,
-    amount: amountINR * 100,
-    currency: "INR",
-    name: "Resilience Industries",
-    description: `Service: ${serviceName}`,
-    handler: async function(response) {
-      if (statusBox) statusBox.textContent = "Payment authorized. Transmitting audit dossier to headquarters...";
-      
-      const formData = form ? new FormData(form) : new FormData();
-      formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-      formData.append("service_or_package", serviceName);
-      formData.append("razorpay_payment_id", response.razorpay_payment_id);
-      formData.append("amount_paid_inr", amountINR);
-      formData.append("client_identity", user.email);
-
-      await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
-
-      alert(`Success! Payment reference ${response.razorpay_payment_id} captured. Your booking for ${serviceName} is confirmed.`);
-      if (form) form.reset();
-      
-      const drawer = document.getElementById("service-booking-drawer") || document.getElementById("audit-booking-drawer") || document.getElementById("audit-protocol-drawer");
-      if (drawer) drawer.style.display = "none";
-    },
-    prefill: { email: user.email, contact: "8434721287" },
-    theme: { color: "#0b3d91" }
-  };
-
-  if (window.Razorpay) {
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  } else {
-    alert("Payment gateway initializing. Please retry in 2 seconds.");
-  }
-};
-
-// --- 12. Drawers & Dynamic Forms Controllers ---
-window.toggleAuditDrawer = function() {
-  const drawer = document.getElementById("audit-booking-drawer");
-  const btn = document.getElementById("audit-toggle-btn");
-  if (!drawer || !btn) return;
-
-  const isExpanded = btn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    drawer.style.display = "none";
-    btn.setAttribute("aria-expanded", "false");
-    btn.textContent = "📋 Book Baseline Audit (₹500)";
-  } else {
-    drawer.style.display = "block";
-    btn.setAttribute("aria-expanded", "true");
-    btn.textContent = "✕ Close Booking Form";
-    const input = document.getElementById("audit-url");
-    if (input) input.focus();
-  }
-};
-
-window.toggleServiceDrawer = function() {
-  const drawer = document.getElementById("service-booking-drawer");
-  const btn = document.getElementById("service-toggle-btn");
-  if (!drawer || !btn) return;
-
-  const isExpanded = btn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    drawer.style.display = "none";
-    btn.setAttribute("aria-expanded", "false");
-    btn.textContent = "📋 Open Service Booking Form";
-  } else {
-    drawer.style.display = "block";
-    btn.setAttribute("aria-expanded", "true");
-    btn.textContent = "✕ Close Booking Form";
-    const select = document.getElementById("service-package-select");
-    if (select) select.focus();
-  }
-};
-
-window.handleServiceTierChange = function() {
-  const select = document.getElementById("service-package-select");
-  const submitBtn = document.getElementById("btn-service-submit");
-  if (!select || !submitBtn) return;
-
-  const selectedOption = select.options[select.selectedIndex];
-  const price = selectedOption.getAttribute("data-price") || "500";
-  submitBtn.textContent = `Pay & Confirm Booking (₹${parseInt(price).toLocaleString('en-IN')})`;
-};
-
-window.handleServiceBookingSubmission = function(event) {
-  event.preventDefault();
-  const select = document.getElementById("service-package-select");
-  const selectedOption = select.options[select.selectedIndex];
-  const serviceName = selectedOption.value;
-  const price = parseInt(selectedOption.getAttribute("data-price") || "500");
-
-  initiatePaidRequest(event, serviceName, price);
-};
-
-window.toggleAuditProtocolDrawer = function() {
-  const drawer = document.getElementById("audit-protocol-drawer");
-  const btn = document.getElementById("audit-protocol-toggle-btn");
-  if (!drawer || !btn) return;
-
-  const isExpanded = btn.getAttribute("aria-expanded") === "true";
-  if (isExpanded) {
-    drawer.style.display = "none";
-    btn.setAttribute("aria-expanded", "false");
-    btn.textContent = "📋 Initiate Audit Protocol";
-  } else {
-    drawer.style.display = "block";
-    btn.setAttribute("aria-expanded", "true");
-    btn.textContent = "✕ Close Protocol Form";
-    const select = document.getElementById("audit-protocol-tier");
-    if (select) select.focus();
-  }
-};
-
-window.handleAuditProtocolTierChange = function() {
-  const select = document.getElementById("audit-protocol-tier");
-  const submitBtn = document.getElementById("btn-audit-protocol-submit");
-  if (!select || !submitBtn) return;
-
-  const selectedOption = select.options[select.selectedIndex];
-  const price = selectedOption.getAttribute("data-price") || "500";
-  submitBtn.textContent = `Pay & Confirm Audit (₹${parseInt(price).toLocaleString('en-IN')})`;
-};
-
-window.handleAuditProtocolSubmission = function(event) {
-  event.preventDefault();
-  const select = document.getElementById("audit-protocol-tier");
-  const selectedOption = select.options[select.selectedIndex];
-  const serviceName = selectedOption.value;
-  const price = parseInt(selectedOption.getAttribute("data-price") || "500");
-
-  initiatePaidRequest(event, serviceName, price);
-};
-
-// --- 13. Universal Contact Form Submission Controller ---
-window.handleUniversalContactSubmission = async function(event) {
-  event.preventDefault();
-  const form = document.getElementById("main-contact-form");
-  const statusBox = document.getElementById("contact-form-status");
-  const submitBtn = document.getElementById("btn-contact-submit");
-
-  if (!form || !statusBox) return;
-
-  try {
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Transmitting to Headquarters...";
-    }
-    statusBox.style.color = "var(--primary-color)";
-    statusBox.textContent = "Securely dispatching your inquiry to our engineering desk...";
-
-    const formData = new FormData(form);
-    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("to_email", ADMIN_EMAIL);
-    formData.append("submission_timestamp", new Date().toISOString());
-
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      statusBox.style.color = "#27ae60";
-      statusBox.textContent = "Success: Your formal technical inquiry has been delivered! Our specialists will respond within 24 to 72 business hours.";
-      form.reset();
-    } else {
-      throw new Error(result.message || "Failed to transmit message.");
-    }
-  } catch (error) {
-    statusBox.style.color = "#c0392b";
-    statusBox.textContent = `Transmission Error: ${error.message}. Please email niteshkumar91845@gmail.com directly.`;
-  } finally {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Transmitting Formal Inquiry Dossier";
-    }
-  }
-};
-
-// --- 14. Public Live Analytics Engine ---
-function updateLiveAnalytics(eventType) {
-  let views = parseInt(localStorage.getItem("ril_total_pageviews") || "1420");
-  let sessions = parseInt(localStorage.getItem("ril_total_sessions") || "310");
-  let deepReads = parseInt(localStorage.getItem("ril_deep_reads") || "88");
-
-  if (eventType === "pageview") views++;
-  if (eventType === "session_active") sessions++;
-  if (eventType === "deep_read") deepReads++;
-
-  localStorage.setItem("ril_total_pageviews", views);
-  localStorage.setItem("ril_total_sessions", sessions);
-  localStorage.setItem("ril_deep_reads", deepReads);
-
-  const pvEl = document.getElementById("analytics-pageviews");
-  const sessEl = document.getElementById("analytics-sessions");
-  const readEl = document.getElementById("analytics-reads");
-
-  if (pvEl) pvEl.textContent = views;
-  if (sessEl) sessEl.textContent = sessions;
-  if (readEl) readEl.textContent = deepReads;
-}
-updateLiveAnalytics("pageview");
-
-/* Resilience Industries - Natural Voice Tour & Uplifting Ambient */
+/* Resilience Industries - Full Audio Describer & Site Guide */
 (function() {
   let synth = window.speechSynthesis;
   let currentUtterance = null;
   let isPaused = false;
+  let isPlaying = false;
   let tourLang = "en"; // en, hi, hinglish
-  let tourVoiceGender = "female";
-  let tourIndex = 0;
-  let tourQueue = [];
-  let availableVoices = [];
+  let tourGender = "female"; // female, male
+  let sections = [];
+  let curSec = 0;
+  let curItem = 0;
+  let cachedVoices = [];
 
-  let audioCtx = null;
-  let ambientOscs = [];
-  let ambientGain = null;
-
-  function loadVoices() {
-    if ("speechSynthesis" in window) {
-      availableVoices = synth.getVoices();
-    }
-  }
-  if ("speechSynthesis" in window) {
-    loadVoices();
-    synth.onvoiceschanged = loadVoices;
-  }
-
-  function startUpliftingMusic() {
+  // UI Feedback Sounds (Web Audio API Earcons)
+  let sfxCtx = null;
+  function playSFX(type) {
     try {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === "suspended") audioCtx.resume();
-      
-      ambientGain = audioCtx.createGain();
-      ambientGain.gain.setValueAtTime(0.005, audioCtx.currentTime);
-      ambientGain.gain.exponentialRampToValueAtTime(0.03, audioCtx.currentTime + 2);
-      ambientGain.connect(audioCtx.destination);
+      if (!sfxCtx) sfxCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (sfxCtx.state === "suspended") sfxCtx.resume();
+      let osc = sfxCtx.createOscillator();
+      let gain = sfxCtx.createGain();
+      osc.connect(gain);
+      gain.connect(sfxCtx.destination);
+      let now = sfxCtx.currentTime;
 
-      ambientOscs = [];
-      // Joyful, uplifting C Major chord: C4 (261.63Hz), E4 (329.63Hz), G4 (392.00Hz)
-      const freqs = [261.63, 329.63, 392.00];
-      freqs.forEach(freq => {
-        let osc = audioCtx.createOscillator();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        osc.connect(ambientGain);
-        osc.start();
-        ambientOscs.push(osc);
-      });
+      if (type === "open") {
+        osc.frequency.setValueAtTime(350, now);
+        osc.frequency.exponentialRampToValueAtTime(700, now + 0.15);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.15);
+        osc.start(now); osc.stop(now + 0.15);
+      } else if (type === "close") {
+        osc.frequency.setValueAtTime(700, now);
+        osc.frequency.exponentialRampToValueAtTime(300, now + 0.15);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.15);
+        osc.start(now); osc.stop(now + 0.15);
+      } else {
+        osc.frequency.setValueAtTime(520, now);
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.08);
+        osc.start(now); osc.stop(now + 0.08);
+      }
     } catch(e) {}
   }
 
-  function stopUpliftingMusic() {
-    if (ambientGain && audioCtx) {
-      ambientGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1);
-      setTimeout(() => {
-        ambientOscs.forEach(osc => osc.stop());
-        ambientOscs = [];
-      }, 1000);
+  // Chill Lofi Guitar Track (12% optimal ambient)
+  let bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3");
+  bgMusic.loop = true;
+  bgMusic.volume = 0.12;
+
+  function initVoices() {
+    if ("speechSynthesis" in window) {
+      cachedVoices = synth.getVoices();
     }
   }
+  if ("speechSynthesis" in window) {
+    initVoices();
+    synth.onvoiceschanged = initVoices;
+  }
 
-  function selectHumanVoice(targetLang, gender) {
-    let langFilter = targetLang === "hi" ? "hi" : "en";
-    let filtered = availableVoices.filter(v => v.lang.toLowerCase().includes(langFilter));
-    if (filtered.length === 0) filtered = availableVoices;
-    
-    let found = null;
+  function getGoogleVoice(lang, gender) {
+    let pool = cachedVoices.filter(v => !v.name.toLowerCase().includes("espeak"));
+    if (pool.length === 0) pool = cachedVoices;
+
+    let match = lang === "hi" ? "hi" : "en";
+    let langList = pool.filter(v => v.lang.toLowerCase().replace("_", "-").startsWith(match));
+    if (langList.length === 0) langList = pool;
+
+    let googleList = langList.filter(v => v.name.toLowerCase().includes("google") || v.name.toLowerCase().includes("natural") || v.name.toLowerCase().includes("india"));
+    let target = googleList.length > 0 ? googleList : langList;
+
     if (gender === "female") {
-      found = filtered.find(v => v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("natural") || v.name.toLowerCase().includes("google") || v.name.toLowerCase().includes("zira") || v.name.toLowerCase().includes("swara"));
+      let f = target.find(v => v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("swara") || v.name.toLowerCase().includes("zira") || (v.name.toLowerCase().includes("google") && !v.name.toLowerCase().includes("male")));
+      return f || target[0];
     } else {
-      found = filtered.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("david") || v.name.toLowerCase().includes("madhur") || v.name.toLowerCase().includes("guy"));
+      let m = target.find(v => v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("madhur") || v.name.toLowerCase().includes("david") || v.name.toLowerCase().includes("ravi"));
+      return m || target[0];
     }
-    return found || filtered[0] || null;
   }
 
-  function buildQueue() {
-    tourQueue = [];
-    const main = document.querySelector("main") || document.body;
-    let h1 = document.querySelector("h1")?.innerText || "";
-
-    if (tourLang === "hi") {
-      tourQueue.push("रेज़िलिएंस इंडस्ट्रीज़ में आपका स्वागत है। मुख्य पृष्ठ शीर्षक है: " + h1);
-    } else if (tourLang === "hinglish") {
-      tourQueue.push("Resilience Industries ke page tour mein welcome. Top heading hai: " + h1);
-    } else {
-      tourQueue.push("Welcome to Resilience Industries. The main page heading is: " + h1);
+  async function translateForVoice(text, target) {
+    if (target === "en" || !text || text.length < 2) return text;
+    try {
+      let res = await fetch("https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=hi&dt=t&q=" + encodeURIComponent(text));
+      let json = await res.json();
+      return json[0].map(item => item[0]).join("");
+    } catch(e) {
+      return text;
     }
+  }
 
-    const elements = main.querySelectorAll("h2, h3, p, button, a");
-    elements.forEach(el => {
-      let text = el.innerText.trim();
-      if (text && text.length > 2 && !el.closest(".smart-tour-wrapper")) {
-        let tag = el.tagName.toLowerCase();
-        if (tourLang === "hi") {
-          if (tag === "h2" || tag === "h3") tourQueue.push("अनुभाग शीर्षक: " + text);
-          else if (tag === "button") tourQueue.push("बटन: " + text);
-          else if (tag === "a") tourQueue.push("लिंक: " + text);
-          else tourQueue.push(text);
-        } else if (tourLang === "hinglish") {
-          if (tag === "h2" || tag === "h3") tourQueue.push("Section heading hai: " + text);
-          else if (tag === "button") tourQueue.push("Action button: " + text);
-          else if (tag === "a") tourQueue.push("Link available: " + text);
-          else tourQueue.push(text);
-        } else {
-          if (tag === "h2" || tag === "h3") tourQueue.push("Section heading: " + text);
-          else if (tag === "button") tourQueue.push("Button: " + text);
-          else if (tag === "a") tourQueue.push("Link: " + text);
-          else tourQueue.push(text);
-        }
+  // Deep Structural Scan with Visual Descriptions
+  function scanDetailedDOM() {
+    sections = [];
+    const main = document.querySelector("main") || document.body;
+    let currentSec = { heading: "Page Overview", items: [] };
+
+    // Overview intro
+    let title = document.title || "Resilience Industries";
+    currentSec.items.push({
+      type: "meta",
+      en: "Currently browsing page: " + title + ". Layout contains top header banner, main content container, and bottom footer.",
+      hi: "आप अभी देख रहे हैं पृष्ठ: " + title + "। इस पृष्ठ का लेआउट शीर्ष बैनर, मुख्य सामग्री और निचले फुटर में व्यवस्थित है।"
+    });
+
+    const nodes = main.querySelectorAll("h1, h2, h3, p, a, button, input, ul, ol");
+    nodes.forEach(el => {
+      if (el.closest(".smart-tour-wrapper") || el.closest("nav") && el.closest("header")) return;
+      let text = el.innerText ? el.innerText.trim() : "";
+      let tag = el.tagName.toLowerCase();
+
+      if (tag === "h1" || tag === "h2" || tag === "h3") {
+        if (currentSec.items.length > 0) sections.push(currentSec);
+        let level = tag.replace("h", "");
+        currentSec = {
+          heading: text,
+          items: [{
+            type: "heading",
+            en: "Heading level " + level + ": " + text,
+            hi: "शीर्षक स्तर " + level + ": " + text
+          }]
+        };
+      } else if (tag === "p" && text.length > 2) {
+        currentSec.items.push({
+          type: "text",
+          en: text,
+          hi: text // will translate dynamically
+        });
+      } else if (tag === "button" && text.length > 1) {
+        currentSec.items.push({
+          type: "button",
+          en: "Interactive Button: " + text + ", visual cyan accent, keyboard clickable.",
+          hi: "क्रियाशील बटन: " + text + ", नीले रंग में दृश्यमान, क्लिक करने योग्य।"
+        });
+      } else if (tag === "a" && text.length > 1) {
+        currentSec.items.push({
+          type: "link",
+          en: "Navigation Link: " + text + ", opens related view.",
+          hi: "नेविगेशन लिंक: " + text + ", संबंधित पृष्ठ पर ले जाने हेतु उपलब्ध।"
+        });
+      } else if (tag === "input") {
+        let ph = el.getAttribute("placeholder") || "search or input field";
+        currentSec.items.push({
+          type: "input",
+          en: "Text entry field: " + ph + ", highlighted for typing.",
+          hi: "टेक्स्ट इनपुट बॉक्स: " + ph + ", टाइप करने के लिए उपलब्ध।"
+        });
       }
     });
+
+    if (currentSec.items.length > 0) sections.push(currentSec);
   }
 
-  function speakStep() {
-    if (tourIndex >= tourQueue.length) {
-      stopUpliftingMusic();
-      updateStatus("Finished");
+  async function speakStep() {
+    if (curSec >= sections.length) {
+      stopTour();
+      setLive("Finished");
       return;
     }
+    let s = sections[curSec];
+    if (curItem >= s.items.length) {
+      curSec++;
+      curItem = 0;
+      speakStep();
+      return;
+    }
+
     synth.cancel();
-    currentUtterance = new SpeechSynthesisUtterance(tourQueue[tourIndex]);
-    let chosenVoice = selectHumanVoice(tourLang, tourVoiceGender);
-    if (chosenVoice) currentUtterance.voice = chosenVoice;
-    currentUtterance.rate = 0.95;
-    currentUtterance.pitch = tourVoiceGender === "female" ? 1.05 : 0.9;
+    let itemObj = s.items[curItem];
+    let textToSpeak = itemObj.en;
+
+    if (tourLang === "hi" || tourLang === "hinglish") {
+      if (itemObj.type === "text") {
+        setLive("Translating...");
+        textToSpeak = await translateForVoice(itemObj.en, "hi");
+      } else {
+        textToSpeak = itemObj.hi;
+      }
+    }
+
+    currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+    let voiceTarget = (tourLang === "hi" || tourLang === "hinglish") ? "hi" : "en";
+    let v = getGoogleVoice(voiceTarget, tourGender);
+    if (v) currentUtterance.voice = v;
+
+    currentUtterance.rate = 0.94;
+    currentUtterance.pitch = tourGender === "female" ? 1.05 : 0.88;
 
     currentUtterance.onend = function() {
-      if (!isPaused && tourIndex < tourQueue.length - 1) {
-        tourIndex++;
+      if (!isPaused && isPlaying) {
+        curItem++;
         speakStep();
       }
     };
 
-    updateStatus((tourIndex + 1) + "/" + tourQueue.length);
+    currentUtterance.onerror = function() {
+      if (!isPaused && isPlaying) {
+        curItem++;
+        speakStep();
+      }
+    };
+
+    setLive("Heading " + (curSec + 1) + "/" + sections.length);
     synth.speak(currentUtterance);
   }
 
-  function updateStatus(txt) {
-    const live = document.getElementById("smart-tour-status");
-    if (live) live.textContent = txt;
+  function startTour() {
+    isPlaying = true;
+    isPaused = false;
+    scanDetailedDOM();
+    bgMusic.play().catch(e => {});
+    speakStep();
+    let pBtn = document.getElementById("smart-tour-play");
+    if (pBtn) pBtn.textContent = "Pause";
+  }
+
+  function pauseTour() {
+    isPaused = true;
+    synth.pause();
+    bgMusic.pause();
+    let pBtn = document.getElementById("smart-tour-play");
+    if (pBtn) pBtn.textContent = "Resume";
+  }
+
+  function resumeTour() {
+    isPaused = false;
+    bgMusic.play().catch(e => {});
+    synth.resume();
+    let pBtn = document.getElementById("smart-tour-play");
+    if (pBtn) pBtn.textContent = "Pause";
+  }
+
+  function stopTour() {
+    isPlaying = false;
+    isPaused = false;
+    synth.cancel();
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+    let pBtn = document.getElementById("smart-tour-play");
+    if (pBtn) pBtn.textContent = "Play";
+  }
+
+  function setLive(txt) {
+    let l = document.getElementById("smart-tour-status");
+    if (l) l.textContent = txt;
   }
 
   window.addEventListener("DOMContentLoaded", () => {
     const trigger = document.getElementById("smart-tour-trigger");
     const bar = document.getElementById("smart-tour-bar");
     const playBtn = document.getElementById("smart-tour-play");
+    const prevBtn = document.getElementById("smart-tour-prev");
     const nextBtn = document.getElementById("smart-tour-next");
+    const rewBtn = document.getElementById("smart-tour-rew");
+    const fwdBtn = document.getElementById("smart-tour-fwd");
     const voiceBtn = document.getElementById("smart-tour-voice");
     const langBtn = document.getElementById("smart-tour-lang");
 
@@ -1256,55 +263,88 @@ updateLiveAnalytics("pageview");
       trigger.addEventListener("click", () => {
         let isOpen = bar.classList.toggle("open");
         trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        playSFX(isOpen ? "open" : "close");
+        trigger.textContent = isOpen ? "❌ Close Tour" : "🔊 Explore Site by Voice";
       });
 
       playBtn.addEventListener("click", () => {
-        if (!synth.speaking && tourQueue.length === 0) {
-          buildQueue();
-          tourIndex = 0;
-          isPaused = false;
-          startUpliftingMusic();
-          speakStep();
-          playBtn.textContent = "Pause";
-        } else if (synth.speaking && !synth.paused) {
-          synth.pause();
-          isPaused = true;
-          playBtn.textContent = "Resume";
-        } else if (synth.paused) {
-          synth.resume();
-          isPaused = false;
-          playBtn.textContent = "Pause";
+        playSFX("click");
+        if (!isPlaying) {
+          curSec = 0;
+          curItem = 0;
+          startTour();
+        } else if (isPlaying && !isPaused) {
+          pauseTour();
+        } else if (isPaused) {
+          resumeTour();
         }
       });
 
       nextBtn.addEventListener("click", () => {
-        if (tourIndex < tourQueue.length - 1) {
-          tourIndex++;
+        playSFX("click");
+        scanDetailedDOM();
+        if (curSec < sections.length - 1) {
+          curSec++;
+          curItem = 0;
+          isPaused = false;
+          isPlaying = true;
+          bgMusic.play().catch(e => {});
           speakStep();
-        } else {
-          tourIndex = 0;
-          speakStep();
+          playBtn.textContent = "Pause";
         }
       });
 
+      prevBtn.addEventListener("click", () => {
+        playSFX("click");
+        scanDetailedDOM();
+        if (curSec > 0) {
+          curSec--;
+          curItem = 0;
+          isPaused = false;
+          isPlaying = true;
+          bgMusic.play().catch(e => {});
+          speakStep();
+          playBtn.textContent = "Pause";
+        }
+      });
+
+      rewBtn.addEventListener("click", () => {
+        playSFX("click");
+        if (curItem > 0) curItem--;
+        else if (curSec > 0) { curSec--; curItem = 0; }
+        speakStep();
+      });
+
+      fwdBtn.addEventListener("click", () => {
+        playSFX("click");
+        let s = sections[curSec];
+        if (s && curItem < s.items.length - 1) curItem++;
+        else if (curSec < sections.length - 1) { curSec++; curItem = 0; }
+        speakStep();
+      });
+
       voiceBtn.addEventListener("click", () => {
-        tourVoiceGender = tourVoiceGender === "female" ? "male" : "female";
-        voiceBtn.textContent = tourVoiceGender === "female" ? "Voice: Female" : "Voice: Male";
-        if (synth.speaking) speakStep();
+        playSFX("click");
+        tourGender = tourGender === "female" ? "male" : "female";
+        voiceBtn.textContent = tourGender === "female" ? "Voice: Female" : "Voice: Male";
+        if (isPlaying && !isPaused) speakStep();
       });
 
       langBtn.addEventListener("click", () => {
+        playSFX("click");
         if (tourLang === "en") tourLang = "hi";
         else if (tourLang === "hi") tourLang = "hinglish";
         else tourLang = "en";
 
-        let lbl = tourLang === "en" ? "Lang: English" : (tourLang === "hi" ? "Lang: Hindi" : "Lang: Hinglish");
-        langBtn.textContent = lbl;
-        synth.cancel();
-        buildQueue();
-        tourIndex = 0;
-        if (!isPaused && tourQueue.length > 0) speakStep();
+        langBtn.textContent = tourLang === "en" ? "Lang: English" : (tourLang === "hi" ? "Lang: Hindi" : "Lang: Hinglish");
+        if (isPlaying && !isPaused) speakStep();
       });
+    }
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && isPlaying && !isPaused) {
+      pauseTour();
     }
   });
 })();
