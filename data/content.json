@@ -1,0 +1,79 @@
+{
+  "system_brand_name": "Resilience Industries",
+  "console_meta_title": "Super God Mode Console | Resilience Industries",
+  "skip_to_main": "मुख्य सामग्री पर सीधे जाएँ",
+  "skip_to_dock": "उपयोगिता नियंत्रण डॉक पर जाएँ",
+  "btn_signout_text": "साइन आउट करें",
+
+  "auth_gate_heading": "कंसोल एक्सेस गेटवे",
+  "auth_gate_desc": "सुपर गॉड मोड और रोल-बेस्ड मैनेजमेंट सिस्टम। आगे बढ़ने के लिए अपनी आधिकारिक पहचान दर्ज करें।",
+  "btn_google_label": "Google से जारी रखें",
+  "divider_email_label": "या आधिकारिक ईमेल का उपयोग करें",
+
+  "label_email": "आधिकारिक ईमेल पता",
+  "btn_next_label": "आगे बढ़ें",
+
+  "label_password": "खाता पासवर्ड",
+  "btn_show_pw": "देखें",
+  "btn_login_label": "साइन इन करें",
+  "btn_forgot_password": "पासवर्ड भूल गए?",
+
+  "label_create_pw": "नया पासवर्ड बनाएँ (न्यूनतम 8 वर्ण)",
+  "btn_register_label": "खाता बनाएँ और सत्यापन लिंक पाएँ",
+
+  "verify_instruction": "आपके आधिकारिक ईमेल पर एक सत्यापन लिंक भेजा गया है। इनबॉक्स खोलकर लिंक पर टैप करें।",
+  "btn_resend_verification": "सत्यापन लिंक पुनः भेजें",
+
+  "recovery_instruction": "पासवर्ड रीसेट लिंक प्राप्त करने के लिए अपने ईमेल की पुष्टि करें।",
+  "btn_send_reset": "रीसेट लिंक भेजें",
+  "btn_resend_reset": "रीसेट लिंक पुनः भेजें",
+  "btn_back_to_login": "वापस साइन इन पर जाएँ",
+
+  "pill_godmode_label": "Super Master Owner",
+  "heading_godmode_title": "सेंट्रल गवर्नेंस कंसोल",
+  "subheading_godmode_desc": "एंटरप्राइज एक्सेसिबिलिटी, इंफ्रास्ट्रक्चर और टीम रोल मैनेजमेंट।",
+
+  "label_role_switcher": "पर्सपेक्टिव व्यू बदलें:",
+  "opt_owner_view": "मास्टर ओनर (पूर्ण अधिकार)",
+  "opt_admin_view": "एडमिन विंग प्रिव्यू",
+  "opt_dev_view": "डेवलपर विंग प्रिव्यू",
+  "opt_client_view": "क्लाइंट / ऑडिट व्यू",
+
+  "heading_team_governance": "टीम और रोल गवर्नेंस (4 एडमिन + 4 डेवलपर स्लॉट)",
+  "btn_add_member_label": "+ नया टीम सदस्य जोड़ें",
+  "heading_available_rooms": "उपलब्ध वर्कस्पेस रूम्स",
+
+  "tag_admin_wing": "एडमिन विंग",
+  "tag_dev_wing": "डेवलपर विंग",
+  "btn_open_room": "रूम खोलें",
+
+  "room_title_content": "Chief Content Editor",
+  "room_desc_content": "होमपेज, विज़न, मिशन, लीडरशिप स्टोरी और कॉर्पोरेट प्रोफाइल के टेक्स्ट व हेडिंग्स को लाइव अपडेट करें।",
+
+  "room_title_compliance": "Legal & Compliance",
+  "room_desc_compliance": "प्राइवेसी पॉलिसी, टर्म्स ऑफ सर्विस, VPAT 2.5, Section 508 और SEBI डिस्क्लोज़र प्रबंधित करें।",
+
+  "room_title_media": "SEO & Media Director",
+  "room_desc_media": "ब्लॉग आर्टिकल्स, प्रेस रिलीज़, मेटा टैग्स, JSON-LD स्कीमा और सर्च कंसोल इंडेक्सिंग संभालें।",
+
+  "room_title_inquiry": "Enterprise Client Desk",
+  "room_desc_inquiry": "A11yOmni डेमो रिक्वेस्ट, कॉर्पोरेट लीड्स और सपोर्ट इंक्वायरी इनबॉक्स को प्रोसेस करें।",
+
+  "room_title_layout": "Navigation & Layout Architect",
+  "room_desc_layout": "नेविगेशन मेन्यू (Navbar), फुटर लिंक्स, सोशल हैंडल्स और सिमेंटिक लैंडमार्क्स री-अरेंज करें।",
+
+  "room_title_vault": "Integration & API Vault",
+  "room_desc_vault": "Razorpay पेमेंट गेटवे कीज, Google Analytics ID, reCAPTCHA और वेबहुक्स सुरक्षित रूप से कॉन्फ़िगर करें।",
+
+  "room_title_sandbox": "Component & UI Sandbox",
+  "room_desc_sandbox": "कस्टम विजेट्स और बटन्स जोड़ें। लाइव करने से पहले 'Test Before Publish' चलाकर सिंटैक्स चेक करें।",
+
+  "room_title_diagnostics": "System Health & Diagnostics",
+  "room_desc_diagnostics": "वेबसाइट स्पीड, ब्रोकन लिंक्स, 404 एरर मॉनिटर और ऑडिट लॉग्स ट्रैक करें।",
+
+  "btn_scroll_top": "शीर्ष पर जाएँ",
+  "btn_scroll_bottom": "तल पर जाएँ",
+  "link_support_label": "सहायता: niteshkumar91845@gmail.com",
+  "link_phone_label": "हेल्पलाइन: +91 8434721287",
+  "footer_copyright": "© 2026 Resilience Industries. सर्वाधिकार सुरक्षित। संस्थापक एवं मुख्य वास्तुकार: नितेश कुमार (CPACC, Deque Univ, NAB Delhi, NIIT Foundation)।"
+}
