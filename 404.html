@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!-- ==========================================================================
+   ENTERPRISE PLATFORM: RESILIENCE INDUSTRIES
+   FAULT-TOLERANT ENGINE: ACCESSIBLE 404 NOT FOUND (404.html)
+   ARCHITECTURE: Headless Decoupled CMS / Strict 0% Inline / 0% Hardcoded Text
+   ACCESSIBILITY: WCAG 2.2 AAA Compliant / Screen Reader Optimized (Criterion 3.3.1)
+   MASTER OWNER: Nitesh Kumar (niteshkumar91845@gmail.com)
+   CONTACT HOTLINE: +91 8434721287
+   ========================================================================== -->
+<html lang="hi" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" id="meta-description" content="" data-content-key="e404_meta_desc">
+
+  <title id="page-title" data-content-key="e404_meta_title"></title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js" defer></script>
+
+  <script type="module" src="js/main.js" defer></script>
+</head>
+<body id="e404-body">
+
+  <nav id="a11y-skip-navigation" aria-label="त्वरित नेविगेशन लिंक">
+    <a href="#main-404-content" id="link-skip-main" class="skip-link" data-content-key="skip_to_main"></a>
+    <a href="#quick-action-dock" id="link-skip-dock" class="skip-link" data-content-key="skip_to_dock"></a>
+  </nav>
+
+  <div id="live-announcer" class="visually-hidden" aria-live="assertive" aria-atomic="true"></div>
+
+  <header id="global-header" role="banner">
+    <div class="header-inner-container">
+      <div id="header-brand-cluster">
+        <a href="index.html" id="link-home-logo" class="brand-link" aria-label="Resilience Industries होमपेज">
+          <div id="brand-indicator-orb" aria-hidden="true"></div>
+          <span id="brand-system-label" class="brand-name" data-content-key="system_brand_name"></span>
+        </a>
+      </div>
+
+      <nav id="main-navigation" role="navigation" aria-label="मुख्य नेविगेशन मेन्यू">
+        <ul id="nav-links-list" class="nav-list">
+          <li class="nav-item"><a href="index.html" class="nav-link" data-content-key="nav_home"></a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link" data-content-key="nav_about"></a></li>
+          <li class="nav-item"><a href="story.html" class="nav-link" data-content-key="nav_story"></a></li>
+          <li class="nav-item"><a href="services.html" class="nav-link" data-content-key="nav_services"></a></li>
+          <li class="nav-item"><a href="solutions.html" class="nav-link" data-content-key="nav_solutions"></a></li>
+          <li class="nav-item"><a href="accessible-audits.html" class="nav-link" data-content-key="nav_audits"></a></li>
+          <li class="nav-item"><a href="vpat-acar.html" class="nav-link" data-content-key="nav_vpat"></a></li>
+          <li class="nav-item"><a href="blog.html" class="nav-link" data-content-key="nav_blog"></a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link" data-content-key="nav_contact"></a></li>
+        </ul>
+      </nav>
+
+      <div id="header-action-dock">
+        <a href="console.html" id="link-header-console" class="btn-console-pill" data-content-key="btn_portal_access"></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-404-content" role="main" tabindex="-1">
+    <section id="section-404-card" class="hero-region" aria-labelledby="e404-main-title">
+      <div class="hero-content-wrapper">
+        <span id="e404-badge-tag" class="accent-badge-pill" data-content-key="e404_tag_label"></span>
+        <h1 id="e404-main-title" class="hero-main-heading" data-content-key="e404_main_heading"></h1>
+        <p id="e404-hero-summary" class="hero-description-lead" data-content-key="e404_lead_summary"></p>
+        
+        <div class="hero-cta-cluster">
+          <a href="index.html" class="btn-primary-action" data-content-key="btn_return_home"></a>
+          <a href="sitemap.html" class="btn-secondary-action" data-content-key="btn_browse_sitemap"></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="quick-action-dock" role="contentinfo" aria-label="वेबसाइट फुटर एवं आधिकारिक संपर्क">
+    <div class="footer-inner-container">
+      <div class="footer-col-brand">
+        <div class="brand-link">
+          <div id="footer-indicator-orb" aria-hidden="true"></div>
+          <span class="brand-name" data-content-key="system_brand_name"></span>
+        </div>
+        <p id="footer-mission-lead" class="footer-summary-text" data-content-key="footer_vision_summary"></p>
+      </div>
+
+      <nav class="footer-col-nav" aria-label="कानूनी एवं अनुपालन लिंक्स">
+        <h4 class="footer-heading" data-content-key="footer_heading_legal"></h4>
+        <ul class="footer-links-list">
+          <li><a href="terms.html" data-content-key="link_terms"></a></li>
+          <li><a href="privacy.html" data-content-key="link_privacy"></a></li>
+          <li><a href="refund-policy.html" data-content-key="link_refund"></a></li>
+          <li><a href="accessibility-statement.html" data-content-key="link_a11y_statement"></a></li>
+          <li><a href="sitemap.html" data-content-key="link_sitemap"></a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col-nav" aria-label="कॉर्पोरेट नेविगेशन लिंक्स">
+        <h4 class="footer-heading" data-content-key="footer_heading_company"></h4>
+        <ul class="footer-links-list">
+          <li><a href="about.html" data-content-key="nav_about"></a></li>
+          <li><a href="story.html" data-content-key="nav_story"></a></li>
+          <li><a href="faq.html" data-content-key="nav_faq"></a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col-contact">
+        <h4 class="footer-heading" data-content-key="footer_heading_contact"></h4>
+        <div class="contact-action-cluster">
+          <a href="mailto:niteshkumar91845@gmail.com" id="link-direct-email" class="dock-contact-link" aria-label="आधिकारिक ईमेल भेजें" data-content-key="link_email_label"></a>
+          <a href="tel:+918434721287" id="link-direct-phone" class="dock-contact-link" aria-label="आधिकारिक हेल्पलाइन पर कॉल करें" data-content-key="link_phone_label"></a>
+        </div>
+        <div class="nav-utility-cluster">
+          <button id="btn-scroll-top" class="dock-btn" type="button" aria-label="पेज के शीर्ष पर वापस जाएँ" data-content-key="btn_scroll_top"></button>
+          <button id="btn-scroll-bottom" class="dock-btn" type="button" aria-label="पेज के तल पर जाएँ" data-content-key="btn_scroll_bottom"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <small id="copyright-text-slot" data-content-key="footer_copyright"></small>
+    </div>
+  </footer>
+
+</body>
+</html>
