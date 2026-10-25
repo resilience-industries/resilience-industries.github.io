@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<!-- ==========================================================================
+   ENTERPRISE PLATFORM: RESILIENCE INDUSTRIES
+   CORE SYSTEM MODULE: CONSOLE GATEWAY & SUPER GOD MODE CMS (console.html)
+   ARCHITECTURE: Headless Decoupled CMS / Strict 0% Inline / 0% Hardcoded Text
+   ACCESSIBILITY: WCAG 2.2 AAA Compliant / NVDA & TalkBack Optimized
+   MASTER OWNER: Nitesh Kumar (niteshkumar91845@gmail.com)
+   SECURITY SPECIFICATION: Zero-Trust Stealth Redirection / Granular RBAC
+   ========================================================================== -->
+<html lang="hi" dir="ltr">
+<head>
+  <!-- ==========================================================================
+     SYSTEM METADATA & SEARCH ENGINE CLOAKING
+     Directives prevent unauthorized crawling, archiving, or indexing of console.
+     ========================================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="theme-color" content="#0d1117">
+
+  <!-- Dynamic Document Title: Injected via js/console.js from Cloud Firestore -->
+  <title id="page-title" data-content-key="console_meta_title"></title>
+
+  <!-- ==========================================================================
+     STRICT SEPARATION: EXTERNAL STYLESHEET ONLY
+     0% Inline or Internal CSS rules permitted.
+     ========================================================================== -->
+  <link rel="stylesheet" href="css/console.css">
+
+  <!-- ==========================================================================
+     EXTERNAL INFRASTRUCTURE SDKS (FIREBASE MODULAR COMPAT)
+     Asynchronous script delivery for zero-render blocking.
+     ========================================================================== -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js" defer></script>
+
+  <!-- ==========================================================================
+     STRICT SEPARATION: EXTERNAL JAVASCRIPT LOGIC ENGINE
+     0% Inline or Internal JS scripts permitted. Handled via ES Module.
+     ========================================================================== -->
+  <script type="module" src="js/console.js" defer></script>
+</head>
+<body id="console-body">
+
+  <!-- ==========================================================================
+     LANDMARK: ACCESSIBILITY SKIP NAVIGATION
+     WCAG 2.4.1 (Level A): Direct bypass blocks for screen readers and keyboard users.
+     ========================================================================== -->
+  <nav id="a11y-skip-navigation" aria-label="त्वरित नेविगेशन लिंक">
+    <a href="#main-console-content" id="link-skip-main" class="skip-link" data-content-key="skip_to_main"></a>
+    <a href="#quick-action-dock" id="link-skip-dock" class="skip-link" data-content-key="skip_to_dock"></a>
+  </nav>
+
+  <!-- ==========================================================================
+     ACCESSIBILITY: REAL-TIME AUDITORY LIVE ANNOUNCER
+     WAI-ARIA 1.2: Asynchronously announces authentication states and form updates.
+     ========================================================================== -->
+  <div id="live-announcer" class="visually-hidden" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- ==========================================================================
+     LANDMARK: HEADER REGION
+     Displays stealth security indicators and active authenticated session controls.
+     ========================================================================== -->
+  <header id="console-header" role="banner">
+    <div id="header-brand-container">
+      <div id="brand-indicator-orb" aria-hidden="true"></div>
+      <span id="brand-system-label" data-content-key="system_brand_name"></span>
+    </div>
+
+    <!-- Active Session Tray: Unlocked conditionally upon verification -->
+    <div id="session-tray" class="stealth-hidden" aria-label="सत्र स्थिति ट्रे">
+      <span id="session-user-badge" class="badge-identity"></span>
+      <button id="btn-session-signout" class="action-btn-secondary" type="button" data-content-key="btn_signout_text"></button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+     LANDMARK: MAIN CONTENT REGION
+     Encapsulates the zero-friction rhythmic auth flow and the Super God Mode Room Grid.
+     ========================================================================== -->
+  <main id="main-console-content" role="main" tabindex="-1">
+
+    <!-- ========================================================================
+       SECTION 1: STATE-AWARE SINGLE-SCREEN AUTHENTICATION GATEWAY
+       Handles Google SSO, email checking, password authentication, verification,
+       and cooldown-managed password resets without screen refreshes or tab switches.
+       ======================================================================== -->
+    <section id="auth-portal-section" class="portal-frame" aria-labelledby="auth-gate-heading">
+      
+      <!-- Screen Reader Semantic Header Binding -->
+      <h1 id="auth-gate-heading" class="portal-title" data-content-key="auth_gate_heading"></h1>
+      <p id="auth-gate-description" class="portal-description" data-content-key="auth_gate_desc"></p>
+
+      <!-- Accessible ARIA Live Alert Feedback Banner -->
+      <div id="auth-feedback-banner" class="status-alert stealth-hidden" role="alert" tabindex="-1"></div>
+
+      <!-- Step 0: Primary Single Sign-On (Sign in with Google) -->
+      <div id="block-google-auth" class="auth-action-block">
+        <button id="btn-action-google" class="btn-google-sso" type="button" aria-describedby="auth-gate-description">
+          <span id="google-icon-slot" class="icon-slot" aria-hidden="true"></span>
+          <span id="label-google-auth" data-content-key="btn_google_label"></span>
+        </button>
+      </div>
+
+      <!-- Semantic Rhythm Divider -->
+      <div id="auth-flow-divider" class="rhythmic-divider" role="separator" aria-label="या आधिकारिक ईमेल का उपयोग करें">
+        <span class="divider-line" aria-hidden="true"></span>
+        <span id="divider-text" class="divider-caption" data-content-key="divider_email_label"></span>
+        <span class="divider-line" aria-hidden="true"></span>
+      </div>
+
+      <!-- Dynamic Form Container -->
+      <form id="form-console-auth" novalidate>
+
+        <!-- Sub-View A: Universal Identifier Input -->
+        <div id="view-state-identifier" class="state-view">
+          <div class="field-cluster">
+            <label id="label-user-email" for="input-user-email" data-content-key="label_email"></label>
+            <input type="email" id="input-user-email" name="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <button id="btn-flow-check" class="btn-primary-flow" type="button" data-content-key="btn_next_label"></button>
+        </div>
+
+        <!-- Sub-View B: Existing User Authentication (Sign In) -->
+        <div id="view-state-signin" class="state-view stealth-hidden">
+          <div class="field-cluster">
+            <label id="label-user-password" for="input-signin-password" data-content-key="label_password"></label>
+            <div class="password-input-group">
+              <input type="password" id="input-signin-password" name="current-password" autocomplete="current-password" required>
+              <button id="btn-toggle-signin-mask" class="btn-mask-toggle" type="button" aria-controls="input-signin-password" aria-pressed="false" data-content-key="btn_show_pw"></button>
+            </div>
+          </div>
+          <button id="btn-action-signin" class="btn-primary-flow" type="button" data-content-key="btn_login_label"></button>
+          
+          <div class="field-assist-cluster">
+            <button id="btn-switch-recovery" class="link-subtle" type="button" data-content-key="btn_forgot_password"></button>
+          </div>
+        </div>
+
+        <!-- Sub-View C: New Identity Registration (Sign Up) -->
+        <div id="view-state-signup" class="state-view stealth-hidden">
+          <div class="field-cluster">
+            <label id="label-create-password" for="input-signup-password" data-content-key="label_create_pw"></label>
+            <div class="password-input-group">
+              <input type="password" id="input-signup-password" name="new-password" autocomplete="new-password" minlength="8" required>
+              <button id="btn-toggle-signup-mask" class="btn-mask-toggle" type="button" aria-controls="input-signup-password" aria-pressed="false" data-content-key="btn_show_pw"></button>
+            </div>
+          </div>
+          <button id="btn-action-signup" class="btn-primary-flow" type="button" data-content-key="btn_register_label"></button>
+        </div>
+
+        <!-- Sub-View D: Verification Gateway (Cooldown & Auto-Hide Enabled) -->
+        <div id="view-state-verification" class="state-view stealth-hidden" aria-live="polite">
+          <p id="desc-verify-prompt" class="instruction-body" data-content-key="verify_instruction"></p>
+          
+          <!-- Auto-Removed from DOM permanently upon verification -->
+          <div id="cluster-resend-verification" class="cooldown-container">
+            <button id="btn-action-resend-verification" class="btn-secondary-flow" type="button" disabled data-content-key="btn_resend_verification"></button>
+            <span id="timer-verify-countdown" class="cooldown-timer" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <!-- Sub-View E: Password Recovery Flow -->
+        <div id="view-state-recovery" class="state-view stealth-hidden">
+          <p id="desc-recovery-prompt" class="instruction-body" data-content-key="recovery_instruction"></p>
+          <button id="btn-action-send-recovery" class="btn-primary-flow" type="button" data-content-key="btn_send_reset"></button>
+          
+          <!-- Auto-Removed from DOM permanently upon password reset completion -->
+          <div id="cluster-resend-recovery" class="cooldown-container stealth-hidden">
+            <button id="btn-action-resend-recovery" class="btn-secondary-flow" type="button" disabled data-content-key="btn_resend_reset"></button>
+            <span id="timer-recovery-countdown" class="cooldown-timer" aria-live="polite"></span>
+          </div>
+          
+          <button id="btn-switch-back-signin" class="btn-secondary-flow" type="button" data-content-key="btn_back_to_login"></button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- ========================================================================
+       SECTION 2: SUPER MASTER OWNER DASHBOARD (SUPER GOD MODE)
+       Accessible Room Grid: Unlocks conditionally only upon verified master credentials.
+       ======================================================================== -->
+    <section id="super-god-console" class="management-grid-section stealth-hidden" aria-labelledby="godmode-main-heading">
+      
+      <!-- Control Deck Header Landmark -->
+      <header id="godmode-deck-header" class="deck-header">
+        <div class="deck-title-cluster">
+          <span id="badge-master-status" class="master-indicator-pill" data-content-key="pill_godmode_label"></span>
+          <h1 id="godmode-main-heading" class="deck-heading" data-content-key="heading_godmode_title"></h1>
+          <p id="godmode-sub-heading" class="deck-subheading" data-content-key="subheading_godmode_desc"></p>
+        </div>
+
+        <!-- Impersonator / Context Perspective Switcher -->
+        <div id="cluster-role-switcher" class="switcher-box">
+          <label id="label-role-switcher" for="select-active-view" data-content-key="label_role_switcher"></label>
+          <select id="select-active-view" name="active_view_mode">
+            <option value="owner" data-content-key="opt_owner_view"></option>
+            <option value="admin" data-content-key="opt_admin_view"></option>
+            <option value="developer" data-content-key="opt_dev_view"></option>
+            <option value="client" data-content-key="opt_client_view"></option>
+          </select>
+        </div>
+      </header>
+
+      <!-- ======================================================================
+         SUB-SECTION: TEAM GOVERNANCE & ACCESS CONTROL
+         Strict quota: Up to 4 Admins and 4 Developers with granular checkbox rooms.
+         ====================================================================== -->
+      <section id="panel-team-governance" class="governance-panel" aria-labelledby="heading-team-gov">
+        <h2 id="heading-team-gov" class="panel-section-title" data-content-key="heading_team_governance"></h2>
+        <div id="team-action-bar">
+          <button id="btn-modal-add-member" class="btn-action-accent" type="button" data-content-key="btn_add_member_label"></button>
+        </div>
+        <div id="team-roster-mount" class="roster-table-wrapper" role="region" aria-live="polite">
+          <!-- Populated dynamically via js/modules/team-manager.js -->
+        </div>
+      </section>
+
+      <!-- ======================================================================
+         SUB-SECTION: THE 8 DISCRETE ROLE ROOMS (4 ADMIN + 4 DEVELOPER)
+         ====================================================================== -->
+      <section id="panel-role-rooms" class="rooms-container" aria-labelledby="heading-available-rooms">
+        <h2 id="heading-available-rooms" class="visually-hidden" data-content-key="heading_available_rooms"></h2>
+
+        <div id="grid-rooms-wrapper" class="interactive-room-grid">
+
+          <!-- ROOM 1: ADMIN - CHIEF CONTENT EDITOR -->
+          <article id="room-admin-content" class="room-module" aria-labelledby="title-room-content">
+            <span class="room-category-tag" data-content-key="tag_admin_wing"></span>
+            <h3 id="title-room-content" class="room-title" data-content-key="room_title_content"></h3>
+            <p id="desc-room-content" class="room-summary" data-content-key="room_desc_content"></p>
+            <button id="btn-enter-room-content" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+          <!-- ROOM 2: ADMIN - LEGAL & COMPLIANCE (VPAT, SEBI, POLICIES) -->
+          <article id="room-admin-compliance" class="room-module" aria-labelledby="title-room-compliance">
+            <span class="room-category-tag" data-content-key="tag_admin_wing"></span>
+            <h3 id="title-room-compliance" class="room-title" data-content-key="room_title_compliance"></h3>
+            <p id="desc-room-compliance" class="room-summary" data-content-key="room_desc_compliance"></p>
+            <button id="btn-enter-room-compliance" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+          <!-- ROOM 3: ADMIN - SEO & MEDIA DIRECTOR -->
+          <article id="room-admin-media" class="room-module" aria-labelledby="title-room-media">
+            <span class="room-category-tag" data-content-key="tag_admin_wing"></span>
+            <h3 id="title-room-media" class="room-title" data-content-key="room_title_media"></h3>
+            <p id="desc-room-media" class="room-summary" data-content-key="room_desc_media"></p>
+            <button id="btn-enter-room-media" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+          <!-- ROOM 4: ADMIN - ENTERPRISE CLIENT DESK -->
+          <article id="room-admin-inquiry" class="room-module" aria-labelledby="title-room-inquiry">
+            <span class="room-category-tag" data-content-key="tag_admin_wing"></span>
+            <h3 id="title-room-inquiry" class="room-title" data-content-key="room_title_inquiry"></h3>
+            <p id="desc-room-inquiry" class="room-summary" data-content-key="room_desc_inquiry"></p>
+            <button id="btn-enter-room-inquiry" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+          <!-- ROOM 5: DEVELOPER - NAVIGATION & LAYOUT ARCHITECT -->
+          <article id="room-dev-layout" class="room-module" aria-labelledby="title-room-layout">
+            <span class="room-category-tag dev-tag" data-content-key="tag_dev_wing"></span>
+            <h3 id="title-room-layout" class="room-title" data-content-key="room_title_layout"></h3>
+            <p id="desc-room-layout" class="room-summary" data-content-key="room_desc_layout"></p>
+            <button id="btn-enter-room-layout" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+          <!-- ROOM 6: DEVELOPER - INTEGRATION & API VAULT (RAZORPAY, RECAPTCHA) -->
+          <article id="room-dev-vault" class="room-module" aria-labelledby="title-room-vault">
+            <span class="room-category-tag dev-tag" data-content-key="tag_dev_wing"></span>
+            <h3 id="title-room-vault" class="room-title" data-content-key="room_title_vault"></h3>
+            <p id="desc-room-vault" class="room-summary" data-content-key="room_desc_vault"></p>
+            <button id="btn-enter-room-vault" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+          <!-- ROOM 7: DEVELOPER - COMPONENT & UI SANDBOX -->
+          <article id="room-dev-sandbox" class="room-module" aria-labelledby="title-room-sandbox">
+            <span class="room-category-tag dev-tag" data-content-key="tag_dev_wing"></span>
+            <h3 id="title-room-sandbox" class="room-title" data-content-key="room_title_sandbox"></h3>
+            <p id="desc-room-sandbox" class="room-summary" data-content-key="room_desc_sandbox"></p>
+            <button id="btn-enter-room-sandbox" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+          <!-- ROOM 8: DEVELOPER - SYSTEM HEALTH & DIAGNOSTICS -->
+          <article id="room-dev-diagnostics" class="room-module" aria-labelledby="title-room-diagnostics">
+            <span class="room-category-tag dev-tag" data-content-key="tag_dev_wing"></span>
+            <h3 id="title-room-diagnostics" class="room-title" data-content-key="room_title_diagnostics"></h3>
+            <p id="desc-room-diagnostics" class="room-summary" data-content-key="room_desc_diagnostics"></p>
+            <button id="btn-enter-room-diagnostics" class="btn-room-launch" type="button" data-content-key="btn_open_room"></button>
+          </article>
+
+        </div>
+      </section>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+     LANDMARK: ACCESSIBILITY ACTION DOCK (FOOTER CONTROLS)
+     Provides essential predictable navigational utilities: Top, Bottom, and Support.
+     ========================================================================== -->
+  <footer id="quick-action-dock" role="contentinfo" aria-label="कंसोल उपयोगिता नियंत्रण">
+    <div id="dock-action-cluster">
+      <button id="btn-scroll-top" class="dock-btn" type="button" aria-label="पेज के शीर्ष पर जाएँ" data-content-key="btn_scroll_top"></button>
+      <button id="btn-scroll-bottom" class="dock-btn" type="button" aria-label="पेज के तल पर जाएँ" data-content-key="btn_scroll_bottom"></button>
+      <a href="mailto:niteshkumar91845@gmail.com" id="link-direct-support" class="dock-link" aria-label="आधिकारिक सहायता ईमेल खोलें" data-content-key="link_support_label"></a>
+      <a href="tel:+918434721287" id="link-direct-phone" class="dock-link" aria-label="आधिकारिक सपोर्ट हेल्पलाइन कॉल करें" data-content-key="link_phone_label"></a>
+    </div>
+    <div id="dock-system-copyright">
+      <small id="copyright-text-slot" data-content-key="footer_copyright"></small>
+    </div>
+  </footer>
+
+</body>
+</html>
