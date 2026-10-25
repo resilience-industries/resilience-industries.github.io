@@ -1,0 +1,45 @@
+# ==============================================================================
+# ENTERPRISE ROBOTS CONFIGURATION: RESILIENCE INDUSTRIES
+# ORGANIZATION: Resilience Industries
+# PRIMARY DOMAINS: https://resilience-industries.web.app / https://resilience-industries.github.io
+# OWNER & ARCHITECT: Nitesh Kumar (niteshkumar91845@gmail.com)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. GLOBAL SEARCH CRAWLERS (Googlebot, Bingbot, DuckDuckBot, Applebot)
+# ------------------------------------------------------------------------------
+User-agent: *
+Allow: /
+Allow: /css/style.css
+Allow: /js/main.js
+Allow: /data/content.json
+
+# Disallow Internal Admin Console Infrastructure from Public SERP
+Disallow: /console.html
+Disallow: /css/console.css
+Disallow: /js/console.js
+
+# ------------------------------------------------------------------------------
+# 2. AI CRAWLERS & LLM INDEXERS (OpenAI GPTBot, PerplexityBot, Anthropic Claude)
+# ------------------------------------------------------------------------------
+User-agent: GPTBot
+Allow: /
+Disallow: /console.html
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /console.html
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /console.html
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /console.html
+
+# ------------------------------------------------------------------------------
+# 3. XML SITEMAP AUTO-DISCOVERY CONDUITS
+# ------------------------------------------------------------------------------
+Sitemap: https://resilience-industries.web.app/sitemap.xml
+Sitemap: https://resilience-industries.github.io/sitemap.xml
