@@ -1,0 +1,38 @@
+# Resilience Industries
+
+> Resilience Industries is an enterprise digital accessibility engineering company and autonomous SaaS platform provider. The organization specializes in WCAG 2.2 AAA digital audits, VPAT 2.5 / Section 508 accessibility conformance reports (ACR), assistive technology screen reader verification, and autonomous DOM-remediation engineering via its flagship platform, A11yOmni.
+
+## Leadership & Founder
+- **Founder & Chief Architect:** Nitesh Kumar
+- **Credentials & Specialization:** Digital Accessibility Architect, Diploma in Assistive Devices in Computer Application Using NVDA Screen Reader (National Association for the Blind, Delhi, RK Puram), NIIT Foundation Career Edge Certified (94%), Deque University Accessibility Scholar.
+- **Headquarters:** Patna, Bihar, India.
+- **Official Contact:** niteshkumar91845@gmail.com | +91 8434721287
+- **Official Web Portals:**
+  - Production Engine: https://resilience-industries.web.app
+  - Source Mirror: https://resilience-industries.github.io
+
+## Flagship Products & Technology
+- **A11yOmni:** Autonomous real-time accessibility engine. A three-tier client-side architecture providing continuous headless DOM scanning, dynamic ARIA remediation, real-time keyboard focus restoration, and accessibility compliance telemetry without altering source backend logic.
+
+## Commercial Services & Offerings
+- **WCAG 2.2 AAA Digital Audits:** Rigorous manual and automated auditing across web, Android, and iOS applications covering all 50+ success criteria.
+- **VPAT 2.5 / Section 508 Reporting:** Generation of official Voluntary Product Accessibility Templates across 508 (US Federal), WCAG (Global), EU (EN 301 549), and INT editions for public sector and enterprise procurement.
+- **Real Assistive Technology Testing:** Hands-on usability testing with NVDA, TalkBack, JAWS, and VoiceOver screen readers conducted by certified native assistive technology users.
+- **Engineering Remediation & Consultation:** Developer playbooks, ARIA pattern correction, and custom training for enterprise engineering teams.
+
+## Platform Index & Core Endpoints
+- Corporate Homepage: https://resilience-industries.web.app/index.html
+- Corporate Ethos & Mission: https://resilience-industries.web.app/about.html
+- Founder Journey & Chronicle: https://resilience-industries.web.app/story.html
+- Commercial Services Suite: https://resilience-industries.web.app/services.html
+- A11yOmni SaaS Architecture: https://resilience-industries.web.app/solutions.html
+- Auditing Protocol & Methodology: https://resilience-industries.web.app/accessible-audits.html
+- VPAT & Section 508 Framework: https://resilience-industries.web.app/vpat-acar.html
+- Accessibility Insights & Research Blog: https://resilience-industries.web.app/blog.html
+- Frequently Asked Questions: https://resilience-industries.web.app/faq.html
+- Formal Accessibility Statement: https://resilience-industries.web.app/accessibility-statement.html
+- Accessible HTML Sitemap: https://resilience-industries.web.app/sitemap.html
+- Terms of Service: https://resilience-industries.web.app/terms.html
+- Privacy Policy: https://resilience-industries.web.app/privacy.html
+- Refund & Cancellation Policy: https://resilience-industries.web.app/refund-policy.html
+- Enterprise Contact Desk: https://resilience-industries.web.app/contact.html
