@@ -2,11 +2,12 @@
  * ==============================================================================
  * ENTERPRISE PLATFORM: RESILIENCE INDUSTRIES
  * CORE LOGIC ENGINE (js/main.js)
- * SPECIFICATION: Full Keyboard & Click Interactivity / Secret 3-Tap Console
+ * ARCHITECTURE: 0% Hardcoded Strings / Strict Dynamic Content Hydration
  * ==============================================================================
  */
 
-// Global Search Directory Index across all corporate endpoints
+let SYSTEM_CONTENT = {};
+
 const SEARCH_DIRECTORY = [
   { title: "Corporate Homepage", desc: "Digital accessibility engineering, A11yOmni overview, and compliance pillars.", url: "index.html", keywords: "home main resilience industries overview" },
   { title: "About Us & Corporate Ethos", desc: "Our mission, three architectural principles, and leadership credentials.", url: "about.html", keywords: "about mission ethos team founder nitesh kumar" },
@@ -25,26 +26,62 @@ const SEARCH_DIRECTORY = [
   { title: "Enterprise Contact Desk", desc: "Official corporate email, direct hotlines, and enterprise audit proposal inquiry form.", url: "contact.html", keywords: "contact email phone hotline inquiry demo quote reach" }
 ];
 
-// Execute immediately when DOM is ready
-function onReady() {
-  announceVoice("Resilience Industries official portal loaded successfully.");
+async function initializePlatform() {
+  try {
+    const res = await fetch("data/content.json");
+    if (!res.ok) throw new Error("Content payload fetch failure");
+    SYSTEM_CONTENT = await res.json();
+    hydrateAllElements();
+    
+    // Announce page load strictly in English from JSON
+    announceVoice(SYSTEM_CONTENT.voice_page_loaded || "Portal loaded successfully.");
 
-  initNavigationPanel();
-  initSearchPanel();
-  initA11yPreferencesSuite();
-  initAuthModal();
-  initScrollUtilities();
-  initSecretThreeTapConsole();
+    initNavigationPanel();
+    initSearchPanel();
+    initA11yPreferencesSuite();
+    initAuthModal();
+    initScrollUtilities();
+    initSecretThreeTapConsole();
+  } catch (e) {
+    console.error("Hydration fault:", e);
+  }
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", onReady);
+  document.addEventListener("DOMContentLoaded", initializePlatform);
 } else {
-  onReady();
+  initializePlatform();
 }
 
 /**
- * 1. STRICT WAI-ARIA 1.2 LIVE VOICE ANNOUNCER (ENGLISH ONLY)
+ * 0% HARDCODED DOM HYDRATION ENGINE
+ */
+function hydrateAllElements() {
+  document.querySelectorAll("[data-content-key]").forEach(el => {
+    const key = el.getAttribute("data-content-key");
+    const val = SYSTEM_CONTENT[key];
+    if (!val) return;
+
+    if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+      el.setAttribute("placeholder", val);
+    } else if (el.tagName === "IMG") {
+      el.setAttribute("alt", val);
+    } else if (el.tagName === "META") {
+      el.setAttribute("content", val);
+    } else {
+      el.textContent = val;
+    }
+  });
+
+  const titleNode = document.getElementById("page-title");
+  if (titleNode && titleNode.hasAttribute("data-content-key")) {
+    const key = titleNode.getAttribute("data-content-key");
+    if (SYSTEM_CONTENT[key]) document.title = SYSTEM_CONTENT[key];
+  }
+}
+
+/**
+ * 1. STRICT WAI-ARIA 1.2 LIVE VOICE ANNOUNCER
  */
 function announceVoice(message) {
   const announcer = document.getElementById("live-announcer");
@@ -75,7 +112,7 @@ function initNavigationPanel() {
     toggleBtn.setAttribute("aria-expanded", "true");
     if (menuIcon) menuIcon.textContent = "✕";
     if (menuText) menuText.textContent = "Close";
-    announceVoice("Corporate navigation directory expanded.");
+    announceVoice(SYSTEM_CONTENT.voice_menu_expanded || "Navigation directory expanded.");
     const firstLink = panel.querySelector("a");
     if (firstLink) firstLink.focus();
   }
@@ -84,8 +121,8 @@ function initNavigationPanel() {
     panel.setAttribute("hidden", "");
     toggleBtn.setAttribute("aria-expanded", "false");
     if (menuIcon) menuIcon.textContent = "☰";
-    if (menuText) menuText.textContent = "Menu";
-    announceVoice("Corporate navigation directory collapsed.");
+    if (menuText) menuText.textContent = SYSTEM_CONTENT.btn_menu_toggle || "Menu";
+    announceVoice(SYSTEM_CONTENT.voice_menu_collapsed || "Navigation directory collapsed.");
     toggleBtn.focus();
   }
 
@@ -103,7 +140,6 @@ function initNavigationPanel() {
     }
   });
 
-  // Arrow key navigation inside menu
   panel.addEventListener("keydown", (e) => {
     const links = Array.from(panel.querySelectorAll("a.nav-link"));
     const idx = links.indexOf(document.activeElement);
@@ -135,7 +171,7 @@ function initSearchPanel() {
     closeAllPanelsExcept(panel);
     panel.removeAttribute("hidden");
     toggleBtn.setAttribute("aria-expanded", "true");
-    announceVoice("Universal search engine expanded.");
+    announceVoice(SYSTEM_CONTENT.voice_search_expanded || "Universal search engine expanded.");
     searchInput.focus();
   }
 
@@ -144,7 +180,7 @@ function initSearchPanel() {
     toggleBtn.setAttribute("aria-expanded", "false");
     searchInput.value = "";
     if (resultsBox) resultsBox.innerHTML = "";
-    announceVoice("Universal search engine collapsed.");
+    announceVoice(SYSTEM_CONTENT.voice_search_collapsed || "Universal search engine collapsed.");
     toggleBtn.focus();
   }
 
@@ -162,7 +198,7 @@ function initSearchPanel() {
     resultsBox.innerHTML = "";
 
     if (!query) {
-      announceVoice("Search input cleared.");
+      announceVoice(SYSTEM_CONTENT.voice_search_cleared || "Search input cleared.");
       return;
     }
 
@@ -174,7 +210,7 @@ function initSearchPanel() {
 
     if (matches.length === 0) {
       resultsBox.innerHTML = `<p class="search-result-desc" style="padding: 0.75rem;">No matching endpoints found for "${query}".</p>`;
-      announceVoice(`Zero results found for ${query}.`);
+      announceVoice(SYSTEM_CONTENT.voice_zero_results || "Zero search results found.");
       return;
     }
 
@@ -189,7 +225,7 @@ function initSearchPanel() {
       resultsBox.appendChild(a);
     });
 
-    announceVoice(`${matches.length} search results found.`);
+    announceVoice(`${matches.length} ${SYSTEM_CONTENT.voice_results_found || "search results found."}`);
   }
 
   searchInput.addEventListener("input", executeSearchQuery);
@@ -203,7 +239,7 @@ function initSearchPanel() {
 }
 
 /**
- * 4. MULTI-DISABILITY ACCESSIBILITY PREFERENCES SUITE
+ * 4. MULTI-DISABILITY ACCESSIBILITY SUITE
  */
 function initA11yPreferencesSuite() {
   const toggleBtn = document.getElementById("btn-toggle-a11y");
@@ -218,13 +254,13 @@ function initA11yPreferencesSuite() {
     closeAllPanelsExcept(panel);
     panel.removeAttribute("hidden");
     toggleBtn.setAttribute("aria-expanded", "true");
-    announceVoice("Accessibility customization suite expanded.");
+    announceVoice(SYSTEM_CONTENT.voice_a11y_expanded || "Accessibility suite expanded.");
   }
 
   function closeA11y() {
     panel.setAttribute("hidden", "");
     toggleBtn.setAttribute("aria-expanded", "false");
-    announceVoice("Accessibility customization suite collapsed.");
+    announceVoice(SYSTEM_CONTENT.voice_a11y_collapsed || "Accessibility suite collapsed.");
     toggleBtn.focus();
   }
 
@@ -236,65 +272,58 @@ function initA11yPreferencesSuite() {
   if (closeBtn) closeBtn.onclick = closeA11y;
   if (cancelBtn) cancelBtn.onclick = closeA11y;
 
-  // Font Scaling
   const btnFontDef = document.getElementById("btn-font-standard");
   const btnFontLg = document.getElementById("btn-font-large");
   const btnFontXl = document.getElementById("btn-font-xlarge");
 
   if (btnFontDef) btnFontDef.onclick = () => {
     document.documentElement.style.fontSize = "100%";
-    announceVoice("Text sizing restored to default standard.");
+    announceVoice(SYSTEM_CONTENT.voice_text_std || "Text size restored to default.");
   };
   if (btnFontLg) btnFontLg.onclick = () => {
     document.documentElement.style.fontSize = "125%";
-    announceVoice("Text sizing increased to 125 percent.");
+    announceVoice(SYSTEM_CONTENT.voice_text_lg || "Text size increased to 125 percent.");
   };
   if (btnFontXl) btnFontXl.onclick = () => {
     document.documentElement.style.fontSize = "150%";
-    announceVoice("Text sizing increased to 150 percent.");
+    announceVoice(SYSTEM_CONTENT.voice_text_xl || "Text size increased to 150 percent.");
   };
 
-  // High Contrast Mode
   const btnContrast = document.getElementById("btn-toggle-contrast");
   if (btnContrast) btnContrast.onclick = () => {
     document.body.classList.toggle("high-contrast-active");
-    announceVoice("WCAG AAA high contrast color mode toggled.");
+    announceVoice(SYSTEM_CONTENT.voice_contrast_toggled || "High contrast toggled.");
   };
 
-  // Monochrome Mode
   const btnMono = document.getElementById("btn-toggle-monochrome");
   if (btnMono) btnMono.onclick = () => {
     document.body.classList.toggle("monochrome-active");
-    announceVoice("Monochrome grayscale display mode toggled.");
+    announceVoice(SYSTEM_CONTENT.voice_mono_toggled || "Monochrome mode toggled.");
   };
 
-  // Dyslexia Font
   const btnDyslexic = document.getElementById("btn-toggle-dyslexic");
   if (btnDyslexic) btnDyslexic.onclick = () => {
     document.body.classList.toggle("dyslexic-font-active");
-    announceVoice("Dyslexia-friendly reading typeface toggled.");
+    announceVoice(SYSTEM_CONTENT.voice_dyslexic_toggled || "Dyslexia font toggled.");
   };
 
-  // Text Spacing
   const btnSpacing = document.getElementById("btn-toggle-spacing");
   if (btnSpacing) btnSpacing.onclick = () => {
     document.body.classList.toggle("text-spacing-active");
-    announceVoice("Enhanced line height and letter spacing toggled.");
+    announceVoice(SYSTEM_CONTENT.voice_spacing_toggled || "Text spacing toggled.");
   };
 
-  // Sensory Motion Pause
   const btnMotion = document.getElementById("btn-toggle-motion");
   if (btnMotion) btnMotion.onclick = () => {
     document.body.classList.toggle("reduced-motion-active");
-    announceVoice("Sensory animations and smooth scrolling toggled.");
+    announceVoice(SYSTEM_CONTENT.voice_motion_toggled || "Sensory animations toggled.");
   };
 
-  // Reset to Defaults
   if (resetBtn) {
     resetBtn.onclick = () => {
       document.documentElement.style.fontSize = "100%";
       document.body.className = "";
-      announceVoice("All accessibility preferences restored to system defaults.");
+      announceVoice(SYSTEM_CONTENT.voice_a11y_reset || "Display preferences restored to defaults.");
     };
   }
 }
@@ -314,7 +343,7 @@ function initAuthModal() {
   function openAuth() {
     overlay.removeAttribute("hidden");
     openBtn.setAttribute("aria-expanded", "true");
-    announceVoice("Account authentication portal opened.");
+    announceVoice(SYSTEM_CONTENT.voice_auth_opened || "Authentication portal opened.");
     const email = document.getElementById("auth-email-input");
     if (email) email.focus();
   }
@@ -322,7 +351,7 @@ function initAuthModal() {
   function closeAuth() {
     overlay.setAttribute("hidden", "");
     openBtn.setAttribute("aria-expanded", "false");
-    announceVoice("Account authentication portal closed.");
+    announceVoice(SYSTEM_CONTENT.voice_auth_closed || "Authentication portal closed.");
     openBtn.focus();
   }
 
@@ -371,7 +400,7 @@ function closeAllPanelsExcept(activePanel) {
         const icon = t.querySelector("#menu-icon-indicator");
         const text = t.querySelector("#menu-text-indicator");
         if (icon) icon.textContent = "☰";
-        if (text) text.textContent = "Menu";
+        if (text) text.textContent = SYSTEM_CONTENT.btn_menu_toggle || "Menu";
       }
     }
   });
@@ -387,7 +416,7 @@ function initScrollUtilities() {
   if (btnFinalTop) {
     btnFinalTop.onclick = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      announceVoice("Navigated back to top of page.");
+      announceVoice(SYSTEM_CONTENT.voice_scroll_top || "Navigated back to top of page.");
       const mainLink = document.getElementById("link-skip-main");
       if (mainLink) mainLink.focus();
     };
@@ -396,7 +425,7 @@ function initScrollUtilities() {
   if (btnHeaderBottom) {
     btnHeaderBottom.onclick = () => {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-      announceVoice("Navigated directly to bottom of page.");
+      announceVoice(SYSTEM_CONTENT.voice_scroll_bottom || "Navigated directly to bottom of page.");
       if (btnFinalTop) btnFinalTop.focus();
     };
   }
@@ -406,16 +435,14 @@ function initScrollUtilities() {
  * 8. INVISIBLE SECRET 3-TAP CONSOLE TRIGGER
  */
 function initSecretThreeTapConsole() {
-  // Secret Shortcut: Alt + Shift + C
   document.addEventListener("keydown", (e) => {
     if (e.altKey && e.shiftKey && (e.key === "C" || e.key === "c")) {
       e.preventDefault();
-      announceVoice("Redirecting to authorized console interface.");
+      announceVoice(SYSTEM_CONTENT.voice_console_redirect || "Redirecting to console.");
       window.location.href = "console";
     }
   });
 
-  // Invisible 3-Tap on normal copyright text
   const copyrightSlot = document.getElementById("copyright-text-slot");
   if (copyrightSlot) {
     let tapCount = 0;
@@ -426,11 +453,11 @@ function initSecretThreeTapConsole() {
       clearTimeout(tapResetTimer);
       tapResetTimer = setTimeout(() => {
         tapCount = 0;
-      }, 1500); // 1.5 seconds window for 3 consecutive taps
+      }, 1500);
 
       if (tapCount >= 3) {
         tapCount = 0;
-        announceVoice("Three taps verified. Accessing console.");
+        announceVoice(SYSTEM_CONTENT.voice_console_redirect || "Redirecting to console.");
         window.location.href = "console";
       }
     };
