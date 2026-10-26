@@ -2,7 +2,7 @@
 <!-- ==========================================================================
    ENTERPRISE PLATFORM: RESILIENCE INDUSTRIES
    CORE SYSTEM: PRODUCTION ACCESSIBLE HOMEPAGE (index.html)
-   ARCHITECTURE: Headless Decoupled CMS / Strict 0% Hardcoded Text / WCAG 2.2 AAA
+   ARCHITECTURE: WCAG 2.2 AAA Compliant / 100% English ARIA / Production-Ready
    FOUNDER & CHIEF ARCHITECT: Nitesh Kumar (niteshkumar91845@gmail.com)
    ========================================================================== -->
 <html lang="en" dir="ltr">
@@ -11,16 +11,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content="#0a0d12">
-  <meta name="description" id="meta-description" content="" data-content-key="home_meta_desc">
+  <meta name="description" content="Resilience Industries: Enterprise digital accessibility engineering, WCAG 2.2 AAA audits, VPAT 2.5 compliance, and A11yOmni autonomous DOM remediation engine.">
 
-  <title id="page-title" data-content-key="home_meta_title"></title>
+  <title>Resilience Industries | Enterprise Digital Accessibility Engineering</title>
 
   <link rel="stylesheet" href="css/style.css">
-
-  <!-- Firebase Modular Compat SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js" defer></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js" defer></script>
 
   <!-- Core Main Logic Engine -->
   <script src="js/main.js" defer></script>
@@ -28,58 +23,58 @@
 <body id="home-body">
 
   <!-- ==========================================================================
-     AUDITORY LIVE ANNOUNCER (Hidden visually, vocalizes strictly for Screen Readers)
+     AUDITORY LIVE ANNOUNCER (Visually hidden, strictly announces in English)
      ========================================================================== -->
-  <div id="live-announcer" class="visually-hidden" aria-live="assertive" aria-atomic="true"></div>
+  <div id="live-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
 
   <!-- ==========================================================================
      LANDMARK 1: BANNER / HEADER (role="banner")
      ========================================================================== -->
   <header id="global-header" role="banner">
     
-    <!-- 1.1 Complete Skip Navigation Links (WCAG 2.4.1 Level A) -->
+    <!-- 1.1 Complete Skip Navigation Links & Jump Button -->
     <nav id="a11y-skip-navigation" aria-label="Skip navigation links">
-      <a href="#main-home-content" id="link-skip-main" class="skip-link" data-content-key="skip_to_main"></a>
-      <a href="#main-navigation" id="link-skip-nav" class="skip-link" data-content-key="skip_to_nav"></a>
-      <a href="#universal-search-drawer" id="link-skip-search" class="skip-link" data-content-key="skip_to_search"></a>
-      <a href="#a11y-preferences-panel" id="link-skip-a11y" class="skip-link" data-content-key="skip_to_a11y"></a>
-      <a href="#quick-action-dock" id="link-skip-footer" class="skip-link" data-content-key="skip_to_dock"></a>
-      <button type="button" id="btn-header-go-bottom" class="skip-link-btn" aria-label="Jump directly to bottom of page" data-content-key="btn_go_bottom"></button>
+      <a href="#main-home-content" id="link-skip-main" class="skip-link">Skip to Main Content</a>
+      <a href="#main-navigation" id="link-skip-nav" class="skip-link">Skip to Navigation Directory</a>
+      <a href="#universal-search-drawer" id="link-skip-search" class="skip-link">Skip to Site Search</a>
+      <a href="#a11y-preferences-panel" id="link-skip-a11y" class="skip-link">Skip to Accessibility Display Suite</a>
+      <a href="#quick-action-dock" id="link-skip-footer" class="skip-link">Skip to Footer & Contacts</a>
+      <button type="button" id="btn-header-go-bottom" class="skip-link-btn" aria-label="Jump directly to bottom of page">Go to Bottom</button>
     </nav>
 
     <div class="header-inner-container">
       
-      <!-- 1.2 Official Brand Identity & Logo -->
+      <!-- 1.2 Official Brand Identity & Descriptive Founder Logo -->
       <div id="header-brand-cluster">
         <a href="index.html" id="link-home-logo" class="brand-link" aria-label="Resilience Industries Homepage">
-          <img src="logo.png" alt="Resilience Industries Official Logo" id="brand-logo-img" class="brand-avatar" width="42" height="42">
-          <span id="brand-system-label" class="brand-name" data-content-key="system_brand_name"></span>
+          <img src="logo.png" alt="Official Logo of Resilience Industries: Portrait of Founder and Chief Architect Nitesh Kumar, presenting a professional posture against a clean corporate background." id="brand-logo-img" class="brand-avatar" width="44" height="44">
+          <span id="brand-system-label" class="brand-name">Resilience Industries</span>
         </a>
       </div>
 
-      <!-- 1.3 Action Control Toggles -->
+      <!-- 1.3 Interactive Header Controls Cluster -->
       <div id="header-controls-group">
 
-        <!-- Search Engine Toggle -->
+        <!-- Universal Search Trigger -->
         <button type="button" id="btn-toggle-search" class="dock-btn-icon" aria-expanded="false" aria-controls="universal-search-drawer" aria-label="Open universal search engine">
           <span aria-hidden="true">🔍</span>
-          <span class="btn-text" data-content-key="btn_search_toggle">Search</span>
+          <span class="btn-text">Search</span>
         </button>
 
-        <!-- Multi-Disability Accessibility Suite Toggle -->
+        <!-- Multi-Disability Accessibility Suite Trigger -->
         <button type="button" id="btn-toggle-a11y" class="dock-btn-icon" aria-expanded="false" aria-controls="a11y-preferences-panel" aria-label="Open accessibility display preferences">
           <span aria-hidden="true">♿</span>
-          <span class="btn-text" data-content-key="btn_a11y_toggle">Accessibility</span>
+          <span class="btn-text">Accessibility</span>
         </button>
 
-        <!-- Primary Navigation Directory Toggle -->
+        <!-- Primary Navigation Directory Trigger -->
         <button type="button" id="btn-toggle-menu" class="dock-btn-icon menu-toggle" aria-expanded="false" aria-controls="main-navigation" aria-label="Open navigation menu">
           <span aria-hidden="true" id="menu-icon-indicator">☰</span>
-          <span class="btn-text" id="menu-text-indicator" data-content-key="btn_menu_toggle">Menu</span>
+          <span class="btn-text" id="menu-text-indicator">Menu</span>
         </button>
 
-        <!-- Account / Sign In Trigger -->
-        <button type="button" id="btn-open-auth-modal" class="btn-primary-action btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-label="Open account access portal" data-content-key="btn_sign_in_label">
+        <!-- Sign In & Authentication Trigger -->
+        <button type="button" id="btn-open-auth-modal" class="btn-primary-action btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-label="Open account access portal">
           Sign In
         </button>
 
@@ -93,17 +88,17 @@
     <div id="universal-search-drawer" role="search" aria-label="Universal Site Search" class="expandable-panel" hidden>
       <div class="panel-inner-container">
         <div class="panel-header">
-          <h2 class="panel-title" data-content-key="search_panel_title">Universal Site & Service Search</h2>
+          <h2 class="panel-title">Universal Site & Service Search</h2>
           <button type="button" id="btn-close-search" class="btn-panel-close" aria-label="Close search engine">✕</button>
         </div>
         <div class="search-input-wrapper">
-          <label for="site-search-input" class="visually-hidden" data-content-key="search_input_label">Search keywords across all pages, services, and audits</label>
-          <input type="search" id="site-search-input" placeholder="Type keywords (e.g., audit, VPAT, A11yOmni, contact)..." autocomplete="off" aria-autocomplete="list" aria-controls="search-results-box" data-content-key="search_placeholder">
-          <button type="button" id="btn-execute-search" class="btn-primary-action btn-sm" data-content-key="btn_search_submit">Search</button>
+          <label for="site-search-input" class="visually-hidden">Search keywords across all pages, services, and audits</label>
+          <input type="search" id="site-search-input" placeholder="Type keywords (e.g., audit, VPAT, A11yOmni, contact)..." autocomplete="off" aria-autocomplete="list" aria-controls="search-results-box">
+          <button type="button" id="btn-execute-search" class="btn-primary-action btn-sm">Search</button>
         </div>
         <div id="search-results-box" class="search-results-list" role="region" aria-live="polite"></div>
         <div class="panel-footer-actions">
-          <button type="button" id="btn-cancel-search" class="btn-secondary-action btn-sm" data-content-key="btn_cancel_search">Cancel Search</button>
+          <button type="button" id="btn-cancel-search" class="btn-secondary-action btn-sm">Cancel Search</button>
         </div>
       </div>
     </div>
@@ -114,49 +109,49 @@
     <div id="a11y-preferences-panel" role="region" aria-label="Accessibility Customization Suite" class="expandable-panel" hidden>
       <div class="panel-inner-container">
         <div class="panel-header">
-          <h2 class="panel-title" data-content-key="a11y_panel_title">Multi-Disability Accessibility Suite</h2>
+          <h2 class="panel-title">Multi-Disability Accessibility Suite</h2>
           <button type="button" id="btn-close-a11y" class="btn-panel-close" aria-label="Close accessibility options">✕</button>
         </div>
         
         <div class="a11y-options-grid">
           <!-- Text Scaling -->
           <div class="a11y-option-item">
-            <span class="a11y-label" data-content-key="a11y_label_text">Text Sizing:</span>
+            <span class="a11y-label">Text Sizing:</span>
             <div class="btn-group" role="group" aria-label="Text size adjustments">
-              <button type="button" class="btn-opt" id="btn-font-standard" data-content-key="btn_font_std">Default (100%)</button>
-              <button type="button" class="btn-opt" id="btn-font-large" data-content-key="btn_font_lg">Large (+25%)</button>
-              <button type="button" class="btn-opt" id="btn-font-xlarge" data-content-key="btn_font_xl">Extra Large (+50%)</button>
+              <button type="button" class="btn-opt" id="btn-font-standard">Default (100%)</button>
+              <button type="button" class="btn-opt" id="btn-font-large">Large (+25%)</button>
+              <button type="button" class="btn-opt" id="btn-font-xlarge">Extra Large (+50%)</button>
             </div>
           </div>
 
           <!-- Color & Contrast Modes -->
           <div class="a11y-option-item">
-            <span class="a11y-label" data-content-key="a11y_label_contrast">Color & Contrast:</span>
+            <span class="a11y-label">Color & Contrast:</span>
             <div class="btn-group" role="group" aria-label="Contrast modes">
-              <button type="button" class="btn-opt" id="btn-toggle-contrast" data-content-key="btn_opt_contrast">High Contrast (AAA)</button>
-              <button type="button" class="btn-opt" id="btn-toggle-monochrome" data-content-key="btn_opt_mono">Monochrome</button>
+              <button type="button" class="btn-opt" id="btn-toggle-contrast">High Contrast (AAA)</button>
+              <button type="button" class="btn-opt" id="btn-toggle-monochrome">Monochrome</button>
             </div>
           </div>
 
-          <!-- Cognitive & Reading Supports -->
+          <!-- Reading & Cognitive Supports -->
           <div class="a11y-option-item">
-            <span class="a11y-label" data-content-key="a11y_label_reading">Reading & Cognitive:</span>
+            <span class="a11y-label">Reading & Cognitive:</span>
             <div class="btn-group" role="group" aria-label="Reading options">
-              <button type="button" class="btn-opt" id="btn-toggle-dyslexic" data-content-key="btn_opt_dyslexic">Dyslexia Font</button>
-              <button type="button" class="btn-opt" id="btn-toggle-spacing" data-content-key="btn_opt_spacing">Text Spacing</button>
+              <button type="button" class="btn-opt" id="btn-toggle-dyslexic">Dyslexia Font</button>
+              <button type="button" class="btn-opt" id="btn-toggle-spacing">Text Spacing</button>
             </div>
           </div>
 
           <!-- Sensory Motion -->
           <div class="a11y-option-item">
-            <span class="a11y-label" data-content-key="a11y_label_motion">Motion Sensitivity:</span>
-            <button type="button" class="btn-opt" id="btn-toggle-motion" data-content-key="btn_opt_motion">Pause All Animations</button>
+            <span class="a11y-label">Motion Sensitivity:</span>
+            <button type="button" class="btn-opt" id="btn-toggle-motion">Pause All Animations</button>
           </div>
         </div>
 
         <div class="panel-footer-actions">
-          <button type="button" id="btn-reset-a11y" class="btn-secondary-action btn-sm" data-content-key="btn_opt_reset">Restore Default Display</button>
-          <button type="button" id="btn-cancel-a11y" class="btn-primary-action btn-sm" data-content-key="btn_opt_done">Done</button>
+          <button type="button" id="btn-reset-a11y" class="btn-secondary-action btn-sm">Restore Default Display</button>
+          <button type="button" id="btn-cancel-a11y" class="btn-primary-action btn-sm">Done</button>
         </div>
       </div>
     </div>
@@ -167,25 +162,25 @@
     <nav id="main-navigation" role="navigation" aria-label="Main directory" class="expandable-panel" hidden>
       <div class="panel-inner-container">
         <div class="panel-header">
-          <h2 class="panel-title" data-content-key="nav_drawer_heading">Corporate Navigation Directory</h2>
+          <h2 class="panel-title">Corporate Navigation Directory</h2>
           <button type="button" id="btn-close-menu" class="btn-panel-close" aria-label="Close navigation menu">✕</button>
         </div>
         
         <ul id="nav-links-list" class="nav-directory-grid" role="menubar">
-          <li role="none"><a href="index.html" class="nav-link active" role="menuitem" aria-current="page" data-content-key="nav_home"></a></li>
-          <li role="none"><a href="about.html" class="nav-link" role="menuitem" data-content-key="nav_about"></a></li>
-          <li role="none"><a href="story.html" class="nav-link" role="menuitem" data-content-key="nav_story"></a></li>
-          <li role="none"><a href="services.html" class="nav-link" role="menuitem" data-content-key="nav_services"></a></li>
-          <li role="none"><a href="solutions.html" class="nav-link" role="menuitem" data-content-key="nav_solutions"></a></li>
-          <li role="none"><a href="accessible-audits.html" class="nav-link" role="menuitem" data-content-key="nav_audits"></a></li>
-          <li role="none"><a href="vpat-acar.html" class="nav-link" role="menuitem" data-content-key="nav_vpat"></a></li>
-          <li role="none"><a href="blog.html" class="nav-link" role="menuitem" data-content-key="nav_blog"></a></li>
-          <li role="none"><a href="faq.html" class="nav-link" role="menuitem" data-content-key="nav_faq"></a></li>
-          <li role="none"><a href="contact.html" class="nav-link" role="menuitem" data-content-key="nav_contact"></a></li>
+          <li role="none"><a href="index.html" class="nav-link active" role="menuitem" aria-current="page">Home</a></li>
+          <li role="none"><a href="about.html" class="nav-link" role="menuitem">About Us</a></li>
+          <li role="none"><a href="story.html" class="nav-link" role="menuitem">Founder's Story</a></li>
+          <li role="none"><a href="services.html" class="nav-link" role="menuitem">Commercial Services</a></li>
+          <li role="none"><a href="solutions.html" class="nav-link" role="menuitem">A11yOmni SaaS</a></li>
+          <li role="none"><a href="accessible-audits.html" class="nav-link" role="menuitem">Auditing Protocol</a></li>
+          <li role="none"><a href="vpat-acar.html" class="nav-link" role="menuitem">VPAT & Section 508</a></li>
+          <li role="none"><a href="blog.html" class="nav-link" role="menuitem">Research Blog</a></li>
+          <li role="none"><a href="faq.html" class="nav-link" role="menuitem">FAQ Desk</a></li>
+          <li role="none"><a href="contact.html" class="nav-link" role="menuitem">Contact Us</a></li>
         </ul>
 
         <div class="panel-footer-actions">
-          <button type="button" id="btn-cancel-menu" class="btn-secondary-action btn-sm" data-content-key="btn_dismiss_menu">Cancel & Dismiss</button>
+          <button type="button" id="btn-cancel-menu" class="btn-secondary-action btn-sm">Cancel & Dismiss</button>
         </div>
       </div>
     </nav>
@@ -198,26 +193,26 @@
   <div id="auth-modal-overlay" class="modal-backdrop" hidden>
     <div id="auth-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-dialog-title" class="modal-box">
       <div class="modal-header">
-        <h2 id="auth-dialog-title" class="modal-title" data-content-key="auth_modal_title">Account Access Portal</h2>
+        <h2 id="auth-dialog-title" class="modal-title">Account Access Portal</h2>
         <button type="button" id="btn-close-auth-modal" class="btn-panel-close" aria-label="Close authentication portal">✕</button>
       </div>
       <div class="modal-body">
-        <button type="button" id="btn-auth-google" class="btn-social-auth" aria-label="Continue with Google Authentication" data-content-key="btn_google_auth">
+        <button type="button" id="btn-auth-google" class="btn-social-auth" aria-label="Continue with Google Authentication">
           <span>Continue with Google</span>
         </button>
-        <div class="auth-divider"><span data-content-key="auth_divider_text">OR SIGN IN WITH EMAIL</span></div>
+        <div class="auth-divider"><span>OR SIGN IN WITH EMAIL</span></div>
         <form id="auth-login-form">
           <div class="form-group">
-            <label for="auth-email-input" data-content-key="label_auth_email">Official Email Address</label>
+            <label for="auth-email-input">Official Email Address</label>
             <input type="email" id="auth-email-input" required autocomplete="email">
           </div>
           <div class="form-group">
-            <label for="auth-password-input" data-content-key="label_auth_pass">Password</label>
+            <label for="auth-password-input">Password</label>
             <input type="password" id="auth-password-input" required autocomplete="current-password">
           </div>
           <div class="modal-action-cluster">
-            <button type="submit" id="btn-submit-login" class="btn-primary-action" data-content-key="btn_login_submit">Sign In</button>
-            <button type="button" id="btn-cancel-auth" class="btn-secondary-action" data-content-key="btn_auth_cancel">Cancel</button>
+            <button type="submit" id="btn-submit-login" class="btn-primary-action">Sign In</button>
+            <button type="button" id="btn-cancel-auth" class="btn-secondary-action">Cancel</button>
           </div>
         </form>
       </div>
@@ -229,96 +224,94 @@
      ========================================================================== -->
   <main id="main-home-content" role="main" tabindex="-1">
 
-    <!-- Hero Spotlight Section (With Direct Hyperlinks) -->
+    <!-- Hero Spotlight Section (With Interlinking) -->
     <section id="section-home-hero" class="hero-region" aria-labelledby="home-main-title">
       <div class="hero-content-wrapper">
-        <span id="home-badge-tag" class="accent-badge-pill" data-content-key="hero_tag_label"></span>
-        <h1 id="home-main-title" class="hero-main-heading" data-content-key="hero_main_heading"></h1>
-        <p id="home-hero-summary" class="hero-description-lead">
-          <span data-content-key="hero_lead_intro"></span>
-          <a href="accessible-audits.html" class="inline-context-link" data-content-key="hero_link_audits"></a>, 
-          <span data-content-key="hero_lead_mid"></span>
-          <a href="vpat-acar.html" class="inline-context-link" data-content-key="hero_link_vpat"></a>, 
-          <span data-content-key="hero_lead_conclude"></span>
-          <a href="solutions.html" class="inline-context-link" data-content-key="hero_link_engine"></a>.
+        <span class="accent-badge-pill">Next-Gen Accessibility Engineering</span>
+        <h1 id="home-main-title" class="hero-main-heading">Dismantling Digital Barriers to Engineer an Inclusive Web.</h1>
+        <p class="hero-description-lead">
+          Resilience Industries delivers enterprise-grade 
+          <a href="accessible-audits.html" class="inline-context-link">WCAG 2.2 AAA digital audits</a>, comprehensive 
+          <a href="vpat-acar.html" class="inline-context-link">VPAT 2.5 accessibility certifications</a>, and real-time DOM remediation through the autonomous 
+          <a href="solutions.html" class="inline-context-link">A11yOmni SaaS engine</a>.
         </p>
         <div class="hero-cta-cluster">
-          <a href="solutions.html" class="btn-primary-action" data-content-key="btn_explore_a11yomni"></a>
-          <a href="contact.html" class="btn-secondary-action" data-content-key="btn_book_audit"></a>
+          <a href="solutions.html" class="btn-primary-action">Explore A11yOmni SaaS</a>
+          <a href="contact.html" class="btn-secondary-action">Book Enterprise Audit</a>
         </div>
       </div>
     </section>
 
-    <!-- SaaS Platform Architecture (With Contextual Links) -->
+    <!-- SaaS Platform Architecture -->
     <section id="section-saas-showcase" class="showcase-region" aria-labelledby="saas-title">
       <div class="section-container">
         <header class="section-header-block">
-          <span class="sub-header-tag" data-content-key="saas_tag_label"></span>
-          <h2 id="saas-title" class="section-title" data-content-key="saas_title"></h2>
-          <p id="saas-lead" class="section-lead-text">
-            <span data-content-key="saas_lead_desc"></span>
-            <a href="solutions.html" class="inline-context-link" data-content-key="link_deep_dive_engine"></a>.
+          <span class="sub-header-tag">Flagship Autonomous Engine</span>
+          <h2 id="saas-title" class="section-title">A11yOmni: Autonomous Accessibility Architecture</h2>
+          <p class="section-lead-text">
+            Continuous barrier discovery, client-side DOM healing, and real-time compliance telemetry without modifying underlying source logic. 
+            <a href="solutions.html" class="inline-context-link">Explore the complete architecture →</a>
           </p>
         </header>
 
         <div class="cards-feature-grid">
           <article class="feature-card">
-            <h3 class="card-heading" data-content-key="feat_scan_title"></h3>
-            <p class="card-summary" data-content-key="feat_scan_desc"></p>
-            <a href="solutions.html#scanner" class="link-forward" data-content-key="btn_learn_more"></a>
+            <h3 class="card-heading">1. Continuous Core Scanner</h3>
+            <p class="card-summary">Autonomous 24/7 deep inspection of semantic HTML trees, ARIA live states, color contrast thresholds, and keyboard focus traps.</p>
+            <a href="solutions.html" class="link-forward">Learn More →</a>
           </article>
           <article class="feature-card">
-            <h3 class="card-heading" data-content-key="feat_remediate_title"></h3>
-            <p class="card-summary" data-content-key="feat_remediate_desc"></p>
-            <a href="solutions.html#healer" class="link-forward" data-content-key="btn_learn_more"></a>
+            <h3 class="card-heading">2. Real-Time DOM Auto-Healer</h3>
+            <p class="card-summary">Zero-overhead client-side remediation that restores broken focus rings, binds form inputs, and corrects missing ARIA descriptors live.</p>
+            <a href="solutions.html" class="link-forward">Learn More →</a>
           </article>
           <article class="feature-card">
-            <h3 class="card-heading" data-content-key="feat_monitor_title"></h3>
-            <p class="card-summary" data-content-key="feat_monitor_desc"></p>
-            <a href="solutions.html#telemetry" class="link-forward" data-content-key="btn_learn_more"></a>
+            <h3 class="card-heading">3. Telemetry & Analytics Dashboard</h3>
+            <p class="card-summary">Enterprise CI/CD integration pipelines offering live compliance scoring, audit trail verifications, and regulatory telemetry.</p>
+            <a href="solutions.html" class="link-forward">Learn More →</a>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Regulatory Compliance Pillars (With Direct Service Routing) -->
+    <!-- Regulatory Compliance Pillars -->
     <section id="section-compliance-pillars" class="pillars-region" aria-labelledby="comp-title">
       <div class="section-container">
         <header class="section-header-block">
-          <span class="sub-header-tag" data-content-key="compliance_tag_label"></span>
-          <h2 id="comp-title" class="section-title" data-content-key="compliance_title"></h2>
-          <p id="comp-lead" class="section-lead-text">
-            <span data-content-key="compliance_lead_desc"></span>
-            <a href="services.html" class="inline-context-link" data-content-key="link_view_all_services"></a>.
+          <span class="sub-header-tag">Regulatory & Legal Governance</span>
+          <h2 id="comp-title" class="section-title">Global Legal Compliance & Verification Standards</h2>
+          <p class="section-lead-text">
+            Protecting enterprises against statutory liabilities through full alignment with US Section 508, European EN 301 549, and Indian GIGW. 
+            <a href="services.html" class="inline-context-link">Browse our full commercial audit suite →</a>
           </p>
         </header>
 
         <div class="cards-feature-grid">
           <article class="feature-card">
-            <h3 class="card-heading" data-content-key="pillar_vpat_title"></h3>
-            <p class="card-summary" data-content-key="pillar_vpat_desc"></p>
-            <a href="vpat-acar.html" class="link-forward" data-content-key="btn_learn_more"></a>
+            <h3 class="card-heading">VPAT 2.5 & Section 508</h3>
+            <p class="card-summary">Detailed Accessibility Conformance Reports (ACR) engineered for US Federal procurement and enterprise vendor onboarding.</p>
+            <a href="vpat-acar.html" class="link-forward">Learn More →</a>
           </article>
           <article class="feature-card">
-            <h3 class="card-heading" data-content-key="pillar_audits_title"></h3>
-            <p class="card-summary" data-content-key="pillar_audits_desc"></p>
-            <a href="accessible-audits.html" class="link-forward" data-content-key="btn_learn_more"></a>
+            <h3 class="card-heading">WCAG 2.2 Level AAA Audits</h3>
+            <p class="card-summary">Hands-on, deep-dive code evaluations conducted by certified screen reader engineers using NVDA, TalkBack, and JAWS.</p>
+            <a href="accessible-audits.html" class="link-forward">Learn More →</a>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Founder Spotlight & Direct Communication Interlinking -->
+    <!-- Founder Spotlight & Direct Communication -->
     <section id="section-founder-spotlight" class="showcase-region" aria-labelledby="founder-spotlight-title">
       <div class="section-container">
         <div class="feature-card highlight-card">
-          <span class="sub-header-tag" data-content-key="about_leader_tag"></span>
-          <h2 id="founder-spotlight-title" class="section-title" data-content-key="leader_name"></h2>
-          <p class="section-lead-text" data-content-key="leader_credentials_summary"></p>
+          <span class="sub-header-tag">Leadership & Visionary</span>
+          <h2 id="founder-spotlight-title" class="section-title">Nitesh Kumar</h2>
+          <p class="section-lead-text">Founder & Chief Architect. Accessibility Engineer holding a Diploma in Assistive Devices in Computer Application from NAB Delhi, NIIT Foundation Career Edge (94%), and Deque University Accessibility Scholar.</p>
           <div class="context-actions-cluster">
-            <a href="story.html" class="btn-primary-action btn-sm" data-content-key="btn_read_full_story"></a>
-            <a href="contact.html" class="btn-secondary-action btn-sm" data-content-key="btn_contact_founder"></a>
-            <a href="tel:+918434721287" class="inline-hotline-link" aria-label="Call Direct Helpline" data-content-key="link_phone_label"></a>
+            <a href="story.html" class="btn-primary-action btn-sm">Read Founder's Story →</a>
+            <a href="contact.html" class="btn-secondary-action btn-sm">Connect with Founder</a>
+            <a href="tel:+918434721287" class="inline-hotline-link" aria-label="Call Direct Helpline">Hotline: +91 8434721287</a>
           </div>
         </div>
       </div>
@@ -331,15 +324,15 @@
      ========================================================================== -->
   <aside id="section-credentials-aside" role="complementary" aria-labelledby="aside-credentials-title" class="credentials-region">
     <div class="section-container">
-      <h2 id="aside-credentials-title" class="section-title text-center" data-content-key="credentials_title"></h2>
-      <p id="aside-credentials-lead" class="section-lead-text text-center" data-content-key="credentials_lead_desc"></p>
+      <h2 id="aside-credentials-title" class="section-title text-center">Certified Architectural Competence</h2>
+      <p class="section-lead-text text-center">Our methodologies are rooted in internationally recognized credentials, technical certifications, and lived assistive experience.</p>
       
       <ul class="badge-cluster-list">
-        <li class="badge-token" tabindex="0" data-content-key="cert_cpacc"></li>
-        <li class="badge-token" tabindex="0" data-content-key="cert_deque"></li>
-        <li class="badge-token" tabindex="0" data-content-key="cert_nab"></li>
-        <li class="badge-token" tabindex="0" data-content-key="cert_niit"></li>
-        <li class="badge-token" tabindex="0" data-content-key="cert_msme"></li>
+        <li class="badge-token" tabindex="0">CPACC Certified (IAAP Track)</li>
+        <li class="badge-token" tabindex="0">Deque University Accessibility Master</li>
+        <li class="badge-token" tabindex="0">NAB Delhi Assistive Technology Diploma</li>
+        <li class="badge-token" tabindex="0">NIIT Foundation Career Edge (94%)</li>
+        <li class="badge-token" tabindex="0">Government of India Registered Enterprise</li>
       </ul>
     </div>
   </aside>
@@ -353,10 +346,10 @@
       <!-- Brand & Summary -->
       <div class="footer-col-brand">
         <div class="brand-link">
-          <img src="logo.png" alt="Resilience Industries Official Avatar" class="brand-avatar" width="32" height="32">
-          <span class="brand-name" data-content-key="system_brand_name"></span>
+          <img src="logo.png" alt="Official Logo of Resilience Industries: Portrait of Founder and Chief Architect Nitesh Kumar, presenting a professional posture against a clean corporate background." class="brand-avatar" width="32" height="32">
+          <span class="brand-name">Resilience Industries</span>
         </div>
-        <p class="footer-summary-text" data-content-key="footer_vision_summary"></p>
+        <p class="footer-summary-text">Resilience Industries is an enterprise digital accessibility engineering firm delivering autonomous SaaS remediation and WCAG 2.2 AAA conformance.</p>
         
         <!-- Social Profiles -->
         <nav class="footer-social-cluster" aria-label="Official Social and Code Profiles">
@@ -367,46 +360,47 @@
 
       <!-- Legal Links -->
       <nav class="footer-col-nav" aria-label="Compliance and Legal Links">
-        <h3 class="footer-heading" data-content-key="footer_heading_legal"></h3>
+        <h3 class="footer-heading">Compliance & Legal</h3>
         <ul class="footer-links-list">
-          <li><a href="terms.html" data-content-key="link_terms"></a></li>
-          <li><a href="privacy.html" data-content-key="link_privacy"></a></li>
-          <li><a href="refund-policy.html" data-content-key="link_refund"></a></li>
-          <li><a href="accessibility-statement.html" data-content-key="link_a11y_statement"></a></li>
-          <li><a href="sitemap.html" data-content-key="link_sitemap"></a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="refund-policy.html">Refund Policy</a></li>
+          <li><a href="accessibility-statement.html">Accessibility Statement</a></li>
+          <li><a href="sitemap.html">HTML Sitemap</a></li>
         </ul>
       </nav>
 
-      <!-- Corporate Directory (With Dedicated Standalone FAQ Link) -->
+      <!-- Corporate Directory -->
       <nav class="footer-col-nav" aria-label="Corporate Directory Links">
-        <h3 class="footer-heading" data-content-key="footer_heading_company"></h3>
+        <h3 class="footer-heading">Corporate Directory</h3>
         <ul class="footer-links-list">
-          <li><a href="about.html" data-content-key="nav_about"></a></li>
-          <li><a href="story.html" data-content-key="nav_story"></a></li>
-          <li><a href="faq.html" data-content-key="nav_faq"></a></li>
-          <li><a href="contact.html" data-content-key="nav_contact"></a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="story.html">Founder's Story</a></li>
+          <li><a href="faq.html">FAQ Desk</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
         </ul>
       </nav>
 
       <!-- Direct Communications -->
       <div class="footer-col-contact">
-        <h3 class="footer-heading" data-content-key="footer_heading_contact"></h3>
+        <h3 class="footer-heading">Official Desk</h3>
         <div class="contact-action-cluster">
-          <a href="mailto:niteshkumar91845@gmail.com" class="dock-contact-link" aria-label="Send official email inquiry" data-content-key="link_email_label"></a>
-          <a href="tel:+918434721287" class="dock-contact-link" aria-label="Call direct official helpline" data-content-key="link_phone_label"></a>
+          <a href="mailto:niteshkumar91845@gmail.com" class="dock-contact-link" aria-label="Send official email inquiry">Email: niteshkumar91845@gmail.com</a>
+          <a href="tel:+918434721287" class="dock-contact-link" aria-label="Call direct official helpline">Hotline: +91 8434721287</a>
         </div>
       </div>
 
     </div>
 
-    <!-- Copyright Bar with Easter-Egg 5-Tap Gesture Trigger -->
+    <!-- Strictly Plain Copyright Text (No Button/Link Semantics - Secret 3-Tap Trigger) -->
     <div class="footer-bottom-bar">
-      <small id="copyright-text-slot" tabindex="0" role="button" aria-label="Copyright 2026 Resilience Industries. All Rights Reserved." data-content-key="footer_copyright"></small>
+      <small id="copyright-text-slot">© 2026 Resilience Industries. All Rights Reserved. Founder & Chief Architect: Nitesh Kumar (CPACC, Deque Univ, NAB Delhi, NIIT Foundation).</small>
     </div>
 
-    <!-- FINAL LANDMARK ELEMENT: BACK TO TOP AT VERY BOTTOM -->
+    <!-- FINAL ELEMENT AT VERY BOTTOM: BACK TO TOP -->
     <div class="back-to-top-container">
-      <button type="button" id="btn-scroll-top-final" class="btn-primary-action btn-sm" aria-label="Scroll directly back to top of page" data-content-key="btn_scroll_top">
+      <button type="button" id="btn-scroll-top-final" class="btn-primary-action btn-sm" aria-label="Scroll back to top of page">
+        ↑ Back to Top
       </button>
     </div>
   </footer>
